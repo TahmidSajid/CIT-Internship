@@ -4,6 +4,13 @@ session_start();
 if (!$_SESSION['user_name']) {
     header("Location:./login.php");
 }
+$data_connect = mysqli_connect('localhost', 'root', '', 'to-do');
+$user_query = "SELECT * FROM `users`";
+$get_user = mysqli_query($data_connect, $user_query);
+$trash = "SELECT COUNT(*) FROM `users` WHERE delete_at = 1;";
+$get_trash = mysqli_query($data_connect, $trash);
+$trash_fetch = mysqli_fetch_assoc($get_trash)["COUNT(*)"];
+
 
 ?>
 <!DOCTYPE html>
@@ -35,6 +42,13 @@ if (!$_SESSION['user_name']) {
                     </li>
                 </ul>
             </div>
+            <a href="./trash.php" class="btn btn-primary position-relative d-inline-block me-4">
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    <?= $trash_fetch ?>
+                    <span class="visually-hidden">unread messages</span>
+                </span>
+                Trash
+            </a>
             <form action="./backend/LogoutController.php">
                 <button class="btn btn-danger">
                     Log out
@@ -42,6 +56,19 @@ if (!$_SESSION['user_name']) {
             </form>
         </div>
     </nav>
+    <?php
+    if (isset($_SESSION['user_add'])) {
+    ?>
+        <div class="row">
+            <div class="col-lg-3 offset-lg-9 my-4">
+                <div class="alert alert-primary" role="alert">
+                    <?= $_SESSION['user_add'] ?>
+                </div>
+            </div>
+        </div>
+    <?php
+    }
+    ?>
     <section class="m-4">
         <div class="container">
             <div class="row">
@@ -53,60 +80,114 @@ if (!$_SESSION['user_name']) {
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>task name</th>
-                        <th>task schedule</th>
-                        <th>task details</th>
+                        <th>User name</th>
+                        <th>User email</th>
+                        <th>User role</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>
-                            1
-                        </td>
-                        <td>
-                            go to store
-                        </td>
-                        <td>
-                            10:00 AM
-                        </td>
-                        <td>
-                            10:00 AM
-                        </td>
-                        <td>
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <button class="btn btn-danger">Delete</button>
-                                </div>
-                                <div class="col-lg-6">
-                                    <button class="btn btn-primary">Edit</button>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <form action="./backend/AddTaskController.php" method="POST">
-                            <td>
-                                Add Task
-                            </td>
-                            <td>
-                                <input type="text" name="task_name" placeholder="Task name">
-                            </td>
-                            <td>
-                                <input type="time" name="task_time" placeholder="Task Time">
-                            </td>
-                            <td>
-                                <textarea name="task_detail" id="" placeholder="Task Details" cols="30" rows="10" style="resize: none; height:80px"></textarea>
-                            </td>
-                            <td>
-                                <div class="row">
-                                    <div class="col-lg-6 offset-lg-3">
-                                        <button class="btn btn-success">Add Task</button>
+                    <?php
+                    foreach ($get_user as $key => $user) {
+                        if ($user['delete_at'] === null) {
+                    ?>
+                            <tr>
+                                <td>
+                                    <?= $key + 1 ?>
+                                </td>
+                                <td>
+                                    <?= $user['name'] ?>
+                                </td>
+                                <td>
+                                    <?= $user['email'] ?>
+                                </td>
+                                <td>
+                                    <?= $user['role'] ?>
+                                </td>
+                                <td>
+                                    <div class="row">
+                                        <?php
+                                        if ($_SESSION['id'] != $user['id'] && $user['role'] != 'admin') {
+                                        ?>
+                                            <div class="col-lg-6">
+                                                <form action="./backend/SoftDeleteController.php" method="POST">
+                                                    <input type="text" class="d-none" value="<?= $user['id'] ?>" name="id">
+                                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                                </form>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal<?= $key?>">Edit</button>
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="exampleModal<?= $key?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Title</h1>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <form action="./backend/EditController.php" method="POST">
+                                                                    <div class="mb-3">
+                                                                        <label class="form-label">Name</label>
+                                                                        <input type="name" name="name" value="<?= $user['name']?>" class="form-control">
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label class="form-label">Email</label>
+                                                                        <input type="name" name="email" value="<?= $user['email']?>" class="form-control">
+                                                                    </div>
+                                                                    <div class="mb-3 d-none">
+                                                                        <label class="form-label">id</label>
+                                                                        <input type="name" name="id" value="<?= $user['id']?>" class="form-control">
+                                                                    </div>
+                                                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                                                </form>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <?php
+                                        }
+                                        ?>
                                     </div>
-                                </div>
-                            </td>
-                        </form>
-                    </tr>
+                                </td>
+                            </tr>
+                    <?php
+                        }
+                    }
+                    ?>
+                    <?php
+                    if ($_SESSION['role'] == 'admin') {
+                    ?>
+                        <tr>
+                            <form action="./backend/RegisterUserController.php" method="POST">
+                                <td>
+                                    Add User
+                                </td>
+                                <td>
+                                    <input type="text" name="user_name" placeholder="User name">
+                                </td>
+                                <td>
+                                    <input type="email" class="me-4" name="user_email" placeholder="User Email">
+                                </td>
+                                <td>
+                                    <input type="password" class="ms-4" name="user_password" placeholder="User Password">
+                                </td>
+                                <td>
+                                    <div class="row">
+                                        <div class="col-lg-6 offset-lg-3">
+                                            <button class="btn btn-success">Add User</button>
+                                        </div>
+                                    </div>
+                                </td>
+                            </form>
+                        </tr>
+                    <?php
+                    }
+                    ?>
                 </tbody>
             </table>
         </div>
@@ -116,3 +197,7 @@ if (!$_SESSION['user_name']) {
 </body>
 
 </html>
+
+<?php
+unset($_SESSION['user_add']);
+?>

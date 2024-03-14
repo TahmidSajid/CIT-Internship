@@ -4,14 +4,25 @@ session_start();
 $name = $_POST['name'];
 $email = $_POST['email'];
 $password = $_POST['password'];
-$_SESSION['admin_created'] = 'successfull';
-
-$insert_query = "INSERT INTO `users`(`name`, `email`, `password`,`role`) VALUES ('$name','$email','$password','admin')";
 
 $table_connect = mysqli_connect('localhost','root','','to-do');
 
-$table_query = mysqli_query($table_connect,$insert_query);
 
-header("Location:../login.php", $_SESSION['admin_created'])
+$per_query = "SELECT COUNT(*) AS per FROM `users` WHERE role='admin'";
+
+
+$per_check = mysqli_query($table_connect,$per_query);
+
+if (mysqli_fetch_assoc($per_check)['per'] == 0) {
+    $insert_query = "INSERT INTO `users`(`name`, `email`, `password`,`role`) VALUES ('$name','$email','$password','admin')";
+    $table_query = mysqli_query($table_connect,$insert_query);
+    $_SESSION['admin_created'] = 'successfull';
+    header("Location:../login.php");
+}
+else{
+    $_SESSION['admin_exist'] = 'admin already exist';
+    header("Location:../register.php");
+}
+
 
 ?>

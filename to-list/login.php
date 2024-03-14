@@ -1,5 +1,8 @@
 <?php
     session_start();
+    if (isset($_SESSION['user_name'])) {
+        header('Location: index.php');
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -34,6 +37,7 @@
                         <input type="password" class="form-control" id="exampleInputPassword1" name="password">
                     </div>
                     <button type="submit" class="btn btn-primary">Sign in</button>
+                    <span><a href="./register.php">Register</a></span>
                 </form>
             </div>
         </div>
@@ -68,5 +72,5 @@
 
 
 <?php
-session_unset();
+// session_unset();
 ?>

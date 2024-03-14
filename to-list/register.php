@@ -46,7 +46,19 @@ session_start();
                 </form>
             </div>
         </div>
-        
+        <?php
+        if (isset($_SESSION['admin_exist'])) {
+        ?>
+        <div class="row">
+            <div class="col-lg-6 offset-lg-3">
+                <div class="alert alert-warning">
+                    <?= $_SESSION['admin_exist']?>
+                </div>
+            </div>
+        </div>
+        <?php
+        }
+        ?>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
