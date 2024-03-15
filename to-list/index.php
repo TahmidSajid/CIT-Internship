@@ -82,8 +82,10 @@ $trash_fetch = mysqli_fetch_assoc($get_trash)["COUNT(*)"];
                         <th>#</th>
                         <th>User name</th>
                         <th>User email</th>
+                        <th>Change role</th>
                         <th>User role</th>
                         <th>Action</th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -101,54 +103,87 @@ $trash_fetch = mysqli_fetch_assoc($get_trash)["COUNT(*)"];
                                 <td>
                                     <?= $user['email'] ?>
                                 </td>
+                                <?php
+                                if ($user['role'] != 'admin' && ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'editor')) {
+                                ?>
+                                    <td>
+                                        <?php
+                                        if ($user['role'] == 'user') {
+                                        ?>
+                                            <form class="form-check form-switch" action="./backend/ChangeRoleController.php" method="POST">
+                                                <!-- <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" name="sub_admin"> -->
+                                                <input type="text" name="id" value="<?= $user['id'] ?>" class="form-control d-none" name="admin">
+                                                <button class="btn btn-info" id="editor_submit" name="editor">Make Editor</button>
+                                            </form>
+                                        <?php
+                                        } else {
+                                        ?>
+                                            <form class="form-check form-switch" action="./backend/ChangeRoleController.php" method="POST">
+                                                <!-- <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" name="sub_admin"> -->
+                                                <input type="text" name="id" value="<?= $user['id'] ?>" class="form-control d-none">
+                                                <button class="btn btn-info" id="editor_submit" name="user">Make User</button>
+                                            </form>
+                                        <?php
+                                        }
+                                        ?>
+                                    </td>
+                                <?php
+                                }
+                                ?>
                                 <td>
                                     <?= $user['role'] ?>
                                 </td>
                                 <td>
                                     <div class="row">
                                         <?php
-                                        if ($_SESSION['id'] != $user['id'] && $user['role'] != 'admin') {
+                                        if ($_SESSION['role'] == 'editor' || $_SESSION['role'] == 'admin') {
                                         ?>
-                                            <div class="col-lg-6">
-                                                <form action="./backend/SoftDeleteController.php" method="POST">
-                                                    <input type="text" class="d-none" value="<?= $user['id'] ?>" name="id">
-                                                    <button type="submit" class="btn btn-danger">Delete</button>
-                                                </form>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal<?= $key?>">Edit</button>
-                                                <!-- Modal -->
-                                                <div class="modal fade" id="exampleModal<?= $key?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                    <div class="modal-dialog">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Title</h1>
-                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <form action="./backend/EditController.php" method="POST">
-                                                                    <div class="mb-3">
-                                                                        <label class="form-label">Name</label>
-                                                                        <input type="name" name="name" value="<?= $user['name']?>" class="form-control">
-                                                                    </div>
-                                                                    <div class="mb-3">
-                                                                        <label class="form-label">Email</label>
-                                                                        <input type="name" name="email" value="<?= $user['email']?>" class="form-control">
-                                                                    </div>
-                                                                    <div class="mb-3 d-none">
-                                                                        <label class="form-label">id</label>
-                                                                        <input type="name" name="id" value="<?= $user['id']?>" class="form-control">
-                                                                    </div>
-                                                                    <button type="submit" class="btn btn-primary">Submit</button>
-                                                                </form>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <?php
+                                            if (($_SESSION['id'] != $user['id'] && $user['role'] != 'admin')) {
+                                            ?>
+                                                <div class="col-lg-6">
+                                                    <form action="./backend/SoftDeleteController.php" method="POST">
+                                                        <input type="text" class="d-none" value="<?= $user['id'] ?>" name="id">
+                                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                                    </form>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal<?= $key ?>">Edit</button>
+                                                    <!-- Modal -->
+                                                    <div class="modal fade" id="exampleModal<?= $key ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Title</h1>
+                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <form action="./backend/EditController.php" method="POST">
+                                                                        <div class="mb-3">
+                                                                            <label class="form-label">Name</label>
+                                                                            <input type="name" name="name" value="<?= $user['name'] ?>" class="form-control">
+                                                                        </div>
+                                                                        <div class="mb-3">
+                                                                            <label class="form-label">Email</label>
+                                                                            <input type="name" name="email" value="<?= $user['email'] ?>" class="form-control">
+                                                                        </div>
+                                                                        <div class="mb-3 d-none">
+                                                                            <label class="form-label">id</label>
+                                                                            <input type="name" name="id" value="<?= $user['id'] ?>" class="form-control">
+                                                                        </div>
+                                                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                                                    </form>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            <?php
+                                            }
+                                            ?>
                                         <?php
                                         }
                                         ?>
@@ -176,7 +211,7 @@ $trash_fetch = mysqli_fetch_assoc($get_trash)["COUNT(*)"];
                                 <td>
                                     <input type="password" class="ms-4" name="user_password" placeholder="User Password">
                                 </td>
-                                <td>
+                                <td colspan="3">
                                     <div class="row">
                                         <div class="col-lg-6 offset-lg-3">
                                             <button class="btn btn-success">Add User</button>
@@ -194,6 +229,20 @@ $trash_fetch = mysqli_fetch_assoc($get_trash)["COUNT(*)"];
     </section>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- <script>
+        let check_bttn = document.querySelectorAll('#flexSwitchCheckChecked');
+        let submit_btn = document.querySelectorAll('#editor_submit');
+        let btn_list = Array.from(check_bttn);
+        let e_btn_list = Array.from(submit_btn);
+        console.log(e_btn_list);
+        btn_list.map(((x,y) => {
+            x.addEventListener('change',()=>{
+                e_btn_list[y].toggleAttribute('disabled');
+                console.log(e_btn_list[y])
+            })
+        }))
+        // console.log(bttn_list);
+    </script> -->
 </body>
 
 </html>
