@@ -57,7 +57,9 @@ session_start()
                                     </div>
                                 </form>
                                 <div class="new-account mt-3">
-                                    <p class="text-white">Don't have an account? <a class="text-white" href="./page-register.html">Sign up</a></p>
+                                    <p class="text-white">Don't have an account? <a class="text-white" href="./register.php">Sign up</a></p>
+                                </div><div class="new-account mt-3">
+                                    <p class="text-white">Don't have an account? <a class="text-white" href="./voter_register.php">Sign up for voter</a></p>
                                 </div>
                             </div>
                         </div>

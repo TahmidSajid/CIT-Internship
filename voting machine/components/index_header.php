@@ -12,6 +12,7 @@
     <link href="assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet">
     <link href="assets/vendor/owl-carousel/owl.carousel.css" rel="stylesheet">
     <link href="assets/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 </head>
 
@@ -119,7 +120,7 @@
                         </a>
                         <ul aria-expanded="false">
                             <li><a href="./candidate_register.php">Candidate Register</a></li>
-                            <li><a href="index.html">Candidate List</a></li>
+                            <li><a href="./candidate_list.php">Candidate List</a></li>
                         </ul>
                     </li>
                 </ul>
