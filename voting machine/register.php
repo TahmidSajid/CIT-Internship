@@ -1,6 +1,9 @@
 <?php
-include_once('components/header.php');
 session_start();
+if(isset($_SESSION['name'])){
+    header('Location:index.php');
+}
+include_once('components/header.php');
 ?>
 <div class="authincation h-100">
     <div class="container h-100">
@@ -104,5 +107,8 @@ session_start();
 
 <?php
 include_once('components/footer.php');
-session_unset();
+unset($_SESSION['name_error']);
+unset($_SESSION['email_error']);
+unset($_SESSION['photo_error']);
+unset($_SESSION['password_error']);
 ?>

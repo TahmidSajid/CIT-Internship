@@ -1,5 +1,8 @@
 <?php
 session_start();
+if(isset($_SESSION['voter_name'])){
+    header('Location:voter_index.php');
+}
 require_once('./components/header.php');
 ?>
 <div class="authincation h-100">
@@ -17,12 +20,12 @@ require_once('./components/header.php');
                                 <form action="./backend/voter_register_backend.php" method="POST" enctype="multipart/form-data">
                                     <div class="form-group">
                                         <label class="mb-1 text-white"><strong>name</strong></label>
-                                        <input type="email" class="form-control" name="name">
+                                        <input type="name" class="form-control" name="name">
                                         <?php
-                                        if (isset($_SESSION['email_error'])) {
+                                        if (isset($_SESSION['name_error'])) {
                                         ?>
                                             <div class="text-danger">
-                                                <?= $_SESSION['email_error'] ?>
+                                                <?= $_SESSION['name_error'] ?>
                                             </div>
                                         <?php
                                         }
@@ -32,10 +35,10 @@ require_once('./components/header.php');
                                         <label class="mb-1 text-white"><strong>phone number</strong></label>
                                         <input type="phone" class="form-control" name="phone">
                                         <?php
-                                        if (isset($_SESSION['password_error'])) {
+                                        if (isset($_SESSION['phone_error'])) {
                                         ?>
                                             <div class="text-danger">
-                                                <?= $_SESSION['password_error'] ?>
+                                                <?= $_SESSION['phone_error'] ?>
                                             </div>
                                         <?php
                                         }
@@ -43,12 +46,12 @@ require_once('./components/header.php');
                                     </div>
                                     <div class="form-group">
                                         <label class="mb-1 text-white"><strong>NID number</strong></label>
-                                        <input type="text" class="form-control" name="nid">
+                                        <input type="number" class="form-control" name="nid">
                                         <?php
-                                        if (isset($_SESSION['password_error'])) {
+                                        if (isset($_SESSION['nid_error'])) {
                                         ?>
                                             <div class="text-danger">
-                                                <?= $_SESSION['password_error'] ?>
+                                                <?= $_SESSION['nid_error'] ?>
                                             </div>
                                         <?php
                                         }
@@ -58,10 +61,10 @@ require_once('./components/header.php');
                                         <label class="mb-1 text-white"><strong>Address</strong></label>
                                         <input type="text" class="form-control" name="address">
                                         <?php
-                                        if (isset($_SESSION['password_error'])) {
+                                        if (isset($_SESSION['voter_photo_error'])) {
                                         ?>
                                             <div class="text-danger">
-                                                <?= $_SESSION['password_error'] ?>
+                                                <?= $_SESSION['voter_photo_error'] ?>
                                             </div>
                                         <?php
                                         }
@@ -71,10 +74,10 @@ require_once('./components/header.php');
                                         <label class="mb-1 text-white"><strong>Photo</strong></label>
                                         <input type="file" class="form-control" name="photo">
                                         <?php
-                                        if (isset($_SESSION['password_error'])) {
+                                        if (isset($_SESSION['voter_photo_error'])) {
                                         ?>
                                             <div class="text-danger">
-                                                <?= $_SESSION['password_error'] ?>
+                                                <?= $_SESSION['voter_photo_error'] ?>
                                             </div>
                                         <?php
                                         }
@@ -85,6 +88,15 @@ require_once('./components/header.php');
                                         <label class="radio-inline mr-3"><input type="radio" name="gender" value="male"> Male</label>
                                         <label class="radio-inline mr-3"><input type="radio" name="gender" value="Female"> Female</label>
                                         <label class="radio-inline mr-3"><input type="radio" name="gender" value="Others"> Others</label>
+                                        <?php
+                                        if (isset($_SESSION['gender_error'])) {
+                                        ?>
+                                            <div class="text-danger">
+                                                <?= $_SESSION['gender_error'] ?>
+                                            </div>
+                                        <?php
+                                        }
+                                        ?>
                                     </div>
                                     <div class="text-center">
                                         <button type="submit" class="btn bg-white text-primary btn-block">Sign Me In</button>
@@ -92,6 +104,9 @@ require_once('./components/header.php');
                                 </form>
                                 <div class="new-account mt-3">
                                     <p class="text-white">Don't have an account? <a class="text-white" href="./voter_register.php">Sign up for voter</a></p>
+                                </div>
+                                <div class="new-account mt-3">
+                                    <p class="text-white">Don't have an account? <a class="text-info" href="./voter_login.php">Sign in as Voter</a></p>
                                 </div>
                             </div>
                         </div>
@@ -109,10 +124,9 @@ require_once('./components/header.php');
 <?php
 require_once('./components/footer.php');
 unset($_SESSION['name_error']);
-unset($_SESSION['email_error']);
-unset($_SESSION['phone']);
-unset($_SESSION['photo_error']);
-unset($_SESSION['icon_error']);
-unset($_SESSION['icon_name_error']);
-unset($_SESSION['candidate_successful']);
+unset($_SESSION['phone_error']);
+unset($_SESSION['nid_error']);
+unset($_SESSION['address_error']);
+unset($_SESSION['gender_error']);
+unset($_SESSION['voter_photo_error']);
 ?>

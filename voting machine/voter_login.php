@@ -1,10 +1,9 @@
 <?php
 session_start();
-if(isset($_SESSION['name'])){
-    header('Location:index.php');
+if (isset($_SESSION['voter_name'])) {
+    header('Location:voter_index.php');
 }
 require_once('./components/header.php');
-
 ?>
 <div class="authincation h-100">
     <div class="container h-100">
@@ -18,33 +17,42 @@ require_once('./components/header.php');
                                     <a href="index.html"><img src="assets/images/logo-full.png" alt=""></a>
                                 </div>
                                 <h4 class="text-center mb-4 text-white">Sign in your account</h4>
-                                <form action="./backend/commissionar-login.php" method="POST">
+                                <form action="./backend/voter_login.php" method="POST">
                                     <div class="form-group">
-                                        <label class="mb-1 text-white"><strong>Email</strong></label>
-                                        <input type="email" class="form-control" name="email">
+                                        <label class="mb-1 text-white"><strong>Name</strong></label>
+                                        <input type="name" class="form-control" name="name">
                                         <?php
-                                        if (isset($_SESSION['email_error'])) {
+                                        if (isset($_SESSION['name_error'])) {
                                         ?>
                                             <div class="text-danger">
-                                                <?= $_SESSION['email_error'] ?>
+                                                <?= $_SESSION['name_error'] ?>
                                             </div>
                                         <?php
                                         }
                                         ?>
                                     </div>
                                     <div class="form-group">
-                                        <label class="mb-1 text-white"><strong>Password</strong></label>
-                                        <input type="password" class="form-control" name="password">
+                                        <label class="mb-1 text-white"><strong>Phone</strong></label>
+                                        <input type="text" class="form-control" name="phone">
                                         <?php
-                                        if (isset($_SESSION['password_error'])) {
+                                        if (isset($_SESSION['phone_error'])) {
                                         ?>
                                             <div class="text-danger">
-                                                <?= $_SESSION['password_error'] ?>
+                                                <?= $_SESSION['phone_error'] ?>
                                             </div>
                                         <?php
                                         }
                                         ?>
                                     </div>
+                                    <?php
+                                    if (isset($_SESSION['credi_error'])) {
+                                    ?>
+                                        <div class="text-danger">
+                                            <?= $_SESSION['credi_error'] ?>
+                                        </div>
+                                    <?php
+                                    }
+                                    ?>
                                     <div class="form-row d-flex justify-content-between mt-4 mb-2">
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox ml-1 text-white">
@@ -61,13 +69,7 @@ require_once('./components/header.php');
                                     </div>
                                 </form>
                                 <div class="new-account mt-3">
-                                    <p class="text-white">Don't have an account? <a class="text-warning" href="./register.php">Sign up</a></p>
-                                </div>
-                                <div class="new-account mt-3">
-                                    <p class="text-white">Don't have an account? <a class="text-warning" href="./voter_register.php">Sign up for voter</a></p>
-                                </div>
-                                <div class="new-account mt-3">
-                                    <p class="text-white">Login as a voter <a class="text-info" href="./voter_login.php">Voter Login</a></p>
+                                    <p class="text-white">Don't have an account? <a class="text-info" href="./voter_register.php">Sign up for voter</a></p>
                                 </div>
                             </div>
                         </div>
@@ -79,6 +81,4 @@ require_once('./components/header.php');
 </div>
 <?php
 require_once('./components/footer.php');
-unset($_SESSION['email_error']);
-unset($_SESSION['password_error']);
 ?>
