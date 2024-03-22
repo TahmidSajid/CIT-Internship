@@ -1,5 +1,8 @@
 <?php
 session_start();
+if(!isset($_SESSION['voter_name'])){
+    header('Location:login.php');
+}
 require_once('./components/index_header.php');
 require('./components/data_connect.php');
 $candidates_query = "SELECT * FROM `candidates`";
@@ -48,6 +51,7 @@ $get_vote = mysqli_fetch_assoc(mysqli_query($data_connect, $vote_query))['vote']
                                                 <img src="assets/uploads/icons/<?= $candidate['icon'] ?>" width="100" class="img-fluid rounded-circle" alt="">
                                                 <h3 class="mt-3 mb-0 text-white"><?= $candidate['icon_name'] ?></h3>
                                                 <h6 class="mt-3 mb-0 text-white"><?= $candidate['candidate_name'] ?></h6>
+                                                <p class="mt-3 mb-0 text-white">Total Vote:<?= $candidate['vote'] ?></p>
                                             </div>
                                             <div class="card-footer mt-0">
                                                 <a class="btn btn-primary btn-lg btn-block" href="./backend/vote_cast.php?id=<?= $_SESSION['voter_id'] ?>&candidate_id=<?= $candidate['id'] ?>">Vote</a>

@@ -43,6 +43,15 @@ require_once('./components/header.php');
                                         <?php
                                         }
                                         ?>
+                                        <?php
+                                        if (isset($_SESSION['num_exist'])) {
+                                        ?>
+                                            <div class="text-danger">
+                                                <?= $_SESSION['num_exist'] ?>
+                                            </div>
+                                        <?php
+                                        }
+                                        ?>
                                     </div>
                                     <div class="form-group">
                                         <label class="mb-1 text-white"><strong>NID number</strong></label>
@@ -61,10 +70,10 @@ require_once('./components/header.php');
                                         <label class="mb-1 text-white"><strong>Address</strong></label>
                                         <input type="text" class="form-control" name="address">
                                         <?php
-                                        if (isset($_SESSION['voter_photo_error'])) {
+                                        if (isset($_SESSION['address_error'])) {
                                         ?>
                                             <div class="text-danger">
-                                                <?= $_SESSION['voter_photo_error'] ?>
+                                                <?= $_SESSION['address_error'] ?>
                                             </div>
                                         <?php
                                         }
@@ -129,4 +138,5 @@ unset($_SESSION['nid_error']);
 unset($_SESSION['address_error']);
 unset($_SESSION['gender_error']);
 unset($_SESSION['voter_photo_error']);
+unset($_SESSION['num_exist']);
 ?>
