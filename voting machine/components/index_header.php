@@ -72,6 +72,7 @@
                             <li class="nav-item dropdown header-profile">
 
                                 <?php if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin') { ?>
+                                    <a class="btn btn-danger rounded-full mx-4" href="./voter_trash.php">Trash</a>
                                     <a class="nav-link" href="javascript:void(0)" role="button" data-toggle="dropdown">
                                         <img src="assets/uploads/profile_photos/<?= $_SESSION['photo'] ?>" width="20" alt="" />
                                         <div class="header-info">

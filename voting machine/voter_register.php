@@ -1,8 +1,5 @@
 <?php
 session_start();
-if(isset($_SESSION['voter_name'])){
-    header('Location:voter_index.php');
-}
 require_once('./components/header.php');
 ?>
 <div class="authincation h-100">
@@ -111,6 +108,15 @@ require_once('./components/header.php');
                                         <button type="submit" class="btn bg-white text-primary btn-block">Sign Me In</button>
                                     </div>
                                 </form>
+                                <?php
+                                if (isset($_SESSION['logout'])) {
+                                ?>
+                                    <div class="text-danger">
+                                        <?= $_SESSION['logout'] ?>
+                                    </div>
+                                <?php
+                                }
+                                ?>
                                 <div class="new-account mt-3">
                                     <p class="text-white">Don't have an account? <a class="text-white" href="./voter_register.php">Sign up for voter</a></p>
                                 </div>
@@ -139,4 +145,5 @@ unset($_SESSION['address_error']);
 unset($_SESSION['gender_error']);
 unset($_SESSION['voter_photo_error']);
 unset($_SESSION['num_exist']);
+unset($_SESSION['logout']);
 ?>
