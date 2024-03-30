@@ -1,8 +1,25 @@
 @extends('layouts.dashboard')
 @section('content')
+    <!-- start page title -->
+    <div class="py-3 py-lg-4">
+        <div class="row">
+            <div class="col-lg-6">
+                <h4 class="page-title mb-0">Profile</h4>
+            </div>
+            <div class="col-lg-6">
+               <div class="d-none d-lg-block">
+                <ol class="breadcrumb m-0 float-end">
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">Katen</a></li>
+                    <li class="breadcrumb-item active">Profile</li>
+                </ol>
+               </div>
+            </div>
+        </div>
+    </div>
+    <!-- end page title -->
     <div class="row">
         <div class="col-lg-8 offset-lg-2">
-            <div class="card mx-auto" style="margin-top: 80px">
+            <div class="card mx-auto">
                 <div class="card-header position-relative"
                     style="background: linear-gradient(0deg, rgba(94, 94, 94, 0.684), rgba(96, 96, 96, 0.684)), url('{{ asset('dashboard-assets') }}/images/media/img-1.jpg') no-repeat center/cover !important; padding:90px 0px;">
                     @if (auth()->user()->photo)
@@ -19,6 +36,7 @@
                     <div class="row" style="margin-bottom: 60px">
                         <div class="col-lg-3 offset-lg-3">
                             <h3>{{ auth()->user()->name }}</h3>
+                            <span>{{ auth()->user()->email }}</span>
                             <p>{{ auth()->user()->role }}</p>
                         </div>
                     </div>
@@ -99,6 +117,9 @@
                                         @error('otp')
                                             <p class="text-danger mt-2 mb-0">{{ $message }}</p>
                                         @enderror
+                                        @if ($otp_sent)
+                                            <p class="text-warning mt-2 mb-0">{{ $otp_sent }}</p>
+                                        @endif
                                     </div>
                                 </div>
                             </form>

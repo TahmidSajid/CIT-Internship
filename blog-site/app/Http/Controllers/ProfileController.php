@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\OTP_Verify;
 use App\Models\User;
 use App\Models\Verifications;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
 use Illuminate\Support\Str;
@@ -16,11 +18,13 @@ class ProfileController extends Controller
         $otp_check = Verifications::where('user_id',auth()->user()->id)->exists();
         if ($otp_check) {
             $new_email = Verifications::where('user_id',auth()->user()->id)->first()->new_email;
+            $otp_sent = '4 digit otp sent to your email '. auth()->user()->email;
         }
         else{
             $new_email = false;
+            $otp_sent = false;
         }
-        return view('dashboard.profile',compact('otp_check','new_email'));
+        return view('dashboard.profile',compact('otp_check','new_email','otp_sent'));
     }
 
     public function name_change(Request $request){
@@ -69,9 +73,10 @@ class ProfileController extends Controller
             'new_email' => $request->new_email,
         ]);
 
-        return back()->with([
-            'otp' => 'otp sent to your email',
-        ]);
+        Mail::to(auth()->user()->email)->send(new OTP_Verify($OTP,$request->new_email));
+
+
+        return back();
     }
     public function otp_verify(Request $request){
 

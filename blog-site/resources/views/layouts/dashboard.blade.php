@@ -64,8 +64,14 @@
                     </li>
                     <li class="menu-item">
                         <a class='menu-link waves-effect waves-light' href='{{ route('profile') }}'>
-                            <span class="menu-icon"><i class="bx bx-home-smile"></i></span>
+                            <span class="menu-icon"><i class="fa-solid fa-user"></i></span>
                             <span class="menu-text"> Profile </span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a class='menu-link waves-effect waves-light' href='{{ route('category.index') }}'>
+                            <span class="menu-icon"><i class="fa-solid fa-list"></i></span>
+                            <span class="menu-text"> Category </span>
                         </a>
                     </li>
                     <li class="menu-title">Custom</li>
