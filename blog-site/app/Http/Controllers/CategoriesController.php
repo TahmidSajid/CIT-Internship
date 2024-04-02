@@ -54,7 +54,7 @@ class CategoriesController extends Controller
                 'category_photo' => $new_name ,
             ]);
         }
-        return back();
+        return back()->with('category_added','New Category added');
     }
 
     /**
@@ -76,16 +76,39 @@ class CategoriesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Categories $categories)
+    public function update(Request $request, Categories $category)
     {
-        //
+        $request->validate([
+            'category_name' => 'required',
+        ]);
+        $category_slug = Str::slug($request->category_name);
+        Categories::where('id',$category->id)->update([
+            'category_name' => $request->category_name,
+            'category_slug' => $category_slug,
+            'category_description' => $request->category_description,
+        ]);
+        if ($request->file('category_photo')) {
+            unlink('uploads/category_photos/'.$category->category_photo);
+            $Image = new ImageManager(new Driver());
+            $new_name = Str::random(5) . time() . "." . $request->file('category_photo')->getClientOriginalExtension();
+            $image = $Image->read($request->file('category_photo'))->resize(450, 450);
+            $image->save(('uploads/category_photos/' . $new_name), quality: 80);
+            Categories::where('id', $category->id)->update([
+                'category_photo' => $new_name ,
+            ]);
+        }
+        return back()->with('category_update','Category Updated');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Categories $categories)
+    public function destroy(Categories $category)
     {
-        //
+        if ($category->category_photo) {
+            unlink('uploads/category_photos/'.$category->category_photo);
+        }
+        Categories::where('id',$category->id)->delete();
+        return back()->with('category_delete','Category deleted');
     }
 }

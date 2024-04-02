@@ -15,13 +15,14 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 Auth::routes();
 
+Route::get('/', [\App\Http\Controllers\FrontendController::class,'view'])->name('index');
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+// *********** Dashboard route Start ***********
 
 // ****** Profile Routes Start
 Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'view'])->name('profile');
@@ -34,3 +35,14 @@ Route::post('/profile/otp/verify', [App\Http\Controllers\ProfileController::clas
 // ****** Category Routes Start
 Route::resource('category',CategoriesController::class);
 // ****** Category Routes End
+
+// *********** Dashboard route Start ***********
+
+
+
+// *********** Front end route Start ***********
+
+Route::get('user/',[App\Http\Controllers\UsersController::class, 'login_view'])->name('login_view');
+Route::post('user/login',[App\Http\Controllers\UsersController::class, 'user_login'])->name('user_login');
+
+// *********** Front end route End ***********

@@ -42,8 +42,8 @@
                                         <label class="col-md-4 col-form-label" for="simpleinput">Description
                                             <span>(optional)</span></label>
                                         <div class="col-md-8">
-                                            <input type="text" id="simpleinput" class="form-control"
-                                                name="category_description">
+                                            <textarea type="text" id="simpleinput" class="form-control" name="category_description" style="resize: none"
+                                                cols="30" rows="10"></textarea>
                                         </div>
                                     </div>
                                     <div class="mb-3 row">
@@ -118,99 +118,24 @@
                                                     data-bs-target="#standard-modal{{ $key }}">
                                                     <i class="fa-solid fa-eye"></i>
                                                 </a>
-                                                <!-- Standard modal content -->
-                                                <div id="standard-modal{{ $key }}" class="modal fade text-start" tabindex="-1" role="dialog"
-                                                    aria-labelledby="standard-modalLabel" aria-hidden="true">
-                                                    <div class="modal-dialog">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h4 class="modal-title" id="standard-modalLabel">
-                                                                    Category View
-                                                                </h4>
-                                                                <button type="button" class="btn-close"
-                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <div class="row mb-4">
-                                                                    <div class="col-lg-4">
-                                                                        Category Name
-                                                                    </div>
-                                                                    <div class="col-lg-2">
-                                                                        :
-                                                                    </div>
-                                                                    <div class="col-lg-6">
-                                                                        {{ $category->category_name }}
-                                                                    </div>
-                                                                </div>
-                                                                <div class="row mb-4">
-                                                                    <div class="col-lg-4">
-                                                                        Category Slug
-                                                                    </div>
-                                                                    <div class="col-lg-2">
-                                                                        :
-                                                                    </div>
-                                                                    <div class="col-lg-6">
-                                                                        {{ $category->category_slug }}
-                                                                    </div>
-                                                                </div>
-                                                                <div class="row mb-4">
-                                                                    <div class="col-lg-4">
-                                                                        Description
-                                                                    </div>
-                                                                    <div class="col-lg-2">
-                                                                        :
-                                                                    </div>
-                                                                    <div class="col-lg-6">
-                                                                        {{ $category->category_description }}
-                                                                    </div>
-                                                                </div>
-                                                                <div class="row mb-4">
-                                                                    <div class="col-lg-4">
-                                                                        Added By
-                                                                    </div>
-                                                                    <div class="col-lg-2">
-                                                                        :
-                                                                    </div>
-                                                                    <div class="col-lg-6">
-                                                                        {{ $category->added_by }}
-                                                                    </div>
-                                                                </div>
-                                                                <div class="row mb-4">
-                                                                    <div class="col-lg-4">
-                                                                        Image
-                                                                    </div>
-                                                                    <div class="col-lg-2">
-                                                                        :
-                                                                    </div>
-                                                                    <div class="col-lg-6">
-                                                                        @if ($category->category_photo)
-                                                                            <img class="avatar-xl"
-                                                                                src="{{ asset('uploads/category_photos') }}/{{ $category->category_photo }}"
-                                                                                alt="img">
-                                                                        @else
-                                                                            no image added
-                                                                        @endif
-                                                                    </div>
-                                                                </div>
-
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-light"
-                                                                    data-bs-dismiss="modal">Close</button>
-                                                            </div>
-                                                        </div><!-- /.modal-content -->
-                                                    </div><!-- /.modal-dialog -->
-                                                </div><!-- /.modal -->
+                                                @include('components.categories.categories_view')
                                             </div>
                                             <div class="col-lg-4">
-                                                <a href="">
+                                                <button class="bg-transparent border-0" data-bs-toggle="modal"
+                                                    data-bs-target="#update-modal{{ $key }}">
                                                     <i class="fa-solid fa-pencil"></i>
-                                                </a>
+                                                </button>
+                                                @include('components.categories.categories_edit')
                                             </div>
                                             <div class="col-lg-4">
-                                                <a href="">
-                                                    <i class="fa-solid fa-trash-can"></i>
-                                                </a>
+                                                <form action="{{ route('category.destroy', $category->id) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button class="bg-transparent border-0 text-danger" type="submit">
+                                                        <i class="fa-solid fa-trash-can"></i>
+                                                    </button>
+                                                </form>
                                             </div>
                                         </div>
                                     </td>
@@ -227,10 +152,86 @@
     </div>
 @endsection
 
+@if (session('category_update'))
+    @section('alert')
+        <script>
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: "success",
+                title: "{{ session('category_update') }}"
+            });
+        </script>
+    @endsection
+@endif
+
+@if (session('category_delete'))
+    @section('alert')
+        <script>
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: "error",
+                title: "{{ session('category_delete') }}"
+            });
+        </script>
+    @endsection
+@endif
+
+@if (session('category_added'))
+    @section('alert')
+        <script>
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: "success",
+                title: "{{ session('category_added') }}"
+            });
+        </script>
+    @endsection
+@endif
+
+
+
+
+
+
+
+
+
+
+
 @push('pageCss')
     <!-- third party css -->
-    <link href="{{ asset('dashboard-assets') }}/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css"
-        rel="stylesheet" type="text/css" />
+    <link href="{{ asset('dashboard-assets') }}/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css" rel="stylesheet"
+        type="text/css" />
     <link href="{{ asset('dashboard-assets') }}/libs/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css"
         rel="stylesheet" type="text/css" />
     <link href="{{ asset('dashboard-assets') }}/libs/datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css"
