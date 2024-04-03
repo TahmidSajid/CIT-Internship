@@ -90,7 +90,13 @@
                                 href='pages-register.html'>Sign Up</a></p>
                     </div> <!-- end col -->
                 </div>
-                <!-- end row -->
+                @if (session('permission'))
+                <div class="row mt-3">
+                    <div class="col-12 text-center">
+                        <p class="text-danger">{{ session('permission') }}</p>
+                    </div>
+                </div>
+                @endif
 
             </div> <!-- end col -->
         </div>

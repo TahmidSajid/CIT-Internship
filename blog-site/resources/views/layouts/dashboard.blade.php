@@ -74,6 +74,23 @@
                             <span class="menu-text"> Category </span>
                         </a>
                     </li>
+                    <li class="menu-item">
+                        <a href="#menuExpages" data-bs-toggle="collapse" class="menu-link waves-effect waves-light">
+                            <span class="menu-icon"><i class="fa-solid fa-people-roof"></i></span>
+                            <span class="menu-text"> Users </span>
+                            <span class="menu-arrow"></span>
+                        </a>
+                        <div class="collapse" id="menuExpages">
+                            <ul class="sub-menu">
+                                <li class="menu-item">
+                                    <a class='menu-link' href='{{ route('users.index') }}'>
+                                        <span class="menu-text">User List</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
                     <li class="menu-title">Custom</li>
 
                     <li class="menu-item">
