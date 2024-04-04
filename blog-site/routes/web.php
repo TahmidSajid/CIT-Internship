@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\PostsController;
 use App\Http\Controllers\UserManagementController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -91,5 +92,9 @@ Route::post('/user/picture/add', [App\Http\Controllers\UserProfileController::cl
 Route::post('/user/name/change', [App\Http\Controllers\UserProfileController::class, 'name_change'])->name('user_name_change');
 Route::post('/user/email/change', [App\Http\Controllers\UserProfileController::class, 'email_change'])->name('user_email_change');
 Route::post('/user/otp/verify', [App\Http\Controllers\UserProfileController::class, 'otp_verify'])->name('user_otp_verify');
+
+
+
+Route::resource('post', PostsController::class);
 
 // *********** Front end route End ***********

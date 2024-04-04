@@ -17,6 +17,8 @@
     <link rel="stylesheet" href="{{ asset('frontend-assets') }}/css/simple-line-icons.css" type="text/css"
         media="all">
     <link rel="stylesheet" href="{{ asset('frontend-assets') }}/css/style.css" type="text/css" media="all">
+    <script src="https://cdn.tiny.cloud/1/n8jcqfnwjwolp3hnbxcgkp0jy0es1hqxhe47eoxbje2gcth4/tinymce/7/tinymce.min.js"
+        referrerpolicy="origin"></script>
 
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -25,7 +27,7 @@
 
 </head>
 
-<body>
+<body class="position-relative">
 
     <!-- preloader -->
     <div id="preloader">
@@ -126,7 +128,8 @@
                                 <span class="burger-icon"></span>
                             </button>
                             @if (Auth::check())
-                                <a class="d-inline-block icon-button" style="margin-right: 10px" href="{{ route('user_profile') }}">
+                                <a class="d-inline-block icon-button" style="margin-right: 10px"
+                                    href="{{ route('user_profile') }}">
                                     <span class="icon-user"></span>
                                 </a>
                                 <a class="d-inline-block icon-button" href="{{ route('user_logout') }}">
@@ -149,7 +152,80 @@
 
         <!-- section main content end-->
 
+        <div class="row position-fixed" style="right: 0px !important; top:800px !important;">
+            <div class="col-lg-4">
+                <button class="btn btn-danger mx-4" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                    style="font-size: 20px; background: linear-gradient(to right, #FE4F70 0%, #FFA387 100%) !important">
+                    <span class="icon-pencil mx-2"></span>Write</button>
+            </div>
+        </div>
+        <button type="button" class="btn btn-primary">
+            Launch demo modal
+        </button>
 
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="section-title">Write A post</h3>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ route('post.store') }}" class="" method="POST">
+                            @csrf
+                            <div class="messages"></div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <!-- Name input -->
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="blog_heading"
+                                            placeholder="Enter Your Blog Title" required="required"
+                                            data-error="Name is required.">
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <!-- Name input -->
+                                    <div class="form-group">
+                                        <input type="file" class="form-control" name="blog_photo"
+                                            required="required" data-error="Name is required.">
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <!-- Email input -->
+                                    <div class="form-group">
+                                        <select class="form-select form-control" name="category">
+                                            <option value="" selected>Open this select menu</option>
+                                            @forelse (App\Models\Categories::all() as $category)
+                                                <option value="{{ $category->id }}">{{ $category->category_name }}
+                                                </option>
+                                            @empty
+                                                <option value="">Nothing added yet</option>
+                                            @endforelse
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="column col-md-12">
+                                    <!-- Message textarea -->
+                                    <textarea name='blog'>
+                                        Welcome to TinyMCE!
+                                    </textarea>
+                                </div>
+                            </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-default">Save changes</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
         <!-- instagram feed -->
         <div class="instagram">
             <div class="container-xl">
@@ -299,12 +375,34 @@
     </div>
 
     <!-- JAVA SCRIPTS -->
-    <script src="{{ asset('frontend-assets') }}/js/jquery.min.js"></script>
+    {{-- <script src="{{ asset('frontend-assets') }}/js/jquery.min.js"></script> --}}
     <script src="{{ asset('frontend-assets') }}/js/popper.min.js"></script>
     <script src="{{ asset('frontend-assets') }}/js/bootstrap.min.js"></script>
     <script src="{{ asset('frontend-assets') }}/js/slick.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="{{ asset('frontend-assets') }}/js/jquery.sticky-sidebar.min.js"></script>
     <script src="{{ asset('frontend-assets') }}/js/custom.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+    <script>
+        tinymce.init({
+            selector: 'textarea',
+            plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage advtemplate ai mentions tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss markdown',
+            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+            tinycomments_mode: 'embedded',
+            tinycomments_author: 'Author name',
+            mergetags_list: [{
+                    value: 'First.Name',
+                    title: 'First Name'
+                },
+                {
+                    value: 'Email',
+                    title: 'Email'
+                },
+            ],
+            ai_request: (request, respondWith) => respondWith.string(() => Promise.reject(
+                "See docs to implement AI Assistant")),
+        });
+    </script>
 
 </body>
 
