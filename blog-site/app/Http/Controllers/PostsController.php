@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Posts;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
 class PostsController extends Controller
@@ -12,7 +15,7 @@ class PostsController extends Controller
      */
     public function index()
     {
-        //
+        return view('frontend.post.post_form');
     }
 
     /**
@@ -28,7 +31,28 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
-        return $request;
+        $request->validate([
+            'blog_title' =>'required',
+            'blog_photo' =>'required|file',
+            'blog_category' =>'required',
+            'blog' =>'required',
+        ]);
+
+
+        $Image = new ImageManager(new Driver());
+        $new_name = Str::random(5).time().".".$request->file('blog_photo')->getClientOriginalExtension();
+        $image = $Image->read($request->file('blog_photo'))->resize(720,580);
+        $image->save(('uploads/blog_photos/'.$new_name),quality:90);
+
+        Posts::insert([
+            'user_id' => auth()->user()->id,
+            'blog_title' => $request->blog_title,
+            'blog_photo' => $request->blog_photo,
+            'blog_category' =>  $request->blog_category,
+            'blog' =>  $request->blog,
+        ]);
+
+        return back();
     }
 
     /**
