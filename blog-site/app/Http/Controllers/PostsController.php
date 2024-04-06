@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Posts;
+use Carbon\Carbon;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
 use Illuminate\Support\Str;
@@ -33,9 +34,9 @@ class PostsController extends Controller
     {
         $request->validate([
             'blog_title' =>'required',
-            'blog_photo' =>'required|file',
-            'blog_category' =>'required',
-            'blog' =>'required',
+            'blog_photo' =>'required',
+            'category' =>'required',
+            'blog'=> 'required',
         ]);
 
 
@@ -47,20 +48,21 @@ class PostsController extends Controller
         Posts::insert([
             'user_id' => auth()->user()->id,
             'blog_title' => $request->blog_title,
-            'blog_photo' => $request->blog_photo,
-            'blog_category' =>  $request->blog_category,
+            'blog_photo' => $new_name,
+            'blog_category' =>  $request->category,
             'blog' =>  $request->blog,
+            'created_at' => Carbon::now(),
         ]);
 
-        return back();
+        return redirect(route('index'));
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Posts $posts)
+    public function show(Posts $post)
     {
-        //
+
     }
 
     /**
