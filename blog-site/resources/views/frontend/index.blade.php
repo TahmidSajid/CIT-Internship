@@ -575,7 +575,7 @@
                                             </span>
                                             <a href="blog-single.html">
                                                 <div class="inner">
-                                                    <img src="{{ asset('uploads/blog_photos') }}/{{ $blog->blog_photo}}"
+                                                    <img src="{{ asset('uploads/blog_photos') }}/{{ $blog->blog_photo }}"
                                                         alt="post-title" />
                                                 </div>
                                             </a>
@@ -583,14 +583,29 @@
                                         <div class="details">
                                             <ul class="meta list-inline mb-3">
                                                 <li class="list-inline-item"><a href="#"><img
-                                                            src="{{ asset('uploads/profile_photos') }}/{{ $blog->getUser->photo}}"
-                                                            class="author rounded-circle" style="width:30px; height:30px;" alt="author" />{{ $blog->getUser->name }}</a></li>
+                                                            src="{{ asset('uploads/profile_photos') }}/{{ $blog->getUser->photo }}"
+                                                            class="author rounded-circle" style="width:30px; height:30px;"
+                                                            alt="author" />{{ $blog->getUser->name }}</a></li>
                                                 <li class="list-inline-item"><a href="#">Trending</a></li>
                                                 <li class="list-inline-item">{{ $blog->created_at }}</li>
                                             </ul>
-                                            <h5 class="post-title"><a href="blog-single.html">{{ $blog->blog_title }}</a></h5>
+                                            <h5 class="post-title"><a
+                                                    href="{{ route('post_view', $blog->id) }}">{{ $blog->blog_title }}</a>
+                                            </h5>
                                             @php
-                                                echo $blog->blog;
+                                                $blog_des = strip_tags($blog->blog);
+                                                // $blog_id = $blog->id;
+                                                if (strlen($blog_des > 80)):
+                                                    $blog_cut = substr($blog_des, 0, 80);
+                                                    $endpoint = strrpos($blog_cut, ' ');
+                                                    $blog_des = $endpoint
+                                                        ? substr($blog_cut, 0, $endpoint)
+                                                        : substr($blog_cut, 0);
+                                                    $blog_des .=
+                                                        "..... <span class='text-info fw-bold'>Read More</span>";
+                                                endif;
+                                                echo $blog_des;
+                                                // echo Str::limit($blog->blog);
                                             @endphp
                                             <div class="post-bottom clearfix d-flex align-items-center">
                                                 <div class="social-share me-auto">
@@ -617,7 +632,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                             @empty
                             @endforelse
 

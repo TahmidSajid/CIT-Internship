@@ -14,4 +14,8 @@ class Posts extends Model
     {
         return $this->hasOne(User::class,'id','user_id');
     }
+    public function getCategory():HasOne
+    {
+        return $this->hasOne(Categories::class,'id','blog_category');
+    }
 }

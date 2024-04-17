@@ -96,5 +96,6 @@ Route::post('/user/otp/verify', [App\Http\Controllers\UserProfileController::cla
 
 
 Route::resource('post', PostsController::class);
+Route::get('post/single/view/{id}', [App\Http\Controllers\PostsController::class, 'single_view'])->name('post_view');
 
 // *********** Front end route End ***********

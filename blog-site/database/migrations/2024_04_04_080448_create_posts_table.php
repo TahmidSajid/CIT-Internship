@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('blog_photo')->nullable();
             $table->string('blog_category');
             $table->longText('blog');
+            $table->string('blog_speciality')->nullable();
             $table->timestamps();
         });
     }
