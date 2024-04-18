@@ -119,4 +119,66 @@ class PostsController extends Controller
         $post = Posts::where('id', $id)->first();
         return view('frontend.post.post_view', compact('post'));
     }
+    public function make_feature($id)
+    {
+        $allready = Posts::where('blog_speciality','feature')->first();
+
+        if ($allready != []) {
+            Posts::where('id',$allready->id)->update([
+                'blog_speciality' => null,
+                'updated_at' => Carbon::now(),
+            ]);
+        }
+
+        $post = Posts::where('id', $id)->first();
+        if($post->blog_speciality != 'feature'){
+            Posts::where('id',$id)->update([
+                'blog_speciality' => 'feature',
+                'updated_at' => Carbon::now(),
+            ]);
+
+            return back()->with('success','post made feature');
+        }
+        return back()->with('warning','post already feature');
+    }
+    public function make_editor($id)
+    {
+        $post = Posts::where('id', $id)->first();
+        if($post->blog_speciality != 'editor'){
+            Posts::where('id',$id)->update([
+                'blog_speciality' => 'editor',
+                'updated_at' => Carbon::now(),
+            ]);
+
+            return back()->with('success',"post made editor's pick");
+        }
+        return back()->with('warning',"post already editor's pick");
+    }
+    public function make_trending($id)
+    {
+        $post = Posts::where('id', $id)->first();
+        if($post->blog_speciality != 'trending'){
+            Posts::where('id',$id)->update([
+                'blog_speciality' => 'trending',
+                'updated_at' => Carbon::now(),
+
+            ]);
+
+            return back()->with('success',"post made trending");
+        }
+        return back()->with('warning',"post already trending");
+    }
+    public function delete_speciality($id)
+    {
+        $post = Posts::where('id', $id)->first();
+        if($post->blog_speciality){
+            Posts::where('id',$id)->update([
+                'blog_speciality' => null,
+                'updated_at' => Carbon::now(),
+            ]);
+
+            return back()->with('success',"post speciality deleted");
+        }
+        return back()->with('warning',"post doesn't have speciality");
+    }
 }

@@ -97,5 +97,9 @@ Route::post('/user/otp/verify', [App\Http\Controllers\UserProfileController::cla
 
 Route::resource('post', PostsController::class);
 Route::get('post/single/view/{id}', [App\Http\Controllers\PostsController::class, 'single_view'])->name('post_view');
+Route::get('post/make/feature/{id}', [App\Http\Controllers\PostsController::class, 'make_feature'])->name('make_feature');
+Route::get('post/make/editor/{id}', [App\Http\Controllers\PostsController::class, 'make_editor'])->name('make_editor');
+Route::get('post/make/trending/{id}', [App\Http\Controllers\PostsController::class, 'make_trending'])->name('make_trending');
+Route::get('post/delete/speciality/{id}', [App\Http\Controllers\PostsController::class, 'delete_speciality'])->name('delete_speciality');
 
 // *********** Front end route End ***********

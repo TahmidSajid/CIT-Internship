@@ -10,21 +10,26 @@
 
                     <!-- featured post large -->
                     <div class="post featured-post-lg">
-                        <div class="details clearfix">
-                            <a href="category.html" class="category-badge">Inspiration</a>
-                            <h2 class="post-title"><a href="blog-single.html">5 Easy Ways You Can Turn Future Into Success</a>
-                            </h2>
-                            <ul class="meta list-inline mb-0">
-                                <li class="list-inline-item"><a href="#">Katen Doe</a></li>
-                                <li class="list-inline-item">29 March 2021</li>
-                            </ul>
-                        </div>
-                        <a href="blog-single.html">
-                            <div class="thumb rounded">
-                                <div class="inner data-bg-image"
-                                    data-bg-image="{{ asset('frontend-assets') }}/images/posts/featured-lg.jpg"></div>
+                        @forelse ($features as $feature)
+                            <div class="details clearfix">
+                                <a href="{{ route('post_view', $feature->id) }}"
+                                    class="category-badge">{{ $feature->getCategory->category_name }}</a>
+                                <h2 class="post-title"><a
+                                        href="{{ route('post_view', $feature->id) }}">{{ $feature->blog_title }}</a>
+                                </h2>
+                                <ul class="meta list-inline mb-0">
+                                    <li class="list-inline-item"><a href="#">{{ $feature->getUser->name }}</a></li>
+                                    <li class="list-inline-item">{{ $feature->created_at }}</li>
+                                </ul>
                             </div>
-                        </a>
+                            <a href="{{ route('post_view', $feature->id) }}">
+                                <div class="thumb rounded">
+                                    <div class="inner data-bg-image"
+                                        data-bg-image="{{ asset('uploads/blog_photos') }}/{{ $feature->blog_photo }}"></div>
+                                </div>
+                            </a>
+                        @empty
+                        @endforelse
                     </div>
 
                 </div>
@@ -225,104 +230,71 @@
                         <div class="row gy-5">
                             <div class="col-sm-6">
                                 <!-- post -->
-                                <div class="post">
-                                    <div class="thumb rounded">
-                                        <a href="category.html" class="category-badge position-absolute">Lifestyle</a>
-                                        <span class="post-format">
-                                            <i class="icon-picture"></i>
-                                        </span>
-                                        <a href="blog-single.html">
-                                            <div class="inner">
-                                                <img src="{{ asset('frontend-assets') }}/images/posts/editor-lg.jpg"
-                                                    alt="post-title" />
-                                            </div>
-                                        </a>
+                                @forelse ($editors_banner as $post)
+                                    <div class="post">
+                                        <div class="thumb rounded">
+                                            <a href="category.html"
+                                                class="category-badge position-absolute">{{ $post->getCategory->category_name }}</a>
+                                            <a href="blog-single.html">
+                                                <div class="inner">
+                                                    <img src="{{ asset('uploads/blog_photos') }}/{{ $post->blog_photo }}"
+                                                        alt="post-title" />
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <ul class="meta list-inline mt-4 mb-0">
+                                            <li class="list-inline-item"><a href="#"><img
+                                                        src="{{ asset('uploads/profile_photos') }}/{{ $post->getUser->photo }}"
+                                                        class="author rounded-circle" style="height:40px; width:40px;"
+                                                        alt="author" />{{ $post->getUser->name }}</a></li>
+                                            <li class="list-inline-item">{{ $post->created_at }}</li>
+                                        </ul>
+                                        <h5 class="post-title mb-3 mt-3"><a
+                                                href="{{ route('post_view', $post->id) }}">{{ $post->blog_title }}</a>
+                                        </h5>
+                                        <p class="excerpt mb-0">
+                                            @php
+                                                $blog_des = strip_tags($post->blog);
+                                                // $blog_id = $blog->id;
+                                                if (strlen($blog_des > 80)) {
+                                                    $blog_cut = substr($blog_des, 0, 100);
+                                                    $endpoint = strrpos($blog_cut, ' ');
+                                                    $blog_des = $endpoint
+                                                        ? substr($blog_cut, 0, $endpoint)
+                                                        : substr($blog_cut, 0);
+                                                    $blog_des .=
+                                                        "..... <span class='text-info fw-bold'>Read More</span>";
+                                                }
+                                                echo $blog_des;
+                                            @endphp
+                                        </p>
                                     </div>
-                                    <ul class="meta list-inline mt-4 mb-0">
-                                        <li class="list-inline-item"><a href="#"><img
-                                                    src="{{ asset('frontend-assets') }}/images/other/author-sm.png"
-                                                    class="author" alt="author" />Katen Doe</a></li>
-                                        <li class="list-inline-item">29 March 2021</li>
-                                    </ul>
-                                    <h5 class="post-title mb-3 mt-3"><a href="blog-single.html">15 Unheard Ways To Achieve
-                                            Greater Walker</a></h5>
-                                    <p class="excerpt mb-0">A wonderful serenity has taken possession of my entire soul,
-                                        like these sweet mornings of spring which I enjoy</p>
-                                </div>
+                                @empty
+                                @endforelse
                             </div>
                             <div class="col-sm-6">
                                 <!-- post -->
-                                <div class="post post-list-sm square">
-                                    <div class="thumb rounded">
-                                        <a href="blog-single.html">
-                                            <div class="inner">
-                                                <img src="{{ asset('frontend-assets') }}/images/posts/editor-sm-1.jpg"
-                                                    alt="post-title" />
-                                            </div>
-                                        </a>
+                                @forelse ($editors as $editor)
+                                    <div class="post post-list-sm square">
+                                        <div class="thumb rounded">
+                                            <a href="blog-single.html">
+                                                <div class="inner">
+                                                    <img src="{{ asset('uploads/blog_photos') }}/{{ $editor->blog_photo }}"
+                                                        alt="post-title" />
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="details clearfix">
+                                            <h6 class="post-title my-0"><a
+                                                    href="{{ route('post_view', $editor->id) }}">{{ $editor->blog_title }}</a>
+                                            </h6>
+                                            <ul class="meta list-inline mt-1 mb-0">
+                                                <li class="list-inline-item">{{ $editor->created_at }}</li>
+                                            </ul>
+                                        </div>
                                     </div>
-                                    <div class="details clearfix">
-                                        <h6 class="post-title my-0"><a href="blog-single.html">3 Easy Ways To Make Your
-                                                iPhone Faster</a></h6>
-                                        <ul class="meta list-inline mt-1 mb-0">
-                                            <li class="list-inline-item">29 March 2021</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <!-- post -->
-                                <div class="post post-list-sm square">
-                                    <div class="thumb rounded">
-                                        <a href="blog-single.html">
-                                            <div class="inner">
-                                                <img src="{{ asset('frontend-assets') }}/images/posts/editor-sm-2.jpg"
-                                                    alt="post-title" />
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <div class="details clearfix">
-                                        <h6 class="post-title my-0"><a href="blog-single.html">An Incredibly Easy Method
-                                                That Works For All</a></h6>
-                                        <ul class="meta list-inline mt-1 mb-0">
-                                            <li class="list-inline-item">29 March 2021</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <!-- post -->
-                                <div class="post post-list-sm square">
-                                    <div class="thumb rounded">
-                                        <a href="blog-single.html">
-                                            <div class="inner">
-                                                <img src="{{ asset('frontend-assets') }}/images/posts/editor-sm-3.jpg"
-                                                    alt="post-title" />
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <div class="details clearfix">
-                                        <h6 class="post-title my-0"><a href="blog-single.html">10 Ways To Immediately
-                                                Start Selling Furniture</a></h6>
-                                        <ul class="meta list-inline mt-1 mb-0">
-                                            <li class="list-inline-item">29 March 2021</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <!-- post -->
-                                <div class="post post-list-sm square">
-                                    <div class="thumb rounded">
-                                        <a href="blog-single.html">
-                                            <div class="inner">
-                                                <img src="{{ asset('frontend-assets') }}/images/posts/editor-sm-4.jpg"
-                                                    alt="post-title" />
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <div class="details clearfix">
-                                        <h6 class="post-title my-0"><a href="blog-single.html">15 Unheard Ways To Achieve
-                                                Greater Walker</a></h6>
-                                        <ul class="meta list-inline mt-1 mb-0">
-                                            <li class="list-inline-item">29 March 2021</li>
-                                        </ul>
-                                    </div>
-                                </div>
+                                @empty
+                                @endforelse
                             </div>
                         </div>
                     </div>
@@ -349,93 +321,115 @@
                         <div class="row gy-5">
                             <div class="col-sm-6">
                                 <!-- post large -->
-                                <div class="post">
-                                    <div class="thumb rounded">
-                                        <a href="category.html" class="category-badge position-absolute">Culture</a>
-                                        <span class="post-format">
-                                            <i class="icon-picture"></i>
-                                        </span>
-                                        <a href="blog-single.html">
-                                            <div class="inner">
-                                                <img src="{{ asset('frontend-assets') }}/images/posts/trending-lg-1.jpg"
-                                                    alt="post-title" />
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <ul class="meta list-inline mt-4 mb-0">
-                                        <li class="list-inline-item"><a href="#"><img
-                                                    src="{{ asset('frontend-assets') }}/images/other/author-sm.png"
-                                                    class="author" alt="author" />Katen Doe</a></li>
-                                        <li class="list-inline-item">29 March 2021</li>
-                                    </ul>
-                                    <h5 class="post-title mb-3 mt-3"><a href="blog-single.html">Facts About Business That
-                                            Will Help You Success</a></h5>
-                                    <p class="excerpt mb-0">A wonderful serenity has taken possession of my entire soul,
-                                        like these sweet mornings of spring which I enjoy</p>
-                                </div>
-                                <!-- post -->
-                                <div class="post post-list-sm square before-seperator">
-                                    <div class="thumb rounded">
-                                        <a href="blog-single.html">
-                                            <div class="inner">
-                                                <img src="{{ asset('frontend-assets') }}/images/posts/trending-sm-1.jpg"
-                                                    alt="post-title" />
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <div class="details clearfix">
-                                        <h6 class="post-title my-0"><a href="blog-single.html">3 Easy Ways To Make Your
-                                                iPhone Faster</a></h6>
-                                        <ul class="meta list-inline mt-1 mb-0">
-                                            <li class="list-inline-item">29 March 2021</li>
+                                @forelse ($trend_banner_1 as $trend)
+                                    <div class="post">
+                                        <div class="thumb rounded">
+                                            <a href="category.html"
+                                                class="category-badge position-absolute">{{ $trend->getCategory->category_name }}</a>
+                                            <a href="blog-single.html">
+                                                <div class="inner">
+                                                    <img src="{{ asset('uploads/blog_photos') }}/{{ $trend->blog_photo }}"
+                                                        alt="post-title" />
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <ul class="meta list-inline mt-4 mb-0">
+                                            <li class="list-inline-item"><a href="#"><img
+                                                        src="{{ asset('frontend-assets') }}/images/other/author-sm.png"
+                                                        class="author" alt="author" />{{ $trend->getUser->name }}</a>
+                                            </li>
+                                            <li class="list-inline-item">{{ $trend->created_at }}</li>
                                         </ul>
+                                        <h5 class="post-title mb-3 mt-3"><a
+                                                href="blog-single.html">{{ $trend->blog_title }}</a></h5>
+                                        <p class="excerpt mb-0">
+                                            @php
+                                                $blog_des = strip_tags($trend->blog);
+                                                // $blog_id = $blog->id;
+                                                if (strlen($blog_des > 80)) {
+                                                    $blog_cut = substr($blog_des, 0, 100);
+                                                    $endpoint = strrpos($blog_cut, ' ');
+                                                    $blog_des = $endpoint
+                                                        ? substr($blog_cut, 0, $endpoint)
+                                                        : substr($blog_cut, 0);
+                                                    $blog_des .=
+                                                        "..... <span class='text-info fw-bold'>Read More</span>";
+                                                }
+                                                echo $blog_des;
+                                            @endphp
+                                        </p>
                                     </div>
-                                </div>
-                                <!-- post -->
-                                <div class="post post-list-sm square before-seperator">
-                                    <div class="thumb rounded">
-                                        <a href="blog-single.html">
-                                            <div class="inner">
-                                                <img src="{{ asset('frontend-assets') }}/images/posts/trending-sm-2.jpg"
-                                                    alt="post-title" />
-                                            </div>
-                                        </a>
+
+                                @empty
+                                @endforelse
+
+                                @forelse ($trend_1 as $trend)
+                                    <!-- post -->
+                                    <div class="post post-list-sm square before-seperator">
+                                        <div class="thumb rounded">
+                                            <a href="blog-single.html">
+                                                <div class="inner">
+                                                    <img src="{{ asset('uploads/blog_photos') }}/{{ $trend->blog_photo }}"
+                                                        alt="post-title" />
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="details clearfix">
+                                            <h6 class="post-title my-0"><a href="blog-single.html">3 Easy Ways To Make
+                                                    Your
+                                                    iPhone Faster</a></h6>
+                                            <ul class="meta list-inline mt-1 mb-0">
+                                                <li class="list-inline-item">29 March 2021</li>
+                                            </ul>
+                                        </div>
                                     </div>
-                                    <div class="details clearfix">
-                                        <h6 class="post-title my-0"><a href="blog-single.html">An Incredibly Easy Method
-                                                That Works For All</a></h6>
-                                        <ul class="meta list-inline mt-1 mb-0">
-                                            <li class="list-inline-item">29 March 2021</li>
-                                        </ul>
-                                    </div>
-                                </div>
+
+                                @empty
+                                @endforelse
                             </div>
                             <div class="col-sm-6">
                                 <!-- post large -->
-                                <div class="post">
-                                    <div class="thumb rounded">
-                                        <a href="category.html" class="category-badge position-absolute">Inspiration</a>
-                                        <span class="post-format">
-                                            <i class="icon-earphones"></i>
-                                        </span>
-                                        <a href="blog-single.html">
-                                            <div class="inner">
-                                                <img src="{{ asset('frontend-assets') }}/images/posts/trending-lg-2.jpg"
-                                                    alt="post-title" />
-                                            </div>
-                                        </a>
+                                @forelse ($trend_banner_2 as $trend)
+                                    <div class="post">
+                                        <div class="thumb rounded">
+                                            <a href="category.html"
+                                                class="category-badge position-absolute">{{ $trend->getCategory->category_name }}</a>
+                                            <a href="blog-single.html">
+                                                <div class="inner">
+                                                    <img src="{{ asset('uploads/blog_photos') }}/{{ $trend->blog_photo }}"
+                                                        alt="post-title" />
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <ul class="meta list-inline mt-4 mb-0">
+                                            <li class="list-inline-item"><a href="#"><img
+                                                        src="{{ asset('frontend-assets') }}/images/other/author-sm.png"
+                                                        class="author" alt="author" />{{ $trend->getUser->name }}</a>
+                                            </li>
+                                            <li class="list-inline-item">{{ $trend->created_at }}</li>
+                                        </ul>
+                                        <h5 class="post-title mb-3 mt-3"><a
+                                                href="blog-single.html">{{ $trend->blog_title }}</a></h5>
+                                        <p class="excerpt mb-0">
+                                            @php
+                                                $blog_des = strip_tags($trend->blog);
+                                                // $blog_id = $blog->id;
+                                                if (strlen($blog_des > 80)) {
+                                                    $blog_cut = substr($blog_des, 0, 100);
+                                                    $endpoint = strrpos($blog_cut, ' ');
+                                                    $blog_des = $endpoint
+                                                        ? substr($blog_cut, 0, $endpoint)
+                                                        : substr($blog_cut, 0);
+                                                    $blog_des .=
+                                                        "..... <span class='text-info fw-bold'>Read More</span>";
+                                                }
+                                                echo $blog_des;
+                                            @endphp
+                                        </p>
                                     </div>
-                                    <ul class="meta list-inline mt-4 mb-0">
-                                        <li class="list-inline-item"><a href="#"><img
-                                                    src="{{ asset('frontend-assets') }}/images/other/author-sm.png"
-                                                    class="author" alt="author" />Katen Doe</a></li>
-                                        <li class="list-inline-item">29 March 2021</li>
-                                    </ul>
-                                    <h5 class="post-title mb-3 mt-3"><a href="blog-single.html">5 Easy Ways You Can Turn
-                                            Future Into Success</a></h5>
-                                    <p class="excerpt mb-0">A wonderful serenity has taken possession of my entire soul,
-                                        like these sweet mornings of spring which I enjoy</p>
-                                </div>
+
+                                @empty
+                                @endforelse
                                 <!-- post -->
                                 <div class="post post-list-sm square before-seperator">
                                     <div class="thumb rounded">

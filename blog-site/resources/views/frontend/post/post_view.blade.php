@@ -46,12 +46,26 @@
                                 <div class="col-md-6 col-12 text-center text-md-start">
                                     <!-- tags -->
                                     <a href="#" class="tag">#{{ $post->getCategory->category_slug }}</a>
-                                    <a href="#" class="tag">#Video</a>
-                                    <a href="#" class="tag">#Featured</a>
+                                    @if ($post->blog_speciality)
+                                        <a href="#" class="tag">#{{ $post->blog_speciality }}</a>
+                                    @endif
                                 </div>
-                                <div class="col-md-6 col-12">
+
+                                <!-- Make Special
+                                ================================================== -->
+                                @if (Auth::check() && auth()->user()->role == 'admin')
+                                    <div class="col-md-6 col-12 text-center text-md-start">
+                                        <a href="{{ route('make_feature', $post->id) }}" class="tag">#Make Feature</a>
+                                        <a href="{{ route('make_editor', $post->id) }}" class="tag">#Make Editor's
+                                            pick</a>
+                                        <a href="{{ route('make_trending', $post->id) }}" class="tag">#Make Trending</a>
+                                        <a href="{{ route('delete_speciality', $post->id) }}" class="tag">#Delete
+                                            Speciality</a>
+                                    </div>
+                                @endif
+                                {{-- <div class="col-md-6 col-12">
                                     <!-- social icons -->
-                                    @if (auth()->user()->id == $post->user_id)
+                                    @if (Auth::check() && auth()->user()->id == $post->user_id)
                                         <ul class="social-icons list-unstyled list-inline mb-0 float-md-end">
                                             <li class="list-inline-item">
                                                 <a href="{{ route('post.edit', $post) }}" data-bs-toggle="tooltip"
@@ -71,7 +85,7 @@
                                             </li>
                                         </ul>
                                     @endif
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
 
@@ -126,8 +140,7 @@
                             <!-- comment item -->
                             <li class="comment child rounded">
                                 <div class="thumb">
-                                    <img src="{{ asset('frontend-assets') }}/images/other/comment-2.png"
-                                        alt="John Doe" />
+                                    <img src="{{ asset('frontend-assets') }}/images/other/comment-2.png" alt="John Doe" />
                                 </div>
                                 <div class="details">
                                     <h4 class="name"><a href="#">Helen Doe</a></h4>
@@ -424,7 +437,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <!-- widget advertisement -->
                         <div class="widget no-container rounded text-md-center">
                             <span class="ads-title">- Sponsored Ad -</span>
@@ -450,11 +462,51 @@
                         </div>
 
                     </div>
-
                 </div>
-
             </div>
-
         </div>
     </section>
 @endsection
+
+@if (session('success'))
+    @section('alert')
+        <script>
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: "success",
+                title: "{{ session('success') }}"
+            });
+        </script>
+    @endsection
+@endif
+@if (session('warning'))
+    @section('alert')
+        <script>
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: "warning",
+                title: "{{ session('warning') }}"
+            });
+        </script>
+    @endsection
+@endif
