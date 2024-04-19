@@ -326,7 +326,7 @@
                                         <div class="thumb rounded">
                                             <a href="category.html"
                                                 class="category-badge position-absolute">{{ $trend->getCategory->category_name }}</a>
-                                            <a href="blog-single.html">
+                                            <a href="{{ route('post_view',$trend->id) }}">
                                                 <div class="inner">
                                                     <img src="{{ asset('uploads/blog_photos') }}/{{ $trend->blog_photo }}"
                                                         alt="post-title" />
@@ -341,7 +341,7 @@
                                             <li class="list-inline-item">{{ $trend->created_at }}</li>
                                         </ul>
                                         <h5 class="post-title mb-3 mt-3"><a
-                                                href="blog-single.html">{{ $trend->blog_title }}</a></h5>
+                                                href="{{ route('post_view',$trend->id) }}">{{ $trend->blog_title }}</a></h5>
                                         <p class="excerpt mb-0">
                                             @php
                                                 $blog_des = strip_tags($trend->blog);
@@ -367,7 +367,7 @@
                                     <!-- post -->
                                     <div class="post post-list-sm square before-seperator">
                                         <div class="thumb rounded">
-                                            <a href="blog-single.html">
+                                            <a href="{{ route('post_view',$trend->id) }}">
                                                 <div class="inner">
                                                     <img src="{{ asset('uploads/blog_photos') }}/{{ $trend->blog_photo }}"
                                                         alt="post-title" />
@@ -375,11 +375,13 @@
                                             </a>
                                         </div>
                                         <div class="details clearfix">
-                                            <h6 class="post-title my-0"><a href="blog-single.html">3 Easy Ways To Make
-                                                    Your
-                                                    iPhone Faster</a></h6>
+                                            <h6 class="post-title my-0">
+                                                <a href="{{ route('post_view',$trend->id) }}">
+                                                    {{ $trend->blog_title }}
+                                                </a>
+                                            </h6>
                                             <ul class="meta list-inline mt-1 mb-0">
-                                                <li class="list-inline-item">29 March 2021</li>
+                                                <li class="list-inline-item">{{ $trend->created_at }}</li>
                                             </ul>
                                         </div>
                                     </div>
@@ -394,7 +396,7 @@
                                         <div class="thumb rounded">
                                             <a href="category.html"
                                                 class="category-badge position-absolute">{{ $trend->getCategory->category_name }}</a>
-                                            <a href="blog-single.html">
+                                            <a href="{{ route('post_view',$trend->id) }}">
                                                 <div class="inner">
                                                     <img src="{{ asset('uploads/blog_photos') }}/{{ $trend->blog_photo }}"
                                                         alt="post-title" />
@@ -409,7 +411,7 @@
                                             <li class="list-inline-item">{{ $trend->created_at }}</li>
                                         </ul>
                                         <h5 class="post-title mb-3 mt-3"><a
-                                                href="blog-single.html">{{ $trend->blog_title }}</a></h5>
+                                                href="{{ route('post_view',$trend->id) }}">{{ $trend->blog_title }}</a></h5>
                                         <p class="excerpt mb-0">
                                             @php
                                                 $blog_des = strip_tags($trend->blog);
@@ -431,41 +433,31 @@
                                 @empty
                                 @endforelse
                                 <!-- post -->
-                                <div class="post post-list-sm square before-seperator">
-                                    <div class="thumb rounded">
-                                        <a href="blog-single.html">
-                                            <div class="inner">
-                                                <img src="{{ asset('frontend-assets') }}/images/posts/trending-sm-3.jpg"
-                                                    alt="post-title" />
-                                            </div>
-                                        </a>
+                                @forelse ($trend_2 as $trend)
+                                    <!-- post -->
+                                    <div class="post post-list-sm square before-seperator">
+                                        <div class="thumb rounded">
+                                            <a href="{{ route('post_view',$trend->id) }}">
+                                                <div class="inner">
+                                                    <img src="{{ asset('uploads/blog_photos') }}/{{ $trend->blog_photo }}"
+                                                        alt="post-title" />
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="details clearfix">
+                                            <h6 class="post-title my-0">
+                                                <a href="{{ route('post_view',$trend->id) }}">
+                                                    {{ $trend->blog_title }}
+                                                </a>
+                                            </h6>
+                                            <ul class="meta list-inline mt-1 mb-0">
+                                                <li class="list-inline-item">{{ $trend->created_at }}</li>
+                                            </ul>
+                                        </div>
                                     </div>
-                                    <div class="details clearfix">
-                                        <h6 class="post-title my-0"><a href="blog-single.html">Here Are 8 Ways To Success
-                                                Faster</a></h6>
-                                        <ul class="meta list-inline mt-1 mb-0">
-                                            <li class="list-inline-item">29 March 2021</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <!-- post -->
-                                <div class="post post-list-sm square before-seperator">
-                                    <div class="thumb rounded">
-                                        <a href="blog-single.html">
-                                            <div class="inner">
-                                                <img src="{{ asset('frontend-assets') }}/images/posts/trending-sm-4.jpg"
-                                                    alt="post-title" />
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <div class="details clearfix">
-                                        <h6 class="post-title my-0"><a href="blog-single.html">Master The Art Of Nature
-                                                With These 7 Tips</a></h6>
-                                        <ul class="meta list-inline mt-1 mb-0">
-                                            <li class="list-inline-item">29 March 2021</li>
-                                        </ul>
-                                    </div>
-                                </div>
+
+                                @empty
+                                @endforelse
                             </div>
                         </div>
                     </div>

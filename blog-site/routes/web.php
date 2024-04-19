@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\CommentsController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\UserManagementController;
 use Illuminate\Support\Facades\Route;
@@ -101,5 +102,8 @@ Route::get('post/make/feature/{id}', [App\Http\Controllers\PostsController::clas
 Route::get('post/make/editor/{id}', [App\Http\Controllers\PostsController::class, 'make_editor'])->name('make_editor');
 Route::get('post/make/trending/{id}', [App\Http\Controllers\PostsController::class, 'make_trending'])->name('make_trending');
 Route::get('post/delete/speciality/{id}', [App\Http\Controllers\PostsController::class, 'delete_speciality'])->name('delete_speciality');
+
+
+Route::resource('comment' , CommentsController::class);
 
 // *********** Front end route End ***********

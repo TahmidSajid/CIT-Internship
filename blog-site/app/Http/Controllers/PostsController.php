@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comments;
 use App\Models\Posts;
 use Carbon\Carbon;
 use Intervention\Image\ImageManager;
@@ -117,7 +118,10 @@ class PostsController extends Controller
     public function single_view($id)
     {
         $post = Posts::where('id', $id)->first();
-        return view('frontend.post.post_view', compact('post'));
+
+        $comments = Comments::where('blog_id',$id)->where('parent_id')->get();
+
+        return view('frontend.post.post_view', compact('post','comments'));
     }
     public function make_feature($id)
     {
