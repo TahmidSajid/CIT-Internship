@@ -8,7 +8,7 @@
 
     <ul class="comments">
 
-        @forelse ($comments as $comment)
+        {{-- @forelse ($comments as $comment)
             <!-- comment item -->
             <li class="comment rounded">
                 <div class="thumb">
@@ -31,7 +31,7 @@
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                    <h5 class="modal-title" id="exampleModalLabel">Replying Comment</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
@@ -99,7 +99,7 @@
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                    <h5 class="modal-title" id="exampleModalLabel">Replying comment</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
@@ -147,33 +147,10 @@
             @endforeach
 
         @empty
-        @endforelse
-        <!-- comment item -->
-        {{-- <li class="comment child rounded">
-            <div class="thumb">
-                <img src="{{ asset('frontend-assets') }}/images/other/comment-2.png" alt="John Doe" />
-            </div>
-            <div class="details">
-                <h4 class="name"><a href="#">Helen Doe</a></h4>
-                <span class="date">Jan 08, 2021 14:41 pm</span>
-                <p>Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet
-                    adipiscing sem neque sed ipsum.</p>
-                <a href="#" class="btn btn-default btn-sm">Reply</a>
-            </div>
-        </li>
-        <!-- comment item -->
-        <li class="comment rounded">
-            <div class="thumb">
-                <img src="{{ asset('frontend-assets') }}/images/other/comment-3.png" alt="John Doe" />
-            </div>
-            <div class="details">
-                <h4 class="name"><a href="#">Anna Doe</a></h4>
-                <span class="date">Jan 08, 2021 14:41 pm</span>
-                <p>Cras ultricies mi eu turpis hendrerit fringilla. Vestibulum ante ipsum primis in
-                    faucibus orci luctus et ultrices posuere cubilia.</p>
-                <a href="#" class="btn btn-default btn-sm">Reply</a>
-            </div>
-        </li> --}}
+        @endforelse --}}
+
+        @include('components.comments.parent_comment',['comments' => $comments])
+
     </ul>
 </div>
 

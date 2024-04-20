@@ -23,4 +23,9 @@ class Comments extends Model
     {
         return $this->hasMany(Comments::class,'parent_id','id');
     }
+
+    public function getReplies():HasMany
+    {
+        return $this->hasMany(Comments::class,'parent_id','id');
+    }
 }
