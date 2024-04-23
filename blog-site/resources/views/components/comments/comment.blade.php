@@ -1,6 +1,6 @@
 <!-- section header -->
 <div class="section-header">
-    <h3 class="section-title">Comments (3)</h3>
+    <h3 class="section-title">Comments ({{ $comment_count }})</h3>
     <img src="{{ asset('frontend-assets') }}/images/wave.svg" class="wave" alt="wave" />
 </div>
 <!-- post comments -->

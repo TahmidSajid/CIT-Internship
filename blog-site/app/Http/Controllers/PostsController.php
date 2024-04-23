@@ -121,7 +121,9 @@ class PostsController extends Controller
 
         $comments = Comments::where('blog_id',$id)->where('parent_id')->get();
 
-        return view('frontend.post.post_view', compact('post','comments'));
+        $comment_count = Comments::where('blog_id',$id)->count();
+
+        return view('frontend.post.post_view', compact('post','comments','comment_count'));
     }
     public function make_feature($id)
     {

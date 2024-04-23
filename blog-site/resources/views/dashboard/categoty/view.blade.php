@@ -84,6 +84,7 @@
                                 <th>Description</th>
                                 <th>Added By</th>
                                 <th>Action</th>
+                                <th>Make Showcase</th>
                             </tr>
                         </thead>
 
@@ -136,6 +137,16 @@
                                                         <i class="fa-solid fa-trash-can"></i>
                                                     </button>
                                                 </form>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <a class="btn btn-sm btn-primary" href="{{ route('make_showcase',['banner_one',$category->id]) }}">Banner 1</a>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <a class="btn btn-sm btn-primary" href="{{ route('make_showcase',['banner_two',$category->id]) }}">Banner 2</a>
                                             </div>
                                         </div>
                                     </td>
@@ -218,6 +229,27 @@
     @endsection
 @endif
 
+@if (session('showcase_update'))
+    @section('alert')
+        <script>
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: "success",
+                title: "{{ session('showcase_update') }}"
+            });
+        </script>
+    @endsection
+@endif
 
 
 

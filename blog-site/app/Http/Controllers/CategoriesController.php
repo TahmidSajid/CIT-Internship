@@ -111,4 +111,15 @@ class CategoriesController extends Controller
         Categories::where('id',$category->id)->delete();
         return back()->with('category_delete','Category deleted');
     }
+    public function make_showcase($showcase,$category_id)
+    {
+        Categories::where('showcase',$showcase)->update([
+            'showcase' => null,
+        ]);
+
+        Categories::where('id',$category_id)->update([
+            'showcase'=> $showcase,
+        ]);
+        return back()->with('showcase_update','Category Showcased');
+    }
 }

@@ -66,7 +66,7 @@
         </div>
     </li>
 
-    @include('components.comments.child_comment',['comments'=>$comment->getComment, 'padding'=>'30px'])
+    @include('components.comments.child_comment',['comments'=>$comment->getComment, 'padding'=>'0px'])
 
 @empty
 @endforelse

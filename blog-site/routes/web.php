@@ -52,6 +52,7 @@ Route::post('/profile/otp/verify', [App\Http\Controllers\ProfileController::clas
  * This will generate the standard CRUD routes for the given controller.
  */
 Route::resource('category', CategoriesController::class);
+Route::get('/category/make/showcase/{showcase}/{category_id}', [App\Http\Controllers\CategoriesController::class, 'make_showcase'])->name('make_showcase');
 
 
 Route::resource('users', UserManagementController::class);

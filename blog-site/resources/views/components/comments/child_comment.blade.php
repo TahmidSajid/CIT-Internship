@@ -1,6 +1,9 @@
+<?php
+    $padding = intval($padding) + 30;
+?>
 @foreach ($comments as $reply)
     <!-- comment item -->
-    <li class="comment child rounded" style="padding-left: {{ $padding }}">
+    <li class="comment child rounded" style="padding-left: {{ $padding }}px">
         <div class="thumb">
             <img src="{{ asset('uploads/profile_photos') }}/{{ $reply->getUser->photo }}" class="rounded-circle"
                 style="height: 50px; width: 50px;" alt="John Doe" />
@@ -63,5 +66,5 @@
             </div>
         </div>
     </li>
-    @include('components.comments.child_comment',['comments'=>app\Models\Comments::where('parent_id',$reply->id)->get(), 'padding'=>'60px'])
+    @include('components.comments.child_comment',['comments'=>app\Models\Comments::where('parent_id',$reply->id)->get(), 'padding'=> $padding])
 @endforeach
