@@ -107,4 +107,7 @@ Route::get('post/delete/speciality/{id}', [App\Http\Controllers\PostsController:
 
 Route::resource('comment' , CommentsController::class);
 
+
+
+Route::get('category/post/{category_id}/{category_name}', [App\Http\Controllers\CategoryPostController::class, 'view'])->name('category_post');
 // *********** Front end route End ***********

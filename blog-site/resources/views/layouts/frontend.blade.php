@@ -78,30 +78,30 @@
                     <div class="collapse navbar-collapse">
                         <!-- menus -->
                         <ul class="navbar-nav mr-auto">
-                            <li class="nav-item dropdown active">
-                                <a class="nav-link dropdown-toggle" href="{{ route('index') }}">Home</a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="index.html">Magazine</a></li>
-                                    <li><a class="dropdown-item" href="personal.html">Personal</a></li>
-                                    <li><a class="dropdown-item" href="personal-alt.html">Personal Alt</a></li>
-                                    <li><a class="dropdown-item" href="minimal.html">Minimal</a></li>
-                                    <li><a class="dropdown-item" href="classic.html">Classic</a></li>
-                                </ul>
+                            <li class="nav-item active">
+                                <a class="nav-link" href="{{ route('index') }}">Home</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="category.html">Lifestyle</a>
+                                @php
+                                    $banner_one = App\Models\Categories::where('showcase','banner_one')->first();
+                                @endphp
+                                <a class="nav-link" href="{{ route('category_post',[$banner_one->id,$banner_one->category_name]) }}">{{ $banner_one->category_name }}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="category.html">Inspiration</a>
+                                @php
+                                    $banner_two = App\Models\Categories::where('showcase','banner_two')->first();
+                                @endphp
+                                <a class="nav-link" href="{{ route('category_post',[$banner_two->id,$banner_two->category_name]) }}">{{ $banner_two->category_name }}</a>
                             </li>
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#">Pages</a>
+                                <a class="nav-link dropdown-toggle" href="#">More Categories</a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="category.html">Category</a></li>
-                                    <li><a class="dropdown-item" href="blog-single.html">Blog Single</a></li>
-                                    <li><a class="dropdown-item" href="blog-single-alt.html">Blog Single Alt</a></li>
-                                    <li><a class="dropdown-item" href="about.html">About</a></li>
-                                    <li><a class="dropdown-item" href="contact.html">Contact</a></li>
+                                    @forelse (App\Models\Categories::where('id','!=',$banner_one->id)->where('id','!=',$banner_two->id)->get() as $category)
+                                        <li>
+                                            <a class="dropdown-item" href="{{ route('category_post',[$category->id,$category->category_name]) }}">{{ $category->category_name }}</a>
+                                        </li>
+                                    @empty
+                                    @endforelse
                                 </ul>
                             </li>
                             <li class="nav-item">
@@ -113,14 +113,12 @@
                     <!-- header right section -->
                     <div class="header-right">
                         <!-- social icons -->
-                        <ul class="social-icons list-unstyled list-inline mb-0">
+                        {{-- <ul class="social-icons list-unstyled list-inline mb-0">
                             <li class="list-inline-item"><a href="#"><i class="fab fa-facebook-f"></i></a></li>
                             <li class="list-inline-item"><a href="#"><i class="fab fa-twitter"></i></a></li>
                             <li class="list-inline-item"><a href="#"><i class="fab fa-instagram"></i></a></li>
-                            <li class="list-inline-item"><a href="#"><i class="fab fa-pinterest"></i></a></li>
-                            <li class="list-inline-item"><a href="#"><i class="fab fa-medium"></i></a></li>
                             <li class="list-inline-item"><a href="#"><i class="fab fa-youtube"></i></a></li>
-                        </ul>
+                        </ul> --}}
                         <!-- header buttons -->
                         <div class="header-buttons">
                             <button class="search icon-button">
