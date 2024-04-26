@@ -30,60 +30,35 @@
             <img src="{{ asset('frontend-assets') }}/images/wave.svg" class="wave" alt="wave" />
         </div>
         <div class="widget-content">
-            <!-- post -->
-            <div class="post post-list-sm circle">
-                <div class="thumb circle">
-                    <span class="number">1</span>
-                    <a href="blog-single.html">
-                        <div class="inner">
-                            <img src="{{ asset('frontend-assets') }}/images/posts/tabs-1.jpg" alt="post-title" />
-                        </div>
-                    </a>
+            @forelse ($popular_posts as $post)
+                <!-- post -->
+                <div class="post post-list-sm circle">
+                    <div class="thumb circle">
+                        <span class="number">
+                            {{ App\Models\Comments::where('blog_id',$post->getPost->id)->count() }}
+                        </span>
+                        <a href="{{ route('post_view',$post->getPost->id) }}">
+                            <div class="inner">
+                                <img src="{{ asset('uploads/blog_photos') }}/{{ $post->getPost->blog_photo }}"
+                                    alt="post-title" />
+                            </div>
+                        </a>
+                    </div>
+                    <div class="details clearfix">
+                        <h6 class="post-title my-0">
+                            <a href="{{ route('post_view',$post->getPost->id) }}">
+                                {{ $post->getPost->blog_title }}
+                            </a>
+                        </h6>
+                        <ul class="meta list-inline mt-1 mb-0">
+                            <li class="list-inline-item">{{ $post->getPost->created_at }}</li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="details clearfix">
-                    <h6 class="post-title my-0"><a href="blog-single.html">3 Easy Ways To Make Your
-                            iPhone Faster</a></h6>
-                    <ul class="meta list-inline mt-1 mb-0">
-                        <li class="list-inline-item">29 March 2021</li>
-                    </ul>
-                </div>
-            </div>
-            <!-- post -->
-            <div class="post post-list-sm circle">
-                <div class="thumb circle">
-                    <span class="number">2</span>
-                    <a href="blog-single.html">
-                        <div class="inner">
-                            <img src="{{ asset('frontend-assets') }}/images/posts/tabs-2.jpg" alt="post-title" />
-                        </div>
-                    </a>
-                </div>
-                <div class="details clearfix">
-                    <h6 class="post-title my-0"><a href="blog-single.html">An Incredibly Easy Method
-                            That Works For All</a></h6>
-                    <ul class="meta list-inline mt-1 mb-0">
-                        <li class="list-inline-item">29 March 2021</li>
-                    </ul>
-                </div>
-            </div>
-            <!-- post -->
-            <div class="post post-list-sm circle">
-                <div class="thumb circle">
-                    <span class="number">3</span>
-                    <a href="blog-single.html">
-                        <div class="inner">
-                            <img src="{{ asset('frontend-assets') }}/images/posts/tabs-3.jpg" alt="post-title" />
-                        </div>
-                    </a>
-                </div>
-                <div class="details clearfix">
-                    <h6 class="post-title my-0"><a href="blog-single.html">10 Ways To Immediately
-                            Start Selling Furniture</a></h6>
-                    <ul class="meta list-inline mt-1 mb-0">
-                        <li class="list-inline-item">29 March 2021</li>
-                    </ul>
-                </div>
-            </div>
+
+            @empty
+                <h5>No post added yet</h5>
+            @endforelse
         </div>
     </div>
 
@@ -96,10 +71,12 @@
         <div class="widget-content">
             <ul class="list">
                 @forelse ($categories as $category)
-                @php
-                    $post_count = App\Models\Posts::where('blog_category',$category->id)->count();
-                @endphp
-                    <li><a href="{{ route('category_post',[$category->id,$category->category_name]) }}">{{ $category->category_name }}</a><span>({{ $post_count }})</span></li>
+                    @php
+                        $post_count = App\Models\Posts::where('blog_category', $category->id)->count();
+                    @endphp
+                    <li><a
+                            href="{{ route('category_post', [$category->id, $category->category_name]) }}">{{ $category->category_name }}</a><span>({{ $post_count }})</span>
+                    </li>
                 @empty
                 @endforelse
             </ul>
@@ -121,7 +98,8 @@
                 </div>
                 <button class="btn btn-default btn-full" type="submit">Sign Up</button>
             </form>
-            <span class="newsletter-privacy text-center mt-3">By signing up, you agree to our <a href="#">Privacy
+            <span class="newsletter-privacy text-center mt-3">By signing up, you agree to our <a
+                    href="#">Privacy
                     Policy</a></span>
         </div>
     </div>

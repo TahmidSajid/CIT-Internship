@@ -110,4 +110,7 @@ Route::resource('comment' , CommentsController::class);
 
 
 Route::get('category/post/{category_id}/{category_name}', [App\Http\Controllers\CategoryPostController::class, 'view'])->name('category_post');
+
+Route::get('contact/page',[App\Http\Controllers\ContactController::class, 'view'])->name('contact_page');
+Route::post('contact/page/from',[App\Http\Controllers\ContactController::class, 'contact_form'])->name('contact_form');
 // *********** Front end route End ***********

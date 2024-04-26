@@ -19,6 +19,11 @@ class Comments extends Model
         return $this->hasOne(User::class,'id','user_id');
     }
 
+    public function getPost():HasOne
+    {
+        return $this->hasOne(Posts::class,'id','blog_id');
+    }
+
     public function getComment():HasMany
     {
         return $this->hasMany(Comments::class,'parent_id','id');

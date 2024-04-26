@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
 use Illuminate\Support\Str;
+use App\Models\Categories;
 use Illuminate\Http\Request;
 
 class PostsController extends Controller
@@ -122,8 +123,15 @@ class PostsController extends Controller
         $comments = Comments::where('blog_id',$id)->where('parent_id')->get();
 
         $comment_count = Comments::where('blog_id',$id)->count();
+        
+        // *** Aside bar variables *** //
+        $showcase_two = Categories::where('showcase','banner_two')->first();
+        $banner_two = Posts::where('blog_category',$showcase_two->id)->get();
+        $categories = Categories::latest()->limit(5)->get();
+        $recent_posts = Posts::latest()->limit(4)->get();
+        $popular_posts = Comments::select('blog_id')->distinct()->latest()->limit(4)->get();
 
-        return view('frontend.post.post_view', compact('post','comments','comment_count'));
+        return view('frontend.post.post_view', compact('post','comments','comment_count','showcase_two','banner_two','categories','recent_posts','popular_posts'));
     }
     public function make_feature($id)
     {

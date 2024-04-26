@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Categories;
+use App\Models\Comments;
 use App\Models\Posts;
 use Illuminate\Http\Request;
 
@@ -46,6 +47,9 @@ class FrontendController extends Controller
         $showcase_two = Categories::where('showcase','banner_two')->first();
         $banner_two = Posts::where('blog_category',$showcase_two->id)->get();
         $categories = Categories::latest()->limit(5)->get();
-        return view('frontend.index', compact('latest', 'features', 'editors_banner', 'editors', 'trend_banner_1', 'trend_banner_2', 'trend_1','trend_2','showcase_one','banner_one','showcase_two','banner_two','categories'));
+        $recent_posts = Posts::latest()->limit(4)->get();
+        $popular_posts = Comments::select('blog_id')->distinct()->latest()->limit(4)->get();
+        
+        return view('frontend.index', compact('latest', 'features', 'editors_banner', 'editors', 'trend_banner_1', 'trend_banner_2', 'trend_1','trend_2','showcase_one','banner_one','showcase_two','banner_two','categories','recent_posts','popular_posts'));
     }
 }
