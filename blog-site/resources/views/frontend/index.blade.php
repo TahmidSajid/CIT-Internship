@@ -12,7 +12,7 @@
                     <div class="post featured-post-lg">
                         @forelse ($features as $feature)
                             <div class="details clearfix">
-                                <a href="{{ route('post_view', $feature->id) }}"
+                                <a href="{{ route('category_post', [$feature->blog_category,$feature->getCategory->category_name])}}"
                                     class="category-badge">{{ $feature->getCategory->category_name }}</a>
                                 <h2 class="post-title"><a
                                         href="{{ route('post_view', $feature->id) }}">{{ $feature->blog_title }}</a>
@@ -58,7 +58,7 @@
                                     <!-- post -->
                                     <div class="post post-list-sm circle">
                                         <div class="thumb circle">
-                                            <a href="blog-single.html">
+                                            <a href="{{ route('post_view',$post->getPost->id) }}">
                                                 <div class="inner">
                                                     <img src="{{ asset('uploads/blog_photos') }}/{{ $post->getPost->blog_photo }}"
                                                         alt="post-title" />
@@ -67,7 +67,7 @@
                                         </div>
                                         <div class="details clearfix">
                                             <h6 class="post-title my-0">
-                                                <a href="blog-single.html">
+                                                <a href="{{ route('post_view',$post->getPost->id) }}">
                                                     {{ $post->getPost->blog_title }}
                                                 </a>
                                             </h6>
@@ -87,7 +87,7 @@
                                     <!-- post -->
                                     <div class="post post-list-sm circle">
                                         <div class="thumb circle">
-                                            <a href="blog-single.html">
+                                            <a href="{{ route('post_view',$post->id) }}">
                                                 <div class="inner">
                                                     <img src="{{ asset('uploads/blog_photos') }}/{{ $post->blog_photo }}"
                                                         alt="post-title" />
@@ -96,7 +96,7 @@
                                         </div>
                                         <div class="details clearfix">
                                             <h6 class="post-title my-0">
-                                                <a href="blog-single.html">
+                                                <a href="{{ route('post_view',$post->id) }}">
                                                     {{ $post->blog_title }}
                                                 </a>
                                             </h6>
@@ -140,9 +140,9 @@
                                 @forelse ($editors_banner as $post)
                                     <div class="post">
                                         <div class="thumb rounded">
-                                            <a href="category.html"
+                                            <a href="{{ route('category_post', [$feature->blog_category,$feature->getCategory->category_name])}}"
                                                 class="category-badge position-absolute">{{ $post->getCategory->category_name }}</a>
-                                            <a href="blog-single.html">
+                                            <a href="{{ route('post_view', $post->id) }}">
                                                 <div class="inner">
                                                     <img src="{{ asset('uploads/blog_photos') }}/{{ $post->blog_photo }}"
                                                         alt="post-title" />
@@ -184,7 +184,7 @@
                                 @forelse ($editors as $editor)
                                     <div class="post post-list-sm square">
                                         <div class="thumb rounded">
-                                            <a href="blog-single.html">
+                                            <a href="{{ route('post_view', $post->id) }}">
                                                 <div class="inner">
                                                     <img src="{{ asset('uploads/blog_photos') }}/{{ $editor->blog_photo }}"
                                                         alt="post-title" />
@@ -390,16 +390,16 @@
                             <!-- post -->
                             <div class="post post-over-content col-md-6">
                                 <div class="details clearfix">
-                                    <a href="category.html"
+                                    <a href="{{ route('category_post',[$post->blog_category, $post->getCategory->category_name]) }}"
                                         class="category-badge">{{ $post->getCategory->category_name }}</a>
-                                    <h4 class="post-title"><a href="blog-single.html">{{ $post->blog_title }}</a></h4>
+                                    <h4 class="post-title"><a href="{{ route('post_view',$post->id) }}">{{ $post->blog_title }}</a></h4>
                                     <ul class="meta list-inline mb-0">
                                         <li class="list-inline-item"><a href="#">{{ $post->getUser->name }}</a>
                                         </li>
                                         <li class="list-inline-item">{{ $post->created_at }}</li>
                                     </ul>
                                 </div>
-                                <a href="blog-single.html">
+                                <a href="{{ route('post_view',$post->id) }}">
                                     <div class="thumb rounded">
                                         <div class="inner">
                                             <img src="{{ asset('uploads/blog_photos') }}/{{ $post->blog_photo }}"
@@ -433,7 +433,7 @@
                                             <span class="post-format-sm">
                                                 <i class="icon-picture"></i>
                                             </span>
-                                            <a href="blog-single.html">
+                                            <a href="{{ route('post_view', $blog->id) }}">
                                                 <div class="inner">
                                                     <img src="{{ asset('uploads/blog_photos') }}/{{ $blog->blog_photo }}"
                                                         alt="post-title" />
