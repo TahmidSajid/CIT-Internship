@@ -58,6 +58,7 @@ Route::get('/category/make/showcase/{showcase}/{category_id}', [App\Http\Control
 Route::resource('users', UserManagementController::class);
 
 Route::get('/user/list/{role}',[App\Http\Controllers\UserManagementController::class, 'list'])->name('list');
+Route::get('/user/list/make/{role}/{id}',[App\Http\Controllers\UserManagementController::class, 'change_role'])->name('change_role');
 
 
 // *********** Dashboard route Start ***********
@@ -116,4 +117,11 @@ Route::post('contact/page/from',[App\Http\Controllers\ContactController::class, 
 
 
 Route::post('search/',[App\Http\Controllers\SearchController::class, 'search'])->name('search');
+
+
+
+Route::get('special/post/{special}',[App\Http\Controllers\SpecialPostController::class, 'view'])->name('special_post');
+Route::get('posts/all',[App\Http\Controllers\FrontendController::class, 'post_all'])->name('post_all');
+
+
 // *********** Front end route End ***********

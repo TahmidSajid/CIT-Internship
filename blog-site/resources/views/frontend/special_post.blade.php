@@ -3,7 +3,7 @@
     <section class="page-header">
         <div class="container-xl">
             <div class="text-center">
-                <h1 class="mt-0 mb-2">{{ $category_name }}</h1>
+                <h1 class="mt-0 mb-2">{{ $special }}</h1>
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb justify-content-center mb-0">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
@@ -21,16 +21,16 @@
                 <div class="col-lg-8">
 
                     <div class="row gy-4">
-                        @forelse ($posts as $post)
+                        @forelse ($special_posts as $special_post)
                             <div class="col-sm-6">
                                 <!-- post -->
                                 <div class="post post-grid rounded bordered">
                                     <div class="thumb top-rounded">
-                                        <a href="{{ route('category_post',[$post->blog_category,$post->getCategory->category_name]) }}"
-                                            class="category-badge position-absolute">{{ $post->getCategory->category_name }}</a>
-                                        <a href="{{ route('post_view',$post->id) }}">
+                                        <a href="{{ route('category_post',[$special_post->blog_category,$special_post->getCategory->category_name]) }}"
+                                            class="category-badge position-absolute">{{ $special_post->getCategory->category_name }}</a>
+                                        <a href="{{ route('post_view',$special_post->id) }}">
                                             <div class="inner">
-                                                <img src="{{ asset('uploads/blog_photos') }}/{{ $post->blog_photo }}"
+                                                <img src="{{ asset('uploads/blog_photos') }}/{{ $special_post->blog_photo }}"
                                                     alt="post-title" />
                                             </div>
                                         </a>
@@ -41,15 +41,15 @@
                                                 <a href="#">
                                                     {{-- <img src="{{ asset('uploads/profile_photos') }}/{{ $post->getUser->photo }}"
                                                         class="author rounded-circle" style="width: 35px; height:35px;" alt="author" /> --}}
-                                                {{ $post->getUser->name }}</a>
+                                                {{ $special_post->getUser->name }}</a>
                                             </li>
-                                            <li class="list-inline-item">{{ $post->created_at }}</li>
+                                            <li class="list-inline-item">{{ $special_post->created_at }}</li>
                                         </ul>
                                         <h5 class="post-title mb-3 mt-3">
-                                            <a href="{{ route('post_view',$post->id) }}">{{ $post->blog_title }}</a>
+                                            <a href="{{ route('post_view',$special_post->id) }}">{{ $special_post->blog_title }}</a>
                                         </h5>
                                         @php
-                                        $blog_des = strip_tags($post->blog);
+                                        $blog_des = strip_tags($special_post->blog);
                                         // $blog_id = $blog->id;
                                         if (strlen($blog_des > 80)):
                                             $blog_cut = substr($blog_des, 0, 80);
@@ -92,7 +92,7 @@
                         @endforelse
                     </div>
 
-                    {{ $posts->links() }}
+                    {{-- {{ $posts->links() }} --}}
 
                 </div>
                 <div class="col-lg-4">

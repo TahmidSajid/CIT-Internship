@@ -231,7 +231,7 @@
                                 @forelse ($trend_banner_1 as $trend)
                                     <div class="post">
                                         <div class="thumb rounded">
-                                            <a href="category.html"
+                                            <a href="{{ route('category_post',[$trend->blog_category,$trend->getCategory->category_name]) }}"
                                                 class="category-badge position-absolute">{{ $trend->getCategory->category_name }}</a>
                                             <a href="{{ route('post_view', $trend->id) }}">
                                                 <div class="inner">
@@ -302,7 +302,7 @@
                                 @forelse ($trend_banner_2 as $trend)
                                     <div class="post">
                                         <div class="thumb rounded">
-                                            <a href="category.html"
+                                            <a href="{{ route('category_post',[$trend->blog_category,$trend->getCategory->category_name]) }}"
                                                 class="category-badge position-absolute">{{ $trend->getCategory->category_name }}</a>
                                             <a href="{{ route('post_view', $trend->id) }}">
                                                 <div class="inner">
@@ -446,8 +446,12 @@
                                                             src="{{ asset('uploads/profile_photos') }}/{{ $blog->getUser->photo }}"
                                                             class="author rounded-circle" style="width:30px; height:30px;"
                                                             alt="author" />{{ $blog->getUser->name }}</a></li>
-                                                <li class="list-inline-item"><a href="#">Trending</a></li>
-                                                <li class="list-inline-item">{{ $blog->created_at }}</li>
+                                                <li class="list-inline-item">
+                                                    @php
+                                                    $time = explode(' ', $blog->created_at)
+                                                    @endphp
+                                                    {{ $time[0] }}
+                                                </li>
                                             </ul>
                                             <h5 class="post-title"><a
                                                     href="{{ route('post_view', $blog->id) }}">{{ $blog->blog_title }}</a>
@@ -498,7 +502,7 @@
                         </div>
                         <!-- load more button -->
                         <div class="text-center">
-                            <button class="btn btn-simple">Load More</button>
+                            <a href="{{ route('post_all') }}" class="btn btn-simple">Load More</a>
                         </div>
 
                     </div>

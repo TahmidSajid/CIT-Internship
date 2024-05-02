@@ -3,17 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Posts;
-use Illuminate\Http\Request;
-use App\Models\Comments;
 use App\Models\Categories;
+use App\Models\Comments;
+use Illuminate\Http\Request;
 
-class CategoryPostController extends Controller
+class SpecialPostController extends Controller
 {
-    public function view($category_id,$category_name)
-    {
+    public function view($special){
 
-        $posts = Posts::where('blog_category',$category_id)->paginate(10);
-        $category_name;
+        $special;
+        $special_posts = Posts::where('blog_speciality',$special)->get();
 
         // *** Aside bar variables *** //
         $showcase_one = Categories::where('showcase', 'banner_one')->first();
@@ -24,6 +23,6 @@ class CategoryPostController extends Controller
         $recent_posts = Posts::latest()->limit(4)->get();
         $popular_posts = Comments::select('blog_id')->distinct()->latest()->limit(4)->get();
 
-        return view('frontend.category_posts',compact('posts','category_name','banner_one','showcase_one','banner_two','showcase_two','showcase_two','banner_two','categories','recent_posts','popular_posts'));
+        return view('frontend.special_post',compact('special','special_posts','showcase_one','banner_one','showcase_two','banner_two','categories','recent_posts','popular_posts'));
     }
 }

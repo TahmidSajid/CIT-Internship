@@ -27,13 +27,15 @@ class SearchController extends Controller
         }
 
         // *** Aside bar variables *** //
+        $showcase_one = Categories::where('showcase', 'banner_one')->first();
+        $banner_one = Posts::where('blog_category', $showcase_one->id)->get();
         $showcase_two = Categories::where('showcase','banner_two')->first();
         $banner_two = Posts::where('blog_category',$showcase_two->id)->get();
         $categories = Categories::latest()->limit(5)->get();
         $recent_posts = Posts::latest()->limit(4)->get();
         $popular_posts = Comments::select('blog_id')->distinct()->latest()->limit(4)->get();
 
-        return view('frontend.search_posts',compact('posts','search','showcase_two','banner_two','categories','recent_posts','popular_posts'));
+        return view('frontend.search_posts',compact('posts','search','banner_one','showcase_one','showcase_two','banner_two','categories','recent_posts','popular_posts'));
 
     }
 }

@@ -85,7 +85,7 @@
     </div>
 
     <!-- widget newsletter -->
-    <div class="widget rounded">
+    {{-- <div class="widget rounded">
         <div class="widget-header text-center">
             <h3 class="widget-title">Newsletter</h3>
             <img src="{{ asset('frontend-assets') }}/images/wave.svg" class="wave" alt="wave" />
@@ -102,7 +102,7 @@
                     href="#">Privacy
                     Policy</a></span>
         </div>
-    </div>
+    </div> --}}
 
     <!-- widget post carousel -->
     <div class="widget rounded">
@@ -116,16 +116,16 @@
                     <!-- post -->
                     <div class="post post-carousel">
                         <div class="thumb rounded">
-                            <a href="category.html"
+                            <a href="{{ route('category_post',[$post->blog_category,$post->getCategory->category_name]) }}"
                                 class="category-badge position-absolute">{{ $post->getCategory->category_name }}</a>
-                            <a href="blog-single.html">
+                            <a href="{{ route('post_view',$post->id) }}">
                                 <div class="inner">
                                     <img src="{{ asset('uploads/blog_photos') }}/{{ $post->blog_photo }}"
                                         alt="post-title" />
                                 </div>
                             </a>
                         </div>
-                        <h5 class="post-title mb-0 mt-4"><a href="blog-single.html">{{ $post->blog_title }}</a></h5>
+                        <h5 class="post-title mb-0 mt-4"><a href="{{ route('post_view',$post->id) }}">{{ $post->blog_title }}</a></h5>
                         <ul class="meta list-inline mt-2 mb-0">
                             <li class="list-inline-item"><a href="#">{{ $post->getUser->name }}</a></li>
                             <li class="list-inline-item">{{ $post->created_at }}</li>
@@ -144,13 +144,13 @@
         </div>
     </div>
 
-    <!-- widget advertisement -->
+    {{-- <!-- widget advertisement -->
     <div class="widget no-container rounded text-md-center">
         <span class="ads-title">- Sponsored Ad -</span>
         <a href="#" class="widget-ads">
             <img src="{{ asset('frontend-assets') }}/images/ads/ad-360.png" alt="Advertisement" />
         </a>
-    </div>
+    </div> --}}
 
     <!-- widget tags -->
     <div class="widget rounded">
@@ -159,11 +159,10 @@
             <img src="{{ asset('frontend-assets') }}/images/wave.svg" class="wave" alt="wave" />
         </div>
         <div class="widget-content">
-            <a href="#" class="tag">#Trending</a>
-            <a href="#" class="tag">#Video</a>
-            <a href="#" class="tag">#Featured</a>
-            <a href="#" class="tag">#Gallery</a>
-            <a href="#" class="tag">#Celebrities</a>
+            <a href="{{ route('special_post','trending') }}" class="tag">#Trending</a>
+            <a href="{{ route('special_post','feature') }}" class="tag">#Featured</a>
+            <a href="{{ route('category_post',[$showcase_one->id,$showcase_one->category_name]) }}" class="tag">#{{ $showcase_one->category_name }}</a>
+            <a href="{{ route('category_post',[$showcase_two->id,$showcase_two->category_name]) }}" class="tag">#{{ $showcase_two->category_name }}</a>
         </div>
     </div>
 

@@ -83,22 +83,25 @@
                             </li>
                             <li class="nav-item">
                                 @php
-                                    $banner_one = App\Models\Categories::where('showcase','banner_one')->first();
+                                    $banner_one = App\Models\Categories::where('showcase', 'banner_one')->first();
                                 @endphp
-                                <a class="nav-link" href="{{ route('category_post',[$banner_one->id,$banner_one->category_name]) }}">{{ $banner_one->category_name }}</a>
+                                <a class="nav-link"
+                                    href="{{ route('category_post', [$banner_one->id, $banner_one->category_name]) }}">{{ $banner_one->category_name }}</a>
                             </li>
                             <li class="nav-item">
                                 @php
-                                    $banner_two = App\Models\Categories::where('showcase','banner_two')->first();
+                                    $banner_two = App\Models\Categories::where('showcase', 'banner_two')->first();
                                 @endphp
-                                <a class="nav-link" href="{{ route('category_post',[$banner_two->id,$banner_two->category_name]) }}">{{ $banner_two->category_name }}</a>
+                                <a class="nav-link"
+                                    href="{{ route('category_post', [$banner_two->id, $banner_two->category_name]) }}">{{ $banner_two->category_name }}</a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#">More Categories</a>
                                 <ul class="dropdown-menu">
                                     @forelse (App\Models\Categories::where('id','!=',$banner_one->id)->where('id','!=',$banner_two->id)->get() as $category)
                                         <li>
-                                            <a class="dropdown-item" href="{{ route('category_post',[$category->id,$category->category_name]) }}">{{ $category->category_name }}</a>
+                                            <a class="dropdown-item"
+                                                href="{{ route('category_post', [$category->id, $category->category_name]) }}">{{ $category->category_name }}</a>
                                         </li>
                                     @empty
                                     @endforelse
@@ -168,7 +171,7 @@
 
 
         <!-- instagram feed -->
-        <div class="instagram">
+        {{-- <div class="instagram">
             <div class="container-xl">
                 <!-- button -->
                 <a href="#" class="btn btn-default btn-instagram">@Katen on Instagram</a>
@@ -206,7 +209,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         <!-- footer -->
         <footer>
@@ -259,8 +262,8 @@
             <!-- form -->
             <form class="d-flex search-form" action="{{ route('search') }}" method="post">
                 @csrf
-                <input class="form-control me-2" type="search" name="search" placeholder="Search and press enter ..."
-                    aria-label="Search">
+                <input class="form-control me-2" type="search" name="search"
+                    placeholder="Search and press enter ..." aria-label="Search">
                 <button class="btn btn-default btn-lg" type="submit"><i class="icon-magnifier"></i></button>
             </form>
         </div>
@@ -280,28 +283,31 @@
         <nav>
             <ul class="vertical-menu">
                 <li class="active">
-                    <a href="index.html">Home</a>
-                    <ul class="submenu">
-                        <li><a href="index.html">Magazine</a></li>
-                        <li><a href="personal.html">Personal</a></li>
-                        <li><a href="personal-alt.html">Personal Alt</a></li>
-                        <li><a href="minimal.html">Minimal</a></li>
-                        <li><a href="classic.html">Classic</a></li>
-                    </ul>
+                    <a href="{{ route('index') }}">Home</a>
                 </li>
-                <li><a href="category.html">Lifestyle</a></li>
-                <li><a href="category.html">Inspiration</a></li>
+                @php
+                    $banner_one = App\Models\Categories::where('showcase', 'banner_one')->first();
+                @endphp
+                <li><a href="{{ route('category_post', [$banner_two->id, $banner_two->category_name]) }}">{{ $banner_two->category_name }}</a>
+                </li>
+                @php
+                    $banner_two = App\Models\Categories::where('showcase', 'banner_two')->first();
+                @endphp
+                <li><a
+                        href="{{ route('category_post', [$banner_two->id, $banner_two->category_name]) }}">{{ $banner_two->category_name }}</a>
+                </li>
                 <li>
-                    <a href="#">Pages</a>
+                    <a href="#">More Categories</a>
                     <ul class="submenu">
-                        <li><a href="category.html">Category</a></li>
-                        <li><a href="blog-single.html">Blog Single</a></li>
-                        <li><a href="blog-single-alt.html">Blog Single Alt</a></li>
-                        <li><a href="about.html">About</a></li>
-                        <li><a href="contact.html">Contact</a></li>
+                        @forelse (App\Models\Categories::where('id','!=',$banner_one->id)->where('id','!=',$banner_two->id)->get() as $category)
+                            <li>
+                                <a href="{{ route('category_post', [$category->id, $category->category_name]) }}">{{ $category->category_name }}</a>
+                            </li>
+                        @empty
+                        @endforelse
                     </ul>
                 </li>
-                <li><a href="contact.html">Contact</a></li>
+                <li><a href="{{ route('contact_page') }}">Contact</a></li>
             </ul>
         </nav>
 

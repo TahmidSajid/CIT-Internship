@@ -123,15 +123,17 @@ class PostsController extends Controller
         $comments = Comments::where('blog_id',$id)->where('parent_id')->get();
 
         $comment_count = Comments::where('blog_id',$id)->count();
-        
+
         // *** Aside bar variables *** //
+        $showcase_one = Categories::where('showcase', 'banner_one')->first();
+        $banner_one = Posts::where('blog_category', $showcase_one->id)->get();
         $showcase_two = Categories::where('showcase','banner_two')->first();
         $banner_two = Posts::where('blog_category',$showcase_two->id)->get();
         $categories = Categories::latest()->limit(5)->get();
         $recent_posts = Posts::latest()->limit(4)->get();
         $popular_posts = Comments::select('blog_id')->distinct()->latest()->limit(4)->get();
 
-        return view('frontend.post.post_view', compact('post','comments','comment_count','showcase_two','banner_two','categories','recent_posts','popular_posts'));
+        return view('frontend.post.post_view', compact('post','comments','comment_count','showcase_one','banner_one','showcase_two','banner_two','categories','recent_posts','popular_posts'));
     }
     public function make_feature($id)
     {

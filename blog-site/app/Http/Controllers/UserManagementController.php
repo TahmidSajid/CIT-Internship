@@ -70,4 +70,12 @@ class UserManagementController extends Controller
         $users = User::where('role',$role)->get();
         return view('dashboard.user.users_list',compact('users'));
     }
+
+    public function change_role($role, $id)
+    {
+        User::where('id',$id)->update([
+            'role' => $role,
+        ]);
+        return back();
+    }
 }

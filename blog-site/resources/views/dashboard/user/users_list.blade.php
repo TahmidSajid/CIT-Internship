@@ -12,17 +12,17 @@
                     </a>
                 </div>
                 <div class="col-lg-3">
-                    <a class="btn btn-sm btn-info" href="{{ route('list','admin') }}">
+                    <a class="btn btn-sm btn-info" href="{{ route('list', 'admin') }}">
                         Admin
                     </a>
                 </div>
                 <div class="col-lg-3">
-                    <a class="btn btn-sm btn-info" href="{{ route('list','admin') }}">
+                    <a class="btn btn-sm btn-info" href="{{ route('list', 'admin') }}">
                         Writter
                     </a>
                 </div>
                 <div class="col-lg-3">
-                    <a class="btn btn-sm btn-info" href="{{ route('list','viewer') }}">
+                    <a class="btn btn-sm btn-info" href="{{ route('list', 'viewer') }}">
                         Viwer
                     </a>
                 </div>
@@ -36,6 +36,7 @@
                         <th>Name</th>
                         <th>Email</th>
                         <th>Role</th>
+                        <th>Action</th>
                         {{-- <th>Action</th> --}}
                     </tr>
                 </thead>
@@ -56,6 +57,28 @@
                             </td>
                             <td>{{ $user->email }}</td>
                             <td>{{ $user->role }}</td>
+                            <td>
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        @if ($user->role != 'admin')
+                                            <a href="{{ route('change_role', ['admin', $user->id]) }}"
+                                                class="btn btn-sm btn-primary">Admin</a>
+                                        @endif
+                                    </div>
+                                    <div class="col-lg-4">
+                                        @if ($user->role != 'writter')
+                                            <a href="{{ route('change_role', ['writter', $user->id]) }}"
+                                                class="btn btn-sm btn-primary">Writter</a>
+                                        @endif
+                                    </div>
+                                    <div class="col-lg-4">
+                                        @if ($user->role != 'viewer')
+                                            <a href="{{ route('change_role', ['viewer', $user->id]) }}"
+                                                class="btn btn-sm btn-primary">Viewer</a>
+                                        @endif
+                                    </div>
+                                </div>
+                            </td>
                         </tr>
                     @empty
                     @endforelse

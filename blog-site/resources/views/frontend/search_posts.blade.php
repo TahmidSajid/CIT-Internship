@@ -26,7 +26,7 @@
                                 <!-- post -->
                                 <div class="post post-grid rounded bordered">
                                     <div class="thumb top-rounded">
-                                        <a href="category.html"
+                                        <a href="{{ route('category_post',[$post->blog_category,$post->getCategory->category_name]) }}"
                                             class="category-badge position-absolute">{{ $post->getCategory->category_name }}</a>
                                         <a href="{{ route('post_view',$post->id) }}">
                                             <div class="inner">
@@ -38,7 +38,7 @@
                                     <div class="details">
                                         <ul class="meta list-inline mb-0">
                                             <li class="list-inline-item">
-                                                <a href="#">
+                                                <a href="{{ route('category_post',[$post->blog_category,$post->getCategory->category_name]) }}">
                                                     {{-- <img src="{{ asset('uploads/profile_photos') }}/{{ $post->getUser->photo }}"
                                                         class="author rounded-circle" style="width: 35px; height:35px;" alt="author" /> --}}
                                                 {{ $post->getUser->name }}</a>
