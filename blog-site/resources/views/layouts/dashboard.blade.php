@@ -181,123 +181,37 @@
                                         <h5 class="text-muted font-size-13 fw-normal mt-2">Today</h5>
                                         <!-- item-->
 
-                                        <a href="javascript:void(0);"
-                                            class="dropdown-item p-0 notify-item card unread-noti shadow-none mb-1">
-                                            <div class="card-body">
-                                                <span class="float-end noti-close-btn text-muted"><i
-                                                        class="mdi mdi-close"></i></span>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="flex-shrink-0">
-                                                        <div class="notify-icon bg-primary">
-                                                            <i class="mdi mdi-comment-account-outline"></i>
+                                        @forelse (auth()->user()->notifications as $notification)
+                                            <a href="javascript:void(0);"
+                                                class="dropdown-item p-0 notify-item card shadow-none mb-1">
+                                                <div class="card-body">
+                                                    <span class="float-end noti-close-btn text-muted"><i
+                                                            class="mdi mdi-close"></i></span>
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="flex-shrink-0">
+                                                            <div class="notify-icon bg-primary">
+                                                                <i class="mdi mdi-comment-account-outline"></i>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex-grow-1 text-truncate ms-2">
+                                                            <h5 class="noti-item-title fw-semibold font-size-14">
+                                                                {{ $notification->data['blog_title'] }}
+
+                                                                <small class="fw-normal text-muted ms-1">1 min
+                                                                    ago</small>
+                                                            </h5>
+                                                            <small class="noti-item-subtitle text-muted">
+                                                                {{ $notification->data['title'] }}
+                                                            </small>
                                                         </div>
                                                     </div>
-                                                    <div class="flex-grow-1 text-truncate ms-2">
-                                                        <h5 class="noti-item-title fw-semibold font-size-14">Datacorp
-                                                            <small class="fw-normal text-muted ms-1">1 min ago</small>
-                                                        </h5>
-                                                        <small class="noti-item-subtitle text-muted">Caleb Flakelar
-                                                            commented on Admin</small>
-                                                    </div>
                                                 </div>
-                                            </div>
-                                        </a>
+                                            </a>
 
-                                        <!-- item-->
-                                        <a href="javascript:void(0);"
-                                            class="dropdown-item p-0 notify-item card read-noti shadow-none mb-1">
-                                            <div class="card-body">
-                                                <span class="float-end noti-close-btn text-muted"><i
-                                                        class="mdi mdi-close"></i></span>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="flex-shrink-0">
-                                                        <div class="notify-icon bg-info">
-                                                            <i class="mdi mdi-account-plus"></i>
-                                                        </div>
-                                                    </div>
-                                                    <div class="flex-grow-1 text-truncate ms-2">
-                                                        <h5 class="noti-item-title fw-semibold font-size-14">Admin
-                                                            <small class="fw-normal text-muted ms-1">1 hours
-                                                                ago</small></h5>
-                                                        <small class="noti-item-subtitle text-muted">New user
-                                                            registered</small>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </a>
+                                        @empty
+                                        @endforelse
 
-                                        <h5 class="text-muted font-size-13 fw-normal mt-0">Yesterday</h5>
 
-                                        <!-- item-->
-                                        <a href="javascript:void(0);"
-                                            class="dropdown-item p-0 notify-item card read-noti shadow-none mb-1">
-                                            <div class="card-body">
-                                                <span class="float-end noti-close-btn text-muted"><i
-                                                        class="mdi mdi-close"></i></span>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="flex-shrink-0">
-                                                        <div class="notify-icon">
-                                                            <img src="{{ asset('dashboard-assets') }}/images/users/avatar-2.jpg"
-                                                                class="img-fluid rounded-circle" alt="" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="flex-grow-1 text-truncate ms-2">
-                                                        <h5 class="noti-item-title fw-semibold font-size-14">Cristina
-                                                            Pride <small class="fw-normal text-muted ms-1">1 day
-                                                                ago</small></h5>
-                                                        <small class="noti-item-subtitle text-muted">Hi, How are you?
-                                                            What about our next meeting</small>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </a>
-
-                                        <h5 class="text-muted font-size-13 fw-normal mt-0">30 Dec 2021</h5>
-
-                                        <!-- item-->
-                                        <a href="javascript:void(0);"
-                                            class="dropdown-item p-0 notify-item card read-noti shadow-none mb-1">
-                                            <div class="card-body">
-                                                <span class="float-end noti-close-btn text-muted"><i
-                                                        class="mdi mdi-close"></i></span>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="flex-shrink-0">
-                                                        <div class="notify-icon bg-primary">
-                                                            <i class="mdi mdi-comment-account-outline"></i>
-                                                        </div>
-                                                    </div>
-                                                    <div class="flex-grow-1 text-truncate ms-2">
-                                                        <h5 class="noti-item-title fw-semibold font-size-14">Datacorp
-                                                        </h5>
-                                                        <small class="noti-item-subtitle text-muted">Caleb Flakelar
-                                                            commented on Admin</small>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </a>
-
-                                        <!-- item-->
-                                        <a href="javascript:void(0);"
-                                            class="dropdown-item p-0 notify-item card read-noti shadow-none mb-1">
-                                            <div class="card-body">
-                                                <span class="float-end noti-close-btn text-muted"><i
-                                                        class="mdi mdi-close"></i></span>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="flex-shrink-0">
-                                                        <div class="notify-icon">
-                                                            <img src="{{ asset('dashboard-assets') }}/images/users/avatar-4.jpg"
-                                                                class="img-fluid rounded-circle" alt="" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="flex-grow-1 text-truncate ms-2">
-                                                        <h5 class="noti-item-title fw-semibold font-size-14">Karen
-                                                            Robinson</h5>
-                                                        <small class="noti-item-subtitle text-muted">Wow ! this admin
-                                                            looks good and awesome design</small>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </a>
 
                                         <div class="text-center">
                                             <i class="mdi mdi-dots-circle mdi-spin text-muted h3 mt-0"></i>
@@ -359,7 +273,8 @@
                                         <i class="fe-log-out"></i>
                                         <span>Logout</span>
                                     </a>
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                        class="d-none">
                                         @csrf
                                     </form>
                                 </div>

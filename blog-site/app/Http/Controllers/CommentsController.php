@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comments;
+use App\Notifications\CommentNotification;
 use Illuminate\Http\Request;
+use App\Models\Posts;
+use App\Models\User;
+use Illuminate\Support\Facades\Notification;
 
 class CommentsController extends Controller
 {
@@ -28,9 +32,17 @@ class CommentsController extends Controller
      */
     public function store(Request $request)
     {
-        Comments::create($request->except('_token')+[
+        $comment = Comments::create($request->except('_token')+[
             'user_id' => auth()->user()->id,
         ]);
+
+        $blog = Posts::where('id',$comment->blog_id)->first();
+
+        $admin = User::where('role','admin')->first();
+
+        Notification::send($admin,new CommentNotification($blog,$comment->getUser,$blog->getUser));
+        // Notification::send($blog->getUser,new CommentNotification($blog,$blog->getUser));
+        // Notification::send($comment->getUser,new CommentNotification($blog,$comment->getUser));
 
         return back();
     }
