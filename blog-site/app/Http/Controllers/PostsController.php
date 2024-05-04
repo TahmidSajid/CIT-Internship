@@ -9,7 +9,10 @@ use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
 use Illuminate\Support\Str;
 use App\Models\Categories;
+use App\Models\User;
+use App\Notifications\PostNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 
 class PostsController extends Controller
 {
@@ -37,7 +40,7 @@ class PostsController extends Controller
         $request->validate([
             'blog_title' => 'required',
             'blog_photo' => 'required',
-            'category' => 'required',
+            'blog_category' => 'required',
             'blog' => 'required',
         ]);
 
@@ -47,14 +50,32 @@ class PostsController extends Controller
         $image = $Image->read($request->file('blog_photo'))->resize(720, 580);
         $image->save(('uploads/blog_photos/' . $new_name), quality: 90);
 
-        Posts::insert([
+        $post = Posts::create($request->except('_token')+[
             'user_id' => auth()->user()->id,
-            'blog_title' => $request->blog_title,
-            'blog_photo' => $new_name,
-            'blog_category' =>  $request->category,
-            'blog' =>  $request->blog,
-            'created_at' => Carbon::now(),
         ]);
+
+        if ($new_name) {
+            Posts::where('id',$post->id)->update([
+                'blog_photo' => $new_name,
+            ]);
+        };
+
+        // Posts::insert([
+        //     'user_id' => auth()->user()->id,
+        //     'blog_title' => $request->blog_title,
+        //     'blog_photo' => $new_name,
+        //     'blog_category' =>  $request->blog_category,
+        //     'blog' =>  $request->blog,
+        //     'created_at' => Carbon::now(),
+        // ]);
+
+
+        $admins = User::where('role','admin')->get();
+
+        foreach ($admins as $key => $admin) {
+            Notification::send($admin,new PostNotification(auth()->user()->name,auth()->user()->photo));
+        }
+
 
         return redirect(route('index'));
     }
@@ -126,9 +147,16 @@ class PostsController extends Controller
 
         // *** Aside bar variables *** //
         $showcase_one = Categories::where('showcase', 'banner_one')->first();
-        $banner_one = Posts::where('blog_category', $showcase_one->id)->get();
-        $showcase_two = Categories::where('showcase','banner_two')->first();
-        $banner_two = Posts::where('blog_category',$showcase_two->id)->get();
+
+        $banner_one = [];
+        if ($showcase_one) {
+            $banner_one = Posts::where('blog_category', $showcase_one->id)->get();
+        }
+        $showcase_two = Categories::where('showcase', 'banner_two')->first();
+        $banner_two = [];
+        if ($showcase_two) {
+            $banner_two = Posts::where('blog_category', $showcase_two->id)->get();
+        }
         $categories = Categories::latest()->limit(5)->get();
         $recent_posts = Posts::latest()->limit(4)->get();
         $popular_posts = Comments::select('blog_id')->distinct()->latest()->limit(4)->get();

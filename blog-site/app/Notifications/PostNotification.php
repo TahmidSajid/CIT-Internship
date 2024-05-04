@@ -7,20 +7,19 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class CommentNotification extends Notification
+class PostNotification extends Notification
 {
     use Queueable;
 
-    public $blog, $commenter , $comment_on;
+    public $name , $photo;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct($x,$y,$z)
+    public function __construct($x,$y)
     {
-        $this->blog = $x;
-        $this->commenter = $y;
-        $this->comment_on = $z;
+        $this->name = $x;
+        $this->photo = $y;
     }
 
     /**
@@ -41,9 +40,9 @@ class CommentNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'blog_title' => $this->blog['blog_title'],
-            'blog_id' => $this->blog['id'],
-            'title' => $this->commenter." ".'commented on'." ".$this->comment_on." ".'post',
+            'blog_title' => $this->name,
+            'user_photo' => $this->photo,
+            'title' => 'Posted a new blog',
         ];
     }
 }

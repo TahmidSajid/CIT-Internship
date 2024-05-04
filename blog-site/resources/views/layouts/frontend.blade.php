@@ -85,26 +85,38 @@
                                 @php
                                     $banner_one = App\Models\Categories::where('showcase', 'banner_one')->first();
                                 @endphp
-                                <a class="nav-link"
-                                    href="{{ route('category_post', [$banner_one->id, $banner_one->category_name]) }}">{{ $banner_one->category_name }}</a>
+                                @if ($banner_one)
+                                    <a class="nav-link"
+                                        href="{{ route('category_post', [$banner_one->id, $banner_one->category_name]) }}">
+                                        {{ $banner_one->category_name }}
+                                    </a>
+                                @endif
                             </li>
                             <li class="nav-item">
                                 @php
                                     $banner_two = App\Models\Categories::where('showcase', 'banner_two')->first();
                                 @endphp
-                                <a class="nav-link"
-                                    href="{{ route('category_post', [$banner_two->id, $banner_two->category_name]) }}">{{ $banner_two->category_name }}</a>
+                                @if ($banner_two)
+                                    <a class="nav-link"
+                                        href="{{ route('category_post', [$banner_two->id, $banner_two->category_name]) }}">
+                                        {{ $banner_two->category_name }}
+                                    </a>
+                                @endif
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#">More Categories</a>
                                 <ul class="dropdown-menu">
-                                    @forelse (App\Models\Categories::where('id','!=',$banner_one->id)->where('id','!=',$banner_two->id)->get() as $category)
-                                        <li>
-                                            <a class="dropdown-item"
-                                                href="{{ route('category_post', [$category->id, $category->category_name]) }}">{{ $category->category_name }}</a>
-                                        </li>
-                                    @empty
-                                    @endforelse
+                                    @if ($banner_one && $banner_two)
+                                        @forelse (App\Models\Categories::where('id','!=',$banner_one->id)->where('id','!=',$banner_two->id)->get() as $category)
+                                            <li>
+                                                <a class="dropdown-item"
+                                                    href="{{ route('category_post', [$category->id, $category->category_name]) }}">
+                                                    {{ $category->category_name }}
+                                                </a>
+                                            </li>
+                                        @empty
+                                        @endforelse
+                                    @endif
                                 </ul>
                             </li>
                             <li class="nav-item">
@@ -288,23 +300,35 @@
                 @php
                     $banner_one = App\Models\Categories::where('showcase', 'banner_one')->first();
                 @endphp
-                <li><a href="{{ route('category_post', [$banner_two->id, $banner_two->category_name]) }}">{{ $banner_two->category_name }}</a>
+                <li>
+                    @if ($banner_one)
+                        <a href="{{ route('category_post', [$banner_two->id, $banner_two->category_name]) }}">
+                            {{ $banner_two->category_name }}
+                        </a>
+                    @endif
                 </li>
                 @php
                     $banner_two = App\Models\Categories::where('showcase', 'banner_two')->first();
                 @endphp
-                <li><a
-                        href="{{ route('category_post', [$banner_two->id, $banner_two->category_name]) }}">{{ $banner_two->category_name }}</a>
+                <li>
+                    @if ($banner_two)
+                        <a href="{{ route('category_post', [$banner_two->id, $banner_two->category_name]) }}">
+                            {{ $banner_two->category_name }}
+                        </a>
+                    @endif
                 </li>
                 <li>
                     <a href="#">More Categories</a>
                     <ul class="submenu">
-                        @forelse (App\Models\Categories::where('id','!=',$banner_one->id)->where('id','!=',$banner_two->id)->get() as $category)
-                            <li>
-                                <a href="{{ route('category_post', [$category->id, $category->category_name]) }}">{{ $category->category_name }}</a>
-                            </li>
-                        @empty
-                        @endforelse
+                        @if ($banner_one && $banner_two)
+                            @forelse (App\Models\Categories::where('id','!=',$banner_one->id)->where('id','!=',$banner_two->id)->get() as $category)
+                                <li>
+                                    <a
+                                        href="{{ route('category_post', [$category->id, $category->category_name]) }}">{{ $category->category_name }}</a>
+                                </li>
+                            @empty
+                            @endforelse
+                        @endif
                     </ul>
                 </li>
                 <li><a href="{{ route('contact_page') }}">Contact</a></li>

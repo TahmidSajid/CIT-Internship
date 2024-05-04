@@ -124,4 +124,7 @@ Route::get('special/post/{special}',[App\Http\Controllers\SpecialPostController:
 Route::get('posts/all',[App\Http\Controllers\FrontendController::class, 'post_all'])->name('post_all');
 
 
+Route::get('notification/view/{id}',[App\Http\Controllers\NotificationController::class, 'view'])->name('notifi_view');
+
+
 // *********** Front end route End ***********

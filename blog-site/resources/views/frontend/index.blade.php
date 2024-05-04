@@ -140,7 +140,7 @@
                                 @forelse ($editors_banner as $post)
                                     <div class="post">
                                         <div class="thumb rounded">
-                                            <a href="{{ route('category_post', [$feature->blog_category,$feature->getCategory->category_name])}}"
+                                            <a href="{{ route('category_post', [$post->blog_category,$post->getCategory->category_name])}}"
                                                 class="category-badge position-absolute">{{ $post->getCategory->category_name }}</a>
                                             <a href="{{ route('post_view', $post->id) }}">
                                                 <div class="inner">
@@ -375,7 +375,9 @@
 
                     <!-- section header -->
                     <div class="section-header">
-                        <h3 class="section-title">{{ $showcase_one->category_name }}</h3>
+                        @if ($showcase_one)
+                            <h3 class="section-title">{{ $showcase_one->category_name }}</h3>
+                        @endif
                         <img src="{{ asset('frontend-assets') }}/images/wave.svg" class="wave" alt="wave" />
                         <div class="slick-arrows-top">
                             <button type="button" data-role="none" class="carousel-topNav-prev slick-custom-buttons"

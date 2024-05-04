@@ -7,6 +7,7 @@ use App\Notifications\CommentNotification;
 use Illuminate\Http\Request;
 use App\Models\Posts;
 use App\Models\User;
+use App\Notifications\CommentReplyNotification;
 use Illuminate\Support\Facades\Notification;
 
 class CommentsController extends Controller
@@ -40,9 +41,15 @@ class CommentsController extends Controller
 
         $admin = User::where('role','admin')->first();
 
-        Notification::send($admin,new CommentNotification($blog,$comment->getUser,$blog->getUser));
-        // Notification::send($blog->getUser,new CommentNotification($blog,$blog->getUser));
-        // Notification::send($comment->getUser,new CommentNotification($blog,$comment->getUser));
+        if ($comment->parent_id) {
+            $parent_info = Comments::where('parent_id',$comment->parent_id)->first();
+            Notification::send($admin,new CommentReplyNotification($blog,$comment->getUser->name,$parent_info->getUser->name));
+            Notification::send($blog->getUser,new CommentReplyNotification($blog,$comment->getUser->name,'your'));
+        }
+        else{
+            Notification::send($admin,new CommentNotification($blog,$comment->getUser->name,$blog->getUser->name));
+            Notification::send($blog->getUser,new CommentNotification($blog,$comment->getUser->name,'your'));
+        }
 
         return back();
     }

@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class CommentNotification extends Notification
+class CommentReplyNotification extends Notification
 {
     use Queueable;
 
@@ -43,7 +43,7 @@ class CommentNotification extends Notification
         return [
             'blog_title' => $this->blog['blog_title'],
             'blog_id' => $this->blog['id'],
-            'title' => $this->commenter." ".'commented on'." ".$this->comment_on." ".'post',
+            'title' => $this->commenter." ".'replied to'." ".$this->comment_on." ".'comment',
         ];
     }
 }

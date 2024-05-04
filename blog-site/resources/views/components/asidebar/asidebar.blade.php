@@ -35,9 +35,9 @@
                 <div class="post post-list-sm circle">
                     <div class="thumb circle">
                         <span class="number">
-                            {{ App\Models\Comments::where('blog_id',$post->getPost->id)->count() }}
+                            {{ App\Models\Comments::where('blog_id', $post->getPost->id)->count() }}
                         </span>
-                        <a href="{{ route('post_view',$post->getPost->id) }}">
+                        <a href="{{ route('post_view', $post->getPost->id) }}">
                             <div class="inner">
                                 <img src="{{ asset('uploads/blog_photos') }}/{{ $post->getPost->blog_photo }}"
                                     alt="post-title" />
@@ -46,7 +46,7 @@
                     </div>
                     <div class="details clearfix">
                         <h6 class="post-title my-0">
-                            <a href="{{ route('post_view',$post->getPost->id) }}">
+                            <a href="{{ route('post_view', $post->getPost->id) }}">
                                 {{ $post->getPost->blog_title }}
                             </a>
                         </h6>
@@ -107,7 +107,9 @@
     <!-- widget post carousel -->
     <div class="widget rounded">
         <div class="widget-header text-center">
-            <h3 class="widget-title">{{ $showcase_two->category_name }}</h3>
+            @if ($showcase_two)
+                <h3 class="widget-title">{{ $showcase_two->category_name }}</h3>
+            @endif
             <img src="{{ asset('frontend-assets') }}/images/wave.svg" class="wave" alt="wave" />
         </div>
         <div class="widget-content">
@@ -116,16 +118,17 @@
                     <!-- post -->
                     <div class="post post-carousel">
                         <div class="thumb rounded">
-                            <a href="{{ route('category_post',[$post->blog_category,$post->getCategory->category_name]) }}"
+                            <a href="{{ route('category_post', [$post->blog_category, $post->getCategory->category_name]) }}"
                                 class="category-badge position-absolute">{{ $post->getCategory->category_name }}</a>
-                            <a href="{{ route('post_view',$post->id) }}">
+                            <a href="{{ route('post_view', $post->id) }}">
                                 <div class="inner">
                                     <img src="{{ asset('uploads/blog_photos') }}/{{ $post->blog_photo }}"
                                         alt="post-title" />
                                 </div>
                             </a>
                         </div>
-                        <h5 class="post-title mb-0 mt-4"><a href="{{ route('post_view',$post->id) }}">{{ $post->blog_title }}</a></h5>
+                        <h5 class="post-title mb-0 mt-4"><a
+                                href="{{ route('post_view', $post->id) }}">{{ $post->blog_title }}</a></h5>
                         <ul class="meta list-inline mt-2 mb-0">
                             <li class="list-inline-item"><a href="#">{{ $post->getUser->name }}</a></li>
                             <li class="list-inline-item">{{ $post->created_at }}</li>
@@ -159,10 +162,16 @@
             <img src="{{ asset('frontend-assets') }}/images/wave.svg" class="wave" alt="wave" />
         </div>
         <div class="widget-content">
-            <a href="{{ route('special_post','trending') }}" class="tag">#Trending</a>
-            <a href="{{ route('special_post','feature') }}" class="tag">#Featured</a>
-            <a href="{{ route('category_post',[$showcase_one->id,$showcase_one->category_name]) }}" class="tag">#{{ $showcase_one->category_name }}</a>
-            <a href="{{ route('category_post',[$showcase_two->id,$showcase_two->category_name]) }}" class="tag">#{{ $showcase_two->category_name }}</a>
+            <a href="{{ route('special_post', 'trending') }}" class="tag">#Trending</a>
+            <a href="{{ route('special_post', 'feature') }}" class="tag">#Featured</a>
+            @if ($showcase_one)
+                <a href="{{ route('category_post', [$showcase_one->id, $showcase_one->category_name]) }}"
+                    class="tag">#{{ $showcase_one->category_name }}</a>
+            @endif
+            @if ($showcase_two)
+                <a href="{{ route('category_post', [$showcase_two->id, $showcase_two->category_name]) }}"
+                    class="tag">#{{ $showcase_two->category_name }}</a>
+            @endif
         </div>
     </div>
 

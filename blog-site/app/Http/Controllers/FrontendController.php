@@ -14,15 +14,18 @@ class FrontendController extends Controller
         $latest = Posts::latest()->limit(4)->get();
         $features = Posts::where('blog_speciality', 'feature')->latest()->limit(1)->get();
         $editors_banner = Posts::where('blog_speciality', 'editor')->latest()->limit(1)->get();
+        $e_id = '';
         foreach ($editors_banner as $key => $value) {
             $e_id = $value->id;
         }
         $editors = Posts::where('blog_speciality', 'editor')->where('id', '!=', $e_id)->get();
         $trend_banner_1 = Posts::where('blog_speciality', 'trending')->latest()->limit(1)->get();
+        $t_1 = '';
         foreach ($trend_banner_1 as $key => $value) {
             $t_1 = $value->id;
         }
         $trend_banner_2 = Posts::where('blog_speciality', 'trending')->where('id', '!=', $t_1)->latest()->limit(1)->get();
+        $t_2 = '';
         foreach ($trend_banner_2 as $key => $value) {
             $t_2 = $value->id;
         }
@@ -32,7 +35,11 @@ class FrontendController extends Controller
         foreach ($trend_1 as $key => $value) {
             $t[$key] = $value->id;
         }
-        $trend_2 = Posts::where('blog_speciality', 'trending')
+
+        $trend_2 = [];
+
+        if ($t != []) {
+            $trend_2 = Posts::where('blog_speciality', 'trending')
             ->where('id', '!=', $t_1)
             ->where('id', '!=', $t_2)
             ->where('id', '!=', $t[0])
@@ -40,12 +47,20 @@ class FrontendController extends Controller
             ->latest()
             ->limit(2)
             ->get();
+        }
 
         // *** Aside bar variables *** //
         $showcase_one = Categories::where('showcase', 'banner_one')->first();
-        $banner_one = Posts::where('blog_category', $showcase_one->id)->get();
+
+        $banner_one = [];
+        if ($showcase_one) {
+            $banner_one = Posts::where('blog_category', $showcase_one->id)->get();
+        }
         $showcase_two = Categories::where('showcase', 'banner_two')->first();
-        $banner_two = Posts::where('blog_category', $showcase_two->id)->get();
+        $banner_two = [];
+        if ($showcase_two) {
+            $banner_two = Posts::where('blog_category', $showcase_two->id)->get();
+        }
         $categories = Categories::latest()->limit(5)->get();
         $recent_posts = Posts::latest()->limit(4)->get();
         $popular_posts = Comments::select('blog_id')->distinct()->latest()->limit(4)->get();

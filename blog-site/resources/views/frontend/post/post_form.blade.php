@@ -66,7 +66,7 @@
                         <div class="col-md-12">
                             <!-- Email input -->
                             <div class="form-group">
-                                <select class="form-select form-control" name="category">
+                                <select class="form-select form-control" name="blog_category">
                                     <option value="#" selected>Open this select menu</option>
                                     @forelse (App\Models\Categories::all() as $category)
                                         <option value="{{ $category->id }}">{{ $category->category_name }}
@@ -75,7 +75,7 @@
                                         <option value="">Nothing added yet</option>
                                     @endforelse
                                 </select>
-                                @error('category')
+                                @error('blog_category')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
