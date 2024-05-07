@@ -63,8 +63,8 @@
                                             Speciality</a>
                                     </div>
                                 @endif
-                                {{-- <div class="col-md-6 col-12">
-                                    <!-- social icons -->
+                                <div class="col-md-6 col-12">
+                                    <!-- Action buttons -->
                                     @if (Auth::check() && auth()->user()->id == $post->user_id)
                                         <ul class="social-icons list-unstyled list-inline mb-0 float-md-end">
                                             <li class="list-inline-item">
@@ -85,7 +85,7 @@
                                             </li>
                                         </ul>
                                     @endif
-                                </div> --}}
+                                </div>
                             </div>
                         </div>
 

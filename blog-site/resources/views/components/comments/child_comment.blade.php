@@ -1,24 +1,28 @@
 <?php
-    $padding = intval($padding) + 30;
+$padding = intval($padding) + 30;
 ?>
 @foreach ($comments as $reply)
     <!-- comment item -->
     <li class="comment child rounded" style="padding-left: {{ $padding }}px">
-        <div class="thumb">
+        @if ($reply->getUser->photo)
             <img src="{{ asset('uploads/profile_photos') }}/{{ $reply->getUser->photo }}" class="rounded-circle"
-                style="height: 50px; width: 50px;" alt="John Doe" />
-        </div>
+                style="height: 50px; width: 50px;" alt="img" />
+        @else
+            <img src="{{ asset('dashboard-assets/images/default_profile.png') }}" class="rounded-circle"
+                style="height: 50px; width: 50px;" alt="img" />
+        @endif
         <div class="details">
             <h4 class="name"><a href="#">{{ $reply->getUser->name }}</a></h4>
             <span class="date">{{ $reply->created_at }}</span>
             <p>{{ $reply->comment }}</p>
-            <button type="button" class="btn btn-default btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal{{ $reply->id }}">
+            <button type="button" class="btn btn-default btn-sm" data-bs-toggle="modal"
+                data-bs-target="#exampleModal{{ $reply->id }}">
                 Reply
             </button>
 
             <!-- Modal -->
-            <div class="modal fade" id="exampleModal{{ $reply->id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
+            <div class="modal fade" id="exampleModal{{ $reply->id }}" tabindex="-1"
+                aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -66,5 +70,8 @@
             </div>
         </div>
     </li>
-    @include('components.comments.child_comment',['comments'=>app\Models\Comments::where('parent_id',$reply->id)->get(), 'padding'=> $padding])
+    @include('components.comments.child_comment', [
+        'comments' => app\Models\Comments::where('parent_id', $reply->id)->get(),
+        'padding' => $padding,
+    ])
 @endforeach

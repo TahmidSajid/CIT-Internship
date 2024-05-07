@@ -183,42 +183,66 @@
                                         <!-- item-->
 
                                         @forelse (auth()->user()->notifications as $notification)
-                                            <a href="{{ route('notifi_view', $notification->id) }}"
-                                                class="dropdown-item p-0 notify-item
-                                                @if (!$notification->read_at) unread-noti @endif
-                                                card shadow-none mb-1">
-                                                <div class="card-body">
-                                                    <span class="float-end noti-close-btn text-muted"><i
-                                                            class="mdi mdi-close"></i></span>
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="flex-shrink-0">
-                                                            <div class="notify-icon bg-primary">
-                                                                <i class="mdi mdi-comment-account-outline"></i>
+                                            @if ($notification->data['type'] == 'comment')
+                                                <a href="{{ route('notifi_view', $notification->id) }}"
+                                                    class="dropdown-item p-0 notify-item
+                                                    @if (!$notification->read_at) unread-noti @endif
+                                                    card shadow-none mb-1">
+                                                    <div class="card-body">
+                                                        <span class="float-end noti-close-btn text-muted"><i
+                                                                class="mdi mdi-close"></i></span>
+                                                        <div class="d-flex align-items-center">
+                                                            <div class="flex-shrink-0">
+                                                                <div class="notify-icon bg-primary">
+                                                                    <i class="mdi mdi-comment-account-outline"></i>
+                                                                </div>
+                                                            </div>
+                                                            <div class="flex-grow-1 text-truncate ms-2">
+                                                                <h5 class="noti-item-title fw-semibold font-size-14">
+                                                                    {{ $notification->data['blog_title'] }}
+                                                                    @php
+                                                                        $time = explode(' ', $notification->created_at);
+                                                                    @endphp
+                                                                    <small class="fw-normal text-muted ms-1">
+                                                                        {{ $notification->created_at }}
+                                                                    </small>
+                                                                </h5>
+                                                                <small class="noti-item-subtitle text-muted">
+                                                                    {{ $notification->data['title'] }}
+                                                                </small>
                                                             </div>
                                                         </div>
-                                                        <div class="flex-grow-1 text-truncate ms-2">
-                                                            <h5 class="noti-item-title fw-semibold font-size-14">
-                                                                {{ $notification->data['blog_title'] }}
-                                                                @php
-                                                                    $time = explode(' ', $notification->created_at);
-                                                                @endphp
-                                                                <small class="fw-normal text-muted ms-1">
-                                                                    {{ $notification->created_at }}
+                                                    </div>
+                                                </a>
+                                            @endif
+                                            @if ($notification->data['type'] == 'post')
+                                                <a href="{{ route('notifi_view', $notification->id) }}"
+                                                    class="dropdown-item p-0 notify-item card read-noti shadow-none mb-1">
+                                                    <div class="card-body">
+                                                        <span class="float-end noti-close-btn text-muted"><i
+                                                                class="mdi mdi-close"></i></span>
+                                                        <div class="d-flex align-items-center">
+                                                            <div class="flex-shrink-0">
+                                                                <div class="notify-icon">
+                                                                    <img src="assets/images/users/avatar-4.jpg"
+                                                                        class="img-fluid rounded-circle"
+                                                                        alt="" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="flex-grow-1 text-truncate ms-2">
+                                                                <h5 class="noti-item-title fw-semibold font-size-14">
+                                                                    {{ $notification->data['blog_title'] }}
+                                                                </h5>
+                                                                <small class="noti-item-subtitle text-muted">
+                                                                    {{ $notification->data['title'] }}
                                                                 </small>
-                                                            </h5>
-                                                            <small class="noti-item-subtitle text-muted">
-                                                                {{ $notification->data['title'] }}
-                                                            </small>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </a>
-
+                                                </a>
+                                            @endif
                                         @empty
                                         @endforelse
-
-
-
                                         <div class="text-center">
                                             <i class="mdi mdi-dots-circle mdi-spin text-muted h3 mt-0"></i>
                                         </div>

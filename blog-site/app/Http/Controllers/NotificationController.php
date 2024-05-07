@@ -13,6 +13,13 @@ class NotificationController extends Controller
             'read_at' => Carbon::now(),
         ]);
 
-        return redirect(route('post_view',auth()->user()->notifications()->where('id',$id)->first()->data['blog_id']));
+        $notify_info = auth()->user()->notifications()->where('id',$id)->first();
+
+        if ($notify_info->data['type'] == 'comment') {
+            return redirect(route('post_view',$notify_info->data['blog_id']));
+        }
+        if ($notify_info->data['type'] == 'post') {
+            return redirect(route('post_view',$notify_info->data['blog_id']));
+        }
     }
 }

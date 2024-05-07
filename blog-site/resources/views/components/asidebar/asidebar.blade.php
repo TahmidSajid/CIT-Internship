@@ -57,7 +57,7 @@
                 </div>
 
             @empty
-                <h5>No post added yet</h5>
+                <h5 class="text-center">No post added yet</h5>
             @endforelse
         </div>
     </div>
@@ -78,31 +78,11 @@
                             href="{{ route('category_post', [$category->id, $category->category_name]) }}">{{ $category->category_name }}</a><span>({{ $post_count }})</span>
                     </li>
                 @empty
+                <h5 class="text-center">No category added yet</h5>
                 @endforelse
             </ul>
         </div>
-
     </div>
-
-    <!-- widget newsletter -->
-    {{-- <div class="widget rounded">
-        <div class="widget-header text-center">
-            <h3 class="widget-title">Newsletter</h3>
-            <img src="{{ asset('frontend-assets') }}/images/wave.svg" class="wave" alt="wave" />
-        </div>
-        <div class="widget-content">
-            <span class="newsletter-headline text-center mb-3">Join 70,000 subscribers!</span>
-            <form>
-                <div class="mb-2">
-                    <input class="form-control w-100 text-center" placeholder="Email address…" type="email">
-                </div>
-                <button class="btn btn-default btn-full" type="submit">Sign Up</button>
-            </form>
-            <span class="newsletter-privacy text-center mt-3">By signing up, you agree to our <a
-                    href="#">Privacy
-                    Policy</a></span>
-        </div>
-    </div> --}}
 
     <!-- widget post carousel -->
     <div class="widget rounded">
@@ -135,6 +115,7 @@
                         </ul>
                     </div>
                 @empty
+                    <h5 class="text-center">No post added yet</h5>
                 @endforelse
             </div>
             <!-- carousel arrows -->
@@ -146,14 +127,6 @@
             </div>
         </div>
     </div>
-
-    {{-- <!-- widget advertisement -->
-    <div class="widget no-container rounded text-md-center">
-        <span class="ads-title">- Sponsored Ad -</span>
-        <a href="#" class="widget-ads">
-            <img src="{{ asset('frontend-assets') }}/images/ads/ad-360.png" alt="Advertisement" />
-        </a>
-    </div> --}}
 
     <!-- widget tags -->
     <div class="widget rounded">

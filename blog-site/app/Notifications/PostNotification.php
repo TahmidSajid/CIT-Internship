@@ -11,15 +11,17 @@ class PostNotification extends Notification
 {
     use Queueable;
 
-    public $name , $photo;
+    public $name , $photo , $id, $type;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct($x,$y)
+    public function __construct($a,$b,$c,$d)
     {
-        $this->name = $x;
-        $this->photo = $y;
+        $this->name = $a;
+        $this->photo = $b;
+        $this->id = $c;
+        $this->type = $d;
     }
 
     /**
@@ -40,8 +42,10 @@ class PostNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
+            'blog_id' => $this->id,
             'blog_title' => $this->name,
             'user_photo' => $this->photo,
+            'type' => $this->type,
             'title' => 'Posted a new blog',
         ];
     }

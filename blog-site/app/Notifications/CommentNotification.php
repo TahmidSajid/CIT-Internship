@@ -11,16 +11,17 @@ class CommentNotification extends Notification
 {
     use Queueable;
 
-    public $blog, $commenter , $comment_on;
+    public $blog, $commenter , $comment_on , $type;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct($x,$y,$z)
+    public function __construct($a,$b,$c,$d)
     {
-        $this->blog = $x;
-        $this->commenter = $y;
-        $this->comment_on = $z;
+        $this->blog = $a;
+        $this->commenter = $b;
+        $this->comment_on = $c;
+        $this->type = $d;
     }
 
     /**
@@ -43,6 +44,7 @@ class CommentNotification extends Notification
         return [
             'blog_title' => $this->blog['blog_title'],
             'blog_id' => $this->blog['id'],
+            'type' => $this->type,
             'title' => $this->commenter." ".'commented on'." ".$this->comment_on." ".'post',
         ];
     }

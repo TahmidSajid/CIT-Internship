@@ -87,7 +87,7 @@
                         <p class="text-white-50"> <a class='text-white-50 ms-1' href='{{ route('password.request') }}'>Forgot your
                                 password?</a></p>
                         <p class="text-white-50">Don't have an account? <a class='text-white font-weight-medium ms-1'
-                                href='pages-register.html'>Sign Up</a></p>
+                                href='{{ route('register') }}'>Sign Up</a></p>
                     </div> <!-- end col -->
                 </div>
                 @if (session('permission'))

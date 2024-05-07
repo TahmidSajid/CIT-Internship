@@ -142,12 +142,28 @@
                                     </td>
                                     <td>
                                         <div class="row">
-                                            <div class="col-lg-6">
-                                                <a class="btn btn-sm btn-primary" href="{{ route('make_showcase',['banner_one',$category->id]) }}">Banner 1</a>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <a class="btn btn-sm btn-primary" href="{{ route('make_showcase',['banner_two',$category->id]) }}">Banner 2</a>
-                                            </div>
+                                            @if ($category->showcase != 'banner_one')
+                                                <div class="col-lg-6">
+                                                    <a class="btn btn-sm btn-primary"
+                                                        href="{{ route('make_showcase', ['banner_one', $category->id]) }}">Banner
+                                                        1</a>
+                                                </div>
+                                            @else
+                                                <div class="col-lg-6">
+                                                    <span>On banner one</span>
+                                                </div>
+                                            @endif
+                                            @if ($category->showcase != 'banner_two')
+                                                <div class="col-lg-6">
+                                                    <a class="btn btn-sm btn-primary"
+                                                        href="{{ route('make_showcase', ['banner_two', $category->id]) }}">Banner
+                                                        2</a>
+                                                </div>
+                                            @else
+                                                <div class="col-lg-6">
+                                                    <span>On banner two</span>
+                                                </div>
+                                            @endif
                                         </div>
                                     </td>
                                 </tr>

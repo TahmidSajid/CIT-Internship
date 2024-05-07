@@ -39,14 +39,25 @@ class FrontendController extends Controller
         $trend_2 = [];
 
         if ($t != []) {
-            $trend_2 = Posts::where('blog_speciality', 'trending')
-            ->where('id', '!=', $t_1)
-            ->where('id', '!=', $t_2)
-            ->where('id', '!=', $t[0])
-            ->where('id', '!=', $t[1])
-            ->latest()
-            ->limit(2)
-            ->get();
+            if (isset($t[1])) {
+                $trend_2 = Posts::where('blog_speciality', 'trending')
+                ->where('id', '!=', $t_1)
+                ->where('id', '!=', $t_2)
+                ->where('id', '!=', $t[0])
+                ->where('id', '!=', $t[1])
+                ->latest()
+                ->limit(2)
+                ->get();
+            }
+            else{
+                $trend_2 = Posts::where('blog_speciality', 'trending')
+                ->where('id', '!=', $t_1)
+                ->where('id', '!=', $t_2)
+                ->where('id', '!=', $t[0])
+                ->latest()
+                ->limit(2)
+                ->get();
+            }
         }
 
         // *** Aside bar variables *** //

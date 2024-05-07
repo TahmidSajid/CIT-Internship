@@ -2,21 +2,27 @@
     <!-- comment item -->
     <li class="comment rounded">
         <div class="thumb">
-            <img src="{{ asset('uploads/profile_photos') }}/{{ $comment->getUser->photo }}" class="rounded-circle"
-                style="height: 50px; width: 50px;" alt="John Doe" />
+            @if ($comment->getUser->photo)
+                <img src="{{ asset('uploads/profile_photos') }}/{{ $comment->getUser->photo }}" class="rounded-circle"
+                    style="height: 50px; width: 50px;" alt="img" />
+            @else
+                <img src="{{ asset('dashboard-assets/images/default_profile.png') }}" class="rounded-circle"
+                    style="height: 50px; width: 50px;" alt="img" />
+            @endif
         </div>
         <div class="details">
             <h4 class="name"><a href="#">{{ $comment->getUser->name }}</a></h4>
             <span class="date">{{ $comment->created_at }}</span>
             <p>{{ $comment->comment }}</p>
 
-            <button type="button" class="btn btn-default btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal{{ $comment->id }}">
+            <button type="button" class="btn btn-default btn-sm" data-bs-toggle="modal"
+                data-bs-target="#exampleModal{{ $comment->id }}">
                 Reply
             </button>
 
             <!-- Modal -->
-            <div class="modal fade" id="exampleModal{{ $comment->id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
+            <div class="modal fade" id="exampleModal{{ $comment->id }}" tabindex="-1"
+                aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -66,7 +72,7 @@
         </div>
     </li>
 
-    @include('components.comments.child_comment',['comments'=>$comment->getComment, 'padding'=>'0px'])
+    @include('components.comments.child_comment', ['comments' => $comment->getComment, 'padding' => '0px'])
 
 @empty
 @endforelse

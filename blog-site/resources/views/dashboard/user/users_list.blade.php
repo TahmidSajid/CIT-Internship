@@ -37,7 +37,6 @@
                         <th>Email</th>
                         <th>Role</th>
                         <th>Action</th>
-                        {{-- <th>Action</th> --}}
                     </tr>
                 </thead>
 
@@ -59,24 +58,28 @@
                             <td>{{ $user->role }}</td>
                             <td>
                                 <div class="row">
-                                    <div class="col-lg-4">
-                                        @if ($user->role != 'admin')
-                                            <a href="{{ route('change_role', ['admin', $user->id]) }}"
-                                                class="btn btn-sm btn-primary">Admin</a>
-                                        @endif
-                                    </div>
-                                    <div class="col-lg-4">
-                                        @if ($user->role != 'writter')
-                                            <a href="{{ route('change_role', ['writter', $user->id]) }}"
-                                                class="btn btn-sm btn-primary">Writter</a>
-                                        @endif
-                                    </div>
-                                    <div class="col-lg-4">
-                                        @if ($user->role != 'viewer')
-                                            <a href="{{ route('change_role', ['viewer', $user->id]) }}"
-                                                class="btn btn-sm btn-primary">Viewer</a>
-                                        @endif
-                                    </div>
+                                    @if ($user->id != auth()->user()->id)
+                                        <div class="col-lg-4">
+                                            @if ($user->role != 'admin')
+                                                <a href="{{ route('change_role', ['admin', $user->id]) }}"
+                                                    class="btn btn-sm btn-primary">Admin</a>
+                                            @endif
+                                        </div>
+                                        <div class="col-lg-4">
+                                            @if ($user->role != 'writter')
+                                                <a href="{{ route('change_role', ['writter', $user->id]) }}"
+                                                    class="btn btn-sm btn-primary">Writter</a>
+                                            @endif
+                                        </div>
+                                        <div class="col-lg-4">
+                                            @if ($user->role != 'viewer')
+                                                <a href="{{ route('change_role', ['viewer', $user->id]) }}"
+                                                    class="btn btn-sm btn-primary">Viewer</a>
+                                            @endif
+                                        </div>
+                                    @else
+                                        <span>Not Available</span>
+                                    @endif
                                 </div>
                             </td>
                         </tr>

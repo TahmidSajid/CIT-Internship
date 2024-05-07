@@ -12,7 +12,7 @@
                     <div class="post featured-post-lg">
                         @forelse ($features as $feature)
                             <div class="details clearfix">
-                                <a href="{{ route('category_post', [$feature->blog_category,$feature->getCategory->category_name])}}"
+                                <a href="{{ route('category_post', [$feature->blog_category, $feature->getCategory->category_name]) }}"
                                     class="category-badge">{{ $feature->getCategory->category_name }}</a>
                                 <h2 class="post-title"><a
                                         href="{{ route('post_view', $feature->id) }}">{{ $feature->blog_title }}</a>
@@ -29,6 +29,7 @@
                                 </div>
                             </a>
                         @empty
+                            <h4 class="text-center">No post added yet</h4>
                         @endforelse
                     </div>
 
@@ -58,7 +59,7 @@
                                     <!-- post -->
                                     <div class="post post-list-sm circle">
                                         <div class="thumb circle">
-                                            <a href="{{ route('post_view',$post->getPost->id) }}">
+                                            <a href="{{ route('post_view', $post->getPost->id) }}">
                                                 <div class="inner">
                                                     <img src="{{ asset('uploads/blog_photos') }}/{{ $post->getPost->blog_photo }}"
                                                         alt="post-title" />
@@ -67,7 +68,7 @@
                                         </div>
                                         <div class="details clearfix">
                                             <h6 class="post-title my-0">
-                                                <a href="{{ route('post_view',$post->getPost->id) }}">
+                                                <a href="{{ route('post_view', $post->getPost->id) }}">
                                                     {{ $post->getPost->blog_title }}
                                                 </a>
                                             </h6>
@@ -78,7 +79,7 @@
                                     </div>
 
                                 @empty
-                                <h5>No post added yet</h5>
+                                    <h5>No post added yet</h5>
                                 @endforelse
                             </div>
                             <!-- recent posts -->
@@ -87,7 +88,7 @@
                                     <!-- post -->
                                     <div class="post post-list-sm circle">
                                         <div class="thumb circle">
-                                            <a href="{{ route('post_view',$post->id) }}">
+                                            <a href="{{ route('post_view', $post->id) }}">
                                                 <div class="inner">
                                                     <img src="{{ asset('uploads/blog_photos') }}/{{ $post->blog_photo }}"
                                                         alt="post-title" />
@@ -96,7 +97,7 @@
                                         </div>
                                         <div class="details clearfix">
                                             <h6 class="post-title my-0">
-                                                <a href="{{ route('post_view',$post->id) }}">
+                                                <a href="{{ route('post_view', $post->id) }}">
                                                     {{ $post->blog_title }}
                                                 </a>
                                             </h6>
@@ -140,7 +141,7 @@
                                 @forelse ($editors_banner as $post)
                                     <div class="post">
                                         <div class="thumb rounded">
-                                            <a href="{{ route('category_post', [$post->blog_category,$post->getCategory->category_name])}}"
+                                            <a href="{{ route('category_post', [$post->blog_category, $post->getCategory->category_name]) }}"
                                                 class="category-badge position-absolute">{{ $post->getCategory->category_name }}</a>
                                             <a href="{{ route('post_view', $post->id) }}">
                                                 <div class="inner">
@@ -150,10 +151,19 @@
                                             </a>
                                         </div>
                                         <ul class="meta list-inline mt-4 mb-0">
-                                            <li class="list-inline-item"><a href="#"><img
-                                                        src="{{ asset('uploads/profile_photos') }}/{{ $post->getUser->photo }}"
+                                            <li class="list-inline-item">
+                                                @if ($post->getUser->photo)
+                                                    <a href="#">
+                                                        <img src="{{ asset('uploads/profile_photos') }}/{{ $post->getUser->photo }}"
+                                                            class="author rounded-circle" style="height:40px; width:40px;"
+                                                            alt="author" />{{ $post->getUser->name }}
+                                                    </a>
+                                                @else
+                                                    <img src="{{ asset('dashboard-assets/images/default_profile.png') }}"
                                                         class="author rounded-circle" style="height:40px; width:40px;"
-                                                        alt="author" />{{ $post->getUser->name }}</a></li>
+                                                        alt="author" />{{ $post->getUser->name }}
+                                                @endif
+                                            </li>
                                             <li class="list-inline-item">{{ $post->created_at }}</li>
                                         </ul>
                                         <h5 class="post-title mb-3 mt-3"><a
@@ -177,6 +187,7 @@
                                         </p>
                                     </div>
                                 @empty
+                                    <h5 class="text-center">No post added yet</h5>
                                 @endforelse
                             </div>
                             <div class="col-sm-6">
@@ -201,6 +212,7 @@
                                         </div>
                                     </div>
                                 @empty
+                                    <h5 class="text-center">No post added yet</h5>
                                 @endforelse
                             </div>
                         </div>
@@ -231,7 +243,7 @@
                                 @forelse ($trend_banner_1 as $trend)
                                     <div class="post">
                                         <div class="thumb rounded">
-                                            <a href="{{ route('category_post',[$trend->blog_category,$trend->getCategory->category_name]) }}"
+                                            <a href="{{ route('category_post', [$trend->blog_category, $trend->getCategory->category_name]) }}"
                                                 class="category-badge position-absolute">{{ $trend->getCategory->category_name }}</a>
                                             <a href="{{ route('post_view', $trend->id) }}">
                                                 <div class="inner">
@@ -269,6 +281,7 @@
                                     </div>
 
                                 @empty
+                                    <h5 class="text-center">No post added yet</h5>
                                 @endforelse
 
                                 @forelse ($trend_1 as $trend)
@@ -295,6 +308,7 @@
                                     </div>
 
                                 @empty
+                                    <h5 class="text-center">No post added yet</h5>
                                 @endforelse
                             </div>
                             <div class="col-sm-6">
@@ -302,7 +316,7 @@
                                 @forelse ($trend_banner_2 as $trend)
                                     <div class="post">
                                         <div class="thumb rounded">
-                                            <a href="{{ route('category_post',[$trend->blog_category,$trend->getCategory->category_name]) }}"
+                                            <a href="{{ route('category_post', [$trend->blog_category, $trend->getCategory->category_name]) }}"
                                                 class="category-badge position-absolute">{{ $trend->getCategory->category_name }}</a>
                                             <a href="{{ route('post_view', $trend->id) }}">
                                                 <div class="inner">
@@ -340,6 +354,7 @@
                                     </div>
 
                                 @empty
+                                    <h5 class="text-center">No post added yet</h5>
                                 @endforelse
                                 <!-- post -->
                                 @forelse ($trend_2 as $trend)
@@ -366,6 +381,7 @@
                                     </div>
 
                                 @empty
+                                    <h5 class="text-center">No post added yet</h5>
                                 @endforelse
                             </div>
                         </div>
@@ -392,16 +408,18 @@
                             <!-- post -->
                             <div class="post post-over-content col-md-6">
                                 <div class="details clearfix">
-                                    <a href="{{ route('category_post',[$post->blog_category, $post->getCategory->category_name]) }}"
+                                    <a href="{{ route('category_post', [$post->blog_category, $post->getCategory->category_name]) }}"
                                         class="category-badge">{{ $post->getCategory->category_name }}</a>
-                                    <h4 class="post-title"><a href="{{ route('post_view',$post->id) }}">{{ $post->blog_title }}</a></h4>
+                                    <h4 class="post-title"><a
+                                            href="{{ route('post_view', $post->id) }}">{{ $post->blog_title }}</a>
+                                    </h4>
                                     <ul class="meta list-inline mb-0">
                                         <li class="list-inline-item"><a href="#">{{ $post->getUser->name }}</a>
                                         </li>
                                         <li class="list-inline-item">{{ $post->created_at }}</li>
                                     </ul>
                                 </div>
-                                <a href="{{ route('post_view',$post->id) }}">
+                                <a href="{{ route('post_view', $post->id) }}">
                                     <div class="thumb rounded">
                                         <div class="inner">
                                             <img src="{{ asset('uploads/blog_photos') }}/{{ $post->blog_photo }}"
@@ -410,8 +428,8 @@
                                     </div>
                                 </a>
                             </div>
-
                         @empty
+                            <h5 class="text-center">No post added yet</h5>
                         @endforelse
                     </div>
 
@@ -424,9 +442,7 @@
                     </div>
 
                     <div class="padding-30 rounded bordered">
-
                         <div class="row">
-
                             @forelse ($latest as $blog)
                                 <div class="col-md-12 col-sm-6">
                                     <!-- post -->
@@ -444,13 +460,23 @@
                                         </div>
                                         <div class="details">
                                             <ul class="meta list-inline mb-3">
-                                                <li class="list-inline-item"><a href="#"><img
-                                                            src="{{ asset('uploads/profile_photos') }}/{{ $blog->getUser->photo }}"
-                                                            class="author rounded-circle" style="width:30px; height:30px;"
-                                                            alt="author" />{{ $blog->getUser->name }}</a></li>
+                                                <li class="list-inline-item">
+                                                    <a href="#">
+                                                        @if ($blog->getUser->photo)
+                                                            <img src="{{ asset('uploads/profile_photos') }}/{{ $blog->getUser->photo }}"
+                                                                class="author rounded-circle"
+                                                                style="width:30px; height:30px;" alt="author" />
+                                                        @else
+                                                            <img src="{{ asset('dashboard-assets/images/default_profile.png') }}"
+                                                                class="author rounded-circle"
+                                                                style="width:30px; height:30px;" alt="author" />
+                                                        @endif
+                                                        {{ $blog->getUser->name }}
+                                                    </a>
+                                                </li>
                                                 <li class="list-inline-item">
                                                     @php
-                                                    $time = explode(' ', $blog->created_at)
+                                                        $time = explode(' ', $blog->created_at);
                                                     @endphp
                                                     {{ $time[0] }}
                                                 </li>
@@ -499,8 +525,8 @@
                                     </div>
                                 </div>
                             @empty
+                                <h5 class="text-center">No post added yet</h5>
                             @endforelse
-
                         </div>
                         <!-- load more button -->
                         <div class="text-center">

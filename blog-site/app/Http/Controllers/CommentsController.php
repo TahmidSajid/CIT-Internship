@@ -43,12 +43,12 @@ class CommentsController extends Controller
 
         if ($comment->parent_id) {
             $parent_info = Comments::where('parent_id',$comment->parent_id)->first();
-            Notification::send($admin,new CommentReplyNotification($blog,$comment->getUser->name,$parent_info->getUser->name));
-            Notification::send($blog->getUser,new CommentReplyNotification($blog,$comment->getUser->name,'your'));
+            Notification::send($admin,new CommentReplyNotification($blog,$comment->getUser->name,$parent_info->getUser->name,'comment'));
+            Notification::send($blog->getUser,new CommentReplyNotification($blog,$comment->getUser->name,'your','comment'));
         }
         else{
-            Notification::send($admin,new CommentNotification($blog,$comment->getUser->name,$blog->getUser->name));
-            Notification::send($blog->getUser,new CommentNotification($blog,$comment->getUser->name,'your'));
+            Notification::send($admin,new CommentNotification($blog,$comment->getUser->name,$blog->getUser->name,'comment'));
+            Notification::send($blog->getUser,new CommentNotification($blog,$comment->getUser->name,'your','comment'));
         }
 
         return back();

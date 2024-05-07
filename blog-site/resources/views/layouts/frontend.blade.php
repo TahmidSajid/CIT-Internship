@@ -143,6 +143,17 @@
                                 <span class="burger-icon"></span>
                             </button>
                             @if (Auth::check())
+                                <a class="d-inline-block icon-button dropdown-toggle" data-bs-toggle="modal"
+                                    data-bs-target="#notificationModalLabel" style="margin-right: 10px">
+                                    <i class="fa-regular fa-bell"></i>
+                                    <span
+                                        class="position-absolute top-0 start-75 translate-middle badge  rounded-pill bg-danger">
+                                        {{ auth()->user()->unreadNotifications()->count() }}
+                                        <span class="visually-hidden">unread messages</span>
+                                    </span>
+                                </a>
+                                <!-- Modal -->
+
                                 <a class="d-inline-block icon-button" style="margin-right: 10px"
                                     href="{{ route('user_profile') }}">
                                     <span class="icon-user"></span>
@@ -161,6 +172,42 @@
             </nav>
         </header>
 
+        <div class="modal fade" id="notificationModalLabel" tabindex="-1" aria-labelledby="notificationModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="notificationModalLabel">Notifications</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="card border-0 mb-3">
+                            <div class="row g-0">
+                                <div class="col-md-4">
+                                    <img src="..." class="img-fluid rounded-start" alt="...">
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Card title</h5>
+                                        <p class="card-text">This is a wider card with supporting text below as a
+                                            natural lead-in to additional content. This content is a little bit longer.
+                                        </p>
+                                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- section main content start-->
 
         @yield('content')
@@ -170,58 +217,18 @@
         <!-- Post form start
         ================================================== -->
         @auth
-            <div class="row position-fixed" style="right: 0px !important; top:800px !important;">
-                <div class="col-lg-4">
-                    <a class="btn btn-danger mx-4" href="{{ route('post.index') }}"
-                        style="font-size: 20px; background: linear-gradient(to right, #FE4F70 0%, #FFA387 100%) !important">
-                        <span class="icon-pencil mx-2"></span>Write</a>
+            @if (auth()->user()->role == 'writter')
+                <div class="row position-fixed" style="right: 0px !important; top:800px !important;">
+                    <div class="col-lg-4">
+                        <a class="btn btn-danger mx-4" href="{{ route('post.index') }}"
+                            style="font-size: 20px; background: linear-gradient(to right, #FE4F70 0%, #FFA387 100%) !important">
+                            <span class="icon-pencil mx-2"></span>Write</a>
+                    </div>
                 </div>
-            </div>
+            @endif
         @endauth
         <!-- Post form end
         ================================================== -->
-
-
-        <!-- instagram feed -->
-        {{-- <div class="instagram">
-            <div class="container-xl">
-                <!-- button -->
-                <a href="#" class="btn btn-default btn-instagram">@Katen on Instagram</a>
-                <!-- images -->
-                <div class="instagram-feed d-flex flex-wrap">
-                    <div class="insta-item col-sm-2 col-6 col-md-2">
-                        <a href="#">
-                            <img src="{{ asset('frontend-assets') }}/images/insta/insta-1.jpg" alt="insta-title" />
-                        </a>
-                    </div>
-                    <div class="insta-item col-sm-2 col-6 col-md-2">
-                        <a href="#">
-                            <img src="{{ asset('frontend-assets') }}/images/insta/insta-2.jpg" alt="insta-title" />
-                        </a>
-                    </div>
-                    <div class="insta-item col-sm-2 col-6 col-md-2">
-                        <a href="#">
-                            <img src="{{ asset('frontend-assets') }}/images/insta/insta-3.jpg" alt="insta-title" />
-                        </a>
-                    </div>
-                    <div class="insta-item col-sm-2 col-6 col-md-2">
-                        <a href="#">
-                            <img src="{{ asset('frontend-assets') }}/images/insta/insta-4.jpg" alt="insta-title" />
-                        </a>
-                    </div>
-                    <div class="insta-item col-sm-2 col-6 col-md-2">
-                        <a href="#">
-                            <img src="{{ asset('frontend-assets') }}/images/insta/insta-5.jpg" alt="insta-title" />
-                        </a>
-                    </div>
-                    <div class="insta-item col-sm-2 col-6 col-md-2">
-                        <a href="#">
-                            <img src="{{ asset('frontend-assets') }}/images/insta/insta-6.jpg" alt="insta-title" />
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div> --}}
 
         <!-- footer -->
         <footer>
@@ -253,7 +260,8 @@
                         <!-- go to top button -->
                         <div class="col-md-4">
                             <a href="#" id="return-to-top" class="float-md-end"><i
-                                    class="icon-arrow-up"></i>Back to Top</a>
+                                    class="icon-arrow-up"></i>Back
+                                to Top</a>
                         </div>
                     </div>
                 </div>

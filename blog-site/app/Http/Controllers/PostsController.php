@@ -60,20 +60,10 @@ class PostsController extends Controller
             ]);
         };
 
-        // Posts::insert([
-        //     'user_id' => auth()->user()->id,
-        //     'blog_title' => $request->blog_title,
-        //     'blog_photo' => $new_name,
-        //     'blog_category' =>  $request->blog_category,
-        //     'blog' =>  $request->blog,
-        //     'created_at' => Carbon::now(),
-        // ]);
-
-
         $admins = User::where('role','admin')->get();
 
         foreach ($admins as $key => $admin) {
-            Notification::send($admin,new PostNotification(auth()->user()->name,auth()->user()->photo));
+            Notification::send($admin,new PostNotification(auth()->user()->name,auth()->user()->photo,$post->id,'post'));
         }
 
 
