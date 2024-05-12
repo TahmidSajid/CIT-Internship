@@ -60,10 +60,10 @@ class PostsController extends Controller
             ]);
         };
 
-        $admins = User::where('role','admin')->get();
+        $users = User::where('id','!=',$post['user_id'])->get();
 
-        foreach ($admins as $key => $admin) {
-            Notification::send($admin,new PostNotification(auth()->user()->name,auth()->user()->photo,$post->id,'post'));
+        foreach ($users as $key => $user) {
+            Notification::send($user,new PostNotification(auth()->user()->name,auth()->user()->photo,$post->id,'post'));
         }
 
 

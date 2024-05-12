@@ -51,7 +51,7 @@
                                     @endif
                                 </div>
 
-                                <!-- Make Special
+                                <!-- Make Special start
                                 ================================================== -->
                                 @if (Auth::check() && auth()->user()->role == 'admin')
                                     <div class="col-md-6 col-12 text-center text-md-start">
@@ -63,6 +63,9 @@
                                             Speciality</a>
                                     </div>
                                 @endif
+                                <!-- Make Special end
+                                ================================================== -->
+
                                 <div class="col-md-6 col-12">
                                     <!-- Action buttons -->
                                     @if (Auth::check() && auth()->user()->id == $post->user_id)
@@ -171,6 +174,28 @@
             Toast.fire({
                 icon: "warning",
                 title: "{{ session('warning') }}"
+            });
+        </script>
+    @endsection
+@endif
+
+@if (session('comment_updated'))
+    @section('alert')
+        <script>
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: "success",
+                title: "{{ session('comment_updated') }}"
             });
         </script>
     @endsection

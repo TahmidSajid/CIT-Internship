@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Posts;
 use App\Models\User;
 use App\Notifications\CommentReplyNotification;
+use Illuminate\Auth\Events\Validated;
 use Illuminate\Support\Facades\Notification;
 
 class CommentsController extends Controller
@@ -73,16 +74,37 @@ class CommentsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Comments $comments)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            "comment" => 'required',
+        ]);
+
+        Comments::where('id',$id)->update([
+            "comment" => $request->comment,
+        ]);
+
+        return back()->with('comment_updated','comment updated');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Comments $comments)
+    public function destroy($id)
     {
-        //
+        function getcomment($x){
+            foreach ($x as $key => $value) {
+                $re_info = Comments::where('parent_id',$value->id)->get();
+                Comments::where('id',$value->id)->delete();
+                getcomment($re_info);
+            }
+        }
+
+        $info = Comments::where('parent_id',$id)->get();
+        Comments::where('id',$id)->delete();
+
+        getcomment($info);
+
+        return back()->with(['comment_delete','comment deleted successfully']);
     }
 }

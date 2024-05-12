@@ -11,7 +11,7 @@ class PostNotification extends Notification
 {
     use Queueable;
 
-    public $name , $photo , $id, $type;
+    public $name , $photo , $blog_id, $type;
 
     /**
      * Create a new notification instance.
@@ -20,7 +20,7 @@ class PostNotification extends Notification
     {
         $this->name = $a;
         $this->photo = $b;
-        $this->id = $c;
+        $this->blog_id = $c;
         $this->type = $d;
     }
 
@@ -42,7 +42,7 @@ class PostNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'blog_id' => $this->id,
+            'blog_id' => $this->blog_id,
             'blog_title' => $this->name,
             'user_photo' => $this->photo,
             'type' => $this->type,

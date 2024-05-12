@@ -4,13 +4,15 @@ $padding = intval($padding) + 30;
 @foreach ($comments as $reply)
     <!-- comment item -->
     <li class="comment child rounded" style="padding-left: {{ $padding }}px">
-        @if ($reply->getUser->photo)
-            <img src="{{ asset('uploads/profile_photos') }}/{{ $reply->getUser->photo }}" class="rounded-circle"
-                style="height: 50px; width: 50px;" alt="img" />
-        @else
-            <img src="{{ asset('dashboard-assets/images/default_profile.png') }}" class="rounded-circle"
-                style="height: 50px; width: 50px;" alt="img" />
-        @endif
+        <div class="thumb">
+            @if ($reply->getUser->photo)
+                <img src="{{ asset('uploads/profile_photos') }}/{{ $reply->getUser->photo }}" class="rounded-circle"
+                    style="height: 50px; width: 50px;" alt="img" />
+            @else
+                <img src="{{ asset('dashboard-assets/images/default_profile.png') }}" class="rounded-circle"
+                    style="height: 50px; width: 50px;" alt="img" />
+            @endif
+        </div>
         <div class="details">
             <h4 class="name"><a href="#">{{ $reply->getUser->name }}</a></h4>
             <span class="date">{{ $reply->created_at }}</span>
@@ -20,7 +22,43 @@ $padding = intval($padding) + 30;
                 Reply
             </button>
 
-            <!-- Modal -->
+            <!-- Comment reply component start
+            ================================================== -->
+
+            @include('components.comments.comments_reply', ['comment' => $reply])
+
+            <!-- Comment reply component end
+            ================================================== -->
+
+            @if (Auth::check() && auth()->user()->id == $reply->user_id)
+                <ul class="social-icons list-unstyled list-inline mb-0 float-md-end">
+                    @if (auth()->user()->id == $reply->user_id)
+                        <li class="list-inline-item">
+                            <!-- comment edit start
+                            ================================================== -->
+
+                            @include('components.comments.comment_edit', ['comment' => $reply])
+
+                            <!-- comment edit end
+                            ================================================== -->
+                        </li>
+                    @endif
+                    @if (auth()->user()->id == $reply->user_id || auth()->user()->role == 'admin')
+                        <li class="list-inline-item">
+                            <form action="{{ route('comment.destroy',$reply->id) }}" method="post">
+                                @csrf
+                                @method('DELETE')
+                                <button data-bs-toggle="tooltip" type="submit" data-bs-placement="a" title="Delete Post"
+                                    class="bg-transparent border-0">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </form>
+                        </li>
+                    @endif
+                </ul>
+            @endif
+
+            {{-- <!-- Modal -->
             <div class="modal fade" id="exampleModal{{ $reply->id }}" tabindex="-1"
                 aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
@@ -59,7 +97,6 @@ $padding = intval($padding) + 30;
 
                                 <button type="submit" id="submit" value="Submit"
                                     class="btn btn-default">Submit</button><!-- Submit Button -->
-
                             </form>
                         </div>
                         <div class="modal-footer">
@@ -67,7 +104,7 @@ $padding = intval($padding) + 30;
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </li>
     @include('components.comments.child_comment', [

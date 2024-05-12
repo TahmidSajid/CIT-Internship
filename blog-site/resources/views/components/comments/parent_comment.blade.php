@@ -20,59 +20,51 @@
                 Reply
             </button>
 
-            <!-- Modal -->
-            <div class="modal fade" id="exampleModal{{ $comment->id }}" tabindex="-1"
-                aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Replying Comment</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form id="comment-form" class="comment-form" method="post"
-                                action="{{ route('comment.store') }}">
+            <!-- Comment reply component start
+            ================================================== -->
+
+            @include('components.comments.comments_reply', ['comment' => $comment])
+
+            <!-- Comment reply component end
+            ================================================== -->
+
+            @if (Auth::check() && auth()->user()->id == $comment->user_id)
+                <ul class="social-icons list-unstyled list-inline mb-0 float-md-end">
+                    @if (auth()->user()->id == $comment->user_id)
+                        <li class="list-inline-item">
+                            <!-- comment edit start
+                            ================================================== -->
+
+                                @include('components.comments.comment_edit',['comment' => $comment])
+
+                                <!-- comment edit end
+                            ================================================== -->
+                        </li>
+                    @endif
+                    @if (auth()->user()->id == $comment->user_id || auth()->user()->role == 'admin')
+                        <li class="list-inline-item">
+                            <form action="{{ route('comment.destroy',$comment->id) }}" method="post">
                                 @csrf
-                                <div class="messages"></div>
-
-                                <div class="row">
-
-                                    <div class="column col-md-12">
-                                        <!-- Comment textarea -->
-                                        <div class="form-group">
-                                            <textarea id="InputComment" class="form-control" rows="4" placeholder="Your comment here..." required="required"
-                                                name="comment"></textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="text" class="d-none" name="blog_id"
-                                                value="{{ $post->id }}">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <input type="text" class="d-none" name="parent_id"
-                                                value="{{ $comment->id }}">
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                <button type="submit" id="submit" value="Submit"
-                                    class="btn btn-default">Submit</button><!-- Submit Button -->
-
+                                @method('DELETE')
+                                <button data-bs-toggle="tooltip" type="submit" data-bs-placement="a" title="Delete Post"
+                                    class="bg-transparent border-0">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
                             </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+                        </li>
+                    @endif
+                </ul>
+            @endif
         </div>
     </li>
 
+    <!-- Child Comment Components Start
+    ================================================== -->
+
     @include('components.comments.child_comment', ['comments' => $comment->getComment, 'padding' => '0px'])
+
+    <!-- Child Comment Components End
+    ================================================== -->
 
 @empty
 @endforelse
