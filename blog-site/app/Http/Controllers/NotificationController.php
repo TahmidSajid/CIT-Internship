@@ -21,5 +21,8 @@ class NotificationController extends Controller
         if ($notify_info->data['type'] == 'post') {
             return redirect(route('post_view',$notify_info->data['blog_id']));
         }
+        if ($notify_info->data['type'] == 'mail') {
+            return redirect(route('contactUs.show',$notify_info->data['contact_id']));
+        }
     }
 }

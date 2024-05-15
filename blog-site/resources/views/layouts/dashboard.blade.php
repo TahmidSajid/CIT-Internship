@@ -91,16 +91,14 @@
                         </div>
                     </li>
 
-                    <li class="menu-title">Custom</li>
-
                     <li class="menu-item">
-                        <a class='menu-link waves-effect waves-light' href='apps-calendar.html'>
-                            <span class="menu-icon"><i class="bx bx-calendar"></i></span>
-                            <span class="menu-text"> Calendar </span>
+                        <a href="{{ route('contactUs.index') }}" class="menu-link waves-effect waves-light">
+                            <span class="menu-icon">
+                                <i class="fa-solid fa-envelope-open-text"></i>
+                            </span>
+                            <span class="menu-text"> Contact Us </span>
                         </a>
                     </li>
-
-
                 </ul>
             </div>
         </div>
@@ -217,16 +215,46 @@
                                             @endif
                                             @if ($notification->data['type'] == 'post')
                                                 <a href="{{ route('notifi_view', $notification->id) }}"
-                                                    class="dropdown-item p-0 notify-item card read-noti shadow-none mb-1">
+                                                    class="dropdown-item p-0 notify-item card
+                                                    @if (!$notification->read_at) unread-noti @endif
+                                                    read-noti shadow-none mb-1">
                                                     <div class="card-body">
-                                                        <span class="float-end noti-close-btn text-muted"><i
-                                                                class="mdi mdi-close"></i></span>
+                                                        <span class="float-end noti-close-btn text-muted">
+                                                            <i class="mdi mdi-close"></i>
+                                                        </span>
                                                         <div class="d-flex align-items-center">
                                                             <div class="flex-shrink-0">
                                                                 <div class="notify-icon">
                                                                     <img src="assets/images/users/avatar-4.jpg"
                                                                         class="img-fluid rounded-circle"
                                                                         alt="" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="flex-grow-1 text-truncate ms-2">
+                                                                <h5 class="noti-item-title fw-semibold font-size-14">
+                                                                    {{ $notification->data['blog_title'] }}
+                                                                </h5>
+                                                                <small class="noti-item-subtitle text-muted">
+                                                                    {{ $notification->data['title'] }}
+                                                                </small>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            @endif
+                                            @if ($notification->data['type'] == 'mail')
+                                                <a href="{{ route('notifi_view', $notification->id) }}"
+                                                    class="dropdown-item p-0 notify-item card
+                                                    @if (!$notification->read_at) unread-noti @endif
+                                                    shadow-none mb-1">
+                                                    <div class="card-body">
+                                                        <span class="float-end noti-close-btn text-muted">
+                                                            <i class="mdi mdi-close"></i>
+                                                        </span>
+                                                        <div class="d-flex align-items-center">
+                                                            <div class="flex-shrink-0">
+                                                                <div class="notify-icon">
+                                                                    <i class="fa-solid fa-envelope-open-text"></i>
                                                                 </div>
                                                             </div>
                                                             <div class="flex-grow-1 text-truncate ms-2">

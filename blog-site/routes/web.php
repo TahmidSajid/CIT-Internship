@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\CommentsController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\UserManagementController;
 use Illuminate\Support\Facades\Route;
@@ -55,10 +57,20 @@ Route::resource('category', CategoriesController::class);
 Route::get('/category/make/showcase/{showcase}/{category_id}', [App\Http\Controllers\CategoriesController::class, 'make_showcase'])->name('make_showcase');
 
 
+/**
+ * Routes for user management functionality.
+ *
+ * - 'users' - Resource routes for managing users
+ * - 'user/list/{role}' - Route to list users by role
+ * - 'user/list/make/{role}/{id}' - Route to change a user's role
+ */
 Route::resource('users', UserManagementController::class);
 
-Route::get('/user/list/{role}',[App\Http\Controllers\UserManagementController::class, 'list'])->name('list');
-Route::get('/user/list/make/{role}/{id}',[App\Http\Controllers\UserManagementController::class, 'change_role'])->name('change_role');
+Route::get('/user/list/{role}', [App\Http\Controllers\UserManagementController::class, 'list'])->name('list');
+Route::get('/user/list/make/{role}/{id}', [App\Http\Controllers\UserManagementController::class, 'change_role'])->name('change_role');
+
+
+Route::resource('contactUs',ContactUsController::class);
 
 
 // *********** Dashboard route Start ***********

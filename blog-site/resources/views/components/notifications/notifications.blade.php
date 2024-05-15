@@ -66,6 +66,36 @@
                                 </div>
                             </a>
                         @endif
+                        @if ($notification->data['type'] == 'mail')
+                            <a href="{{ route('notifi_view', $notification->id) }}">
+                                <div class="card border-0 mb-3" style="box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;">
+                                    <div class="row g-0 justify-content-between align-items-center">
+                                        <div class="col-md-2 text-center">
+                                            <i style="font-size: 50px" class="fa-solid fa-envelope-open-text"></i>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Post</h5>
+                                                <p class="card-text">
+                                                    {{ $notification->data['blog_title'] }}
+                                                    {{ $notification->data['title'] }}
+                                                </p>
+                                                <p class="card-text">
+                                                    <small class="text-muted">
+                                                        {{ $notification->created_at }}
+                                                    </small>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        @if (!$notification->read_at)
+                                            <div class="col-md-2 text-center">
+                                                <i style="font-size: 20px" class="fa-solid fa-circle"></i>
+                                            </div>
+                                        @endif
+                                    </div>
+                                </div>
+                            </a>
+                        @endif
                     @empty
                     @endforelse
                 @else

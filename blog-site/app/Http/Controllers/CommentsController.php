@@ -34,22 +34,21 @@ class CommentsController extends Controller
      */
     public function store(Request $request)
     {
-        $comment = Comments::create($request->except('_token')+[
+        $comment = Comments::create($request->except('_token') + [
             'user_id' => auth()->user()->id,
         ]);
 
-        $blog = Posts::where('id',$comment->blog_id)->first();
+        $blog = Posts::where('id', $comment->blog_id)->first();
 
-        $admin = User::where('role','admin')->first();
+        $admin = User::where('role', 'admin')->first();
 
         if ($comment->parent_id) {
-            $parent_info = Comments::where('parent_id',$comment->parent_id)->first();
-            Notification::send($admin,new CommentReplyNotification($blog,$comment->getUser->name,$parent_info->getUser->name,'comment'));
-            Notification::send($blog->getUser,new CommentReplyNotification($blog,$comment->getUser->name,'your','comment'));
-        }
-        else{
-            Notification::send($admin,new CommentNotification($blog,$comment->getUser->name,$blog->getUser->name,'comment'));
-            Notification::send($blog->getUser,new CommentNotification($blog,$comment->getUser->name,'your','comment'));
+            $parent_info = Comments::where('parent_id', $comment->parent_id)->first();
+            Notification::send($admin, new CommentReplyNotification($blog, $comment->getUser->name, $parent_info->getUser->name, 'comment', $comment->id,));
+            Notification::send($blog->getUser, new CommentReplyNotification($blog, $comment->getUser->name, 'your', 'comment', $comment->id));
+        } else {
+            Notification::send($admin, new CommentNotification($blog, $comment->getUser->name, $blog->getUser->name, 'comment', $comment->id));
+            Notification::send($blog->getUser, new CommentNotification($blog, $comment->getUser->name, 'your', 'comment', $comment->id));
         }
 
         return back();
@@ -80,11 +79,11 @@ class CommentsController extends Controller
             "comment" => 'required',
         ]);
 
-        Comments::where('id',$id)->update([
+        Comments::where('id', $id)->update([
             "comment" => $request->comment,
         ]);
 
-        return back()->with('comment_updated','comment updated');
+        return back()->with('comment_updated', 'comment updated');
     }
 
     /**
@@ -92,19 +91,27 @@ class CommentsController extends Controller
      */
     public function destroy($id)
     {
-        function getcomment($x){
+        function getcomment($x)
+        {
             foreach ($x as $key => $value) {
-                $re_info = Comments::where('parent_id',$value->id)->get();
-                Comments::where('id',$value->id)->delete();
+                $re_info = Comments::where('parent_id', $value->id)->get();
+                Comments::where('id', $value->id)->delete();
+                $users = User::all();
+                foreach ($users as $key => $user) {
+                    $user->notifications()->where("data->comment_id", $value->id)->delete();
+                }
                 getcomment($re_info);
             }
         }
 
-        $info = Comments::where('parent_id',$id)->get();
-        Comments::where('id',$id)->delete();
-
+        $info = Comments::where('parent_id', $id)->get();
+        Comments::where('id', $id)->delete();
+        $users = User::all();
+        foreach ($users as $key => $user) {
+            $user->notifications()->where("data->comment_id", $id)->delete();
+        }
         getcomment($info);
 
-        return back()->with(['comment_delete','comment deleted successfully']);
+        return back()->with(['comment_delete', 'comment deleted successfully']);
     }
 }
