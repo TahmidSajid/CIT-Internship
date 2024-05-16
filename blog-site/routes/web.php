@@ -73,6 +73,8 @@ Route::get('/user/list/make/{role}/{id}', [App\Http\Controllers\UserManagementCo
 Route::resource('contactUs',ContactUsController::class);
 
 
+Route::get('information/view',[App\Http\Controllers\InformationsController::class, 'view'])->name('info_page');
+
 // *********** Dashboard route Start ***********
 
 
@@ -137,6 +139,7 @@ Route::get('posts/all',[App\Http\Controllers\FrontendController::class, 'post_al
 
 
 Route::get('notification/view/{id}',[App\Http\Controllers\NotificationController::class, 'view'])->name('notifi_view');
+
 
 
 // *********** Front end route End ***********

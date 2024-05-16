@@ -99,6 +99,15 @@
                             <span class="menu-text"> Contact Us </span>
                         </a>
                     </li>
+
+                    <li class="menu-item">
+                        <a href="{{ route('info_page') }}" class="menu-link waves-effect waves-light">
+                            <span class="menu-icon">
+                                <i class="fa-solid fa-circle-info"></i>
+                            </span>
+                            <span class="menu-text"> Info </span>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -270,12 +279,12 @@
                                                 </a>
                                             @endif
                                         @empty
+                                        <p class="text-center mt-2">Nothing to notify</p>
                                         @endforelse
                                         <div class="text-center">
                                             <i class="mdi mdi-dots-circle mdi-spin text-muted h3 mt-0"></i>
                                         </div>
                                     </div>
-
                                     <!-- All-->
                                     <a href="javascript:void(0);"
                                         class="dropdown-item text-center text-primary notify-item border-top border-light py-2">
@@ -293,10 +302,10 @@
                                 <a class="nav-link dropdown-toggle nav-user me-0 waves-effect waves-light"
                                     data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false"
                                     aria-expanded="false">
-                                    <img src="{{ asset('dashboard-assets') }}/images/users/avatar-4.jpg"
+                                    <img src="{{ asset('dashboard-assets/images/default_profile.png') }}"
                                         alt="user-image" class="rounded-circle">
                                     <span class="ms-1 d-none d-md-inline-block">
-                                        Jamie D. <i class="mdi mdi-chevron-down"></i>
+                                        {{ auth()->user()->name }} <i class="mdi mdi-chevron-down"></i>
                                     </span>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end profile-dropdown ">
@@ -306,21 +315,9 @@
                                     </div>
 
                                     <!-- item-->
-                                    <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                        <i class="fe-user"></i>
-                                        <span>My Account</span>
-                                    </a>
-
-                                    <!-- item-->
-                                    <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                    <a href="{{ route('profile') }}" class="dropdown-item notify-item">
                                         <i class="fe-settings"></i>
                                         <span>Settings</span>
-                                    </a>
-
-                                    <!-- item-->
-                                    <a class='dropdown-item notify-item' href='pages-lock-screen.html'>
-                                        <i class="fe-lock"></i>
-                                        <span>Lock Screen</span>
                                     </a>
 
                                     <div class="dropdown-divider"></div>

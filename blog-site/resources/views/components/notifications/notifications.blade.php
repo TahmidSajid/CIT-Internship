@@ -97,6 +97,7 @@
                             </a>
                         @endif
                     @empty
+                        <h5 class="text-center">Nothing to notify</h5>
                     @endforelse
                 @else
                 @endif

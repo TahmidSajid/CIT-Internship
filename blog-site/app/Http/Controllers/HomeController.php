@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comments;
+use App\Models\Posts;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -25,7 +28,12 @@ class HomeController extends Controller
     public function index()
     {
         if (auth()->user()->role == 'admin') {
-            return view('dashboard.dashboard');
+            $viewers = User::where('role','viewer')->count();
+            $writters = User::where('role','writter')->count();
+            $posts = Posts::count();
+            $comments = Comments::count();
+            $engagment = ($comments/$posts)*100;
+            return view('dashboard.dashboard',compact('viewers','writters','posts','comments','engagment'));
         }
         else{
             Auth::logout();
