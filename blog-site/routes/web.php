@@ -74,6 +74,7 @@ Route::resource('contactUs',ContactUsController::class);
 
 
 Route::get('information/view',[App\Http\Controllers\InformationsController::class, 'view'])->name('info_page');
+Route::get('information/add/social',[App\Http\Controllers\InformationsController::class, 'add_social'])->name('add_social');
 
 // *********** Dashboard route Start ***********
 
