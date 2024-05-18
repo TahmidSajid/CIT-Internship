@@ -75,6 +75,10 @@ Route::resource('contactUs',ContactUsController::class);
 
 Route::get('information/view',[App\Http\Controllers\InformationsController::class, 'view'])->name('info_page');
 Route::get('information/add/social',[App\Http\Controllers\InformationsController::class, 'add_social'])->name('add_social');
+Route::get('information/update/social/{id}',[App\Http\Controllers\InformationsController::class, 'update_social'])->name('update_social');
+Route::get('information/delete/social/{id}',[App\Http\Controllers\InformationsController::class, 'delete_social'])->name('delete_social');
+Route::post('information/logo/add',[App\Http\Controllers\InformationsController::class, 'add_logo'])->name('add_logo');
+Route::post('information/add',[App\Http\Controllers\InformationsController::class, 'add_info'])->name('add_info');
 
 // *********** Dashboard route Start ***********
 

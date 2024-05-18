@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\ContactMail;
 use App\Models\ContactUs;
+use App\Models\Informations;
 use App\Models\User;
 use App\Notifications\ContactMailNotification;
 use Illuminate\Support\Facades\Mail;
@@ -14,7 +15,9 @@ class ContactController extends Controller
 {
     public function view()
     {
-        return view('frontend.contact');
+        $info = Informations::first();
+
+        return view('frontend.contact',compact('info'));
     }
     public function contact_form(Request $request)
     {

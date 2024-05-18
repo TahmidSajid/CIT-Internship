@@ -11,7 +11,11 @@
                         <span class="icon icon-phone"></span>
                         <div class="details">
                             <h3 class="mb-0 mt-0">Phone</h3>
-                            <p class="mb-0">+1-202-555-0135</p>
+                            @if ($info != [] && $info->phone)
+                                <p class="mb-0">{{ $info->phone }}</p>
+                            @else
+                                <p class="mb-0">Not Added yet</p>
+                            @endif
                         </div>
                     </div>
                     <div class="spacer d-md-none d-lg-none" data-height="30"></div>
@@ -23,7 +27,11 @@
                         <span class="icon icon-envelope-open"></span>
                         <div class="details">
                             <h3 class="mb-0 mt-0">E-Mail</h3>
-                            <p class="mb-0">hello@example.com</p>
+                            @if ($info != [] && $info->email)
+                                <p class="mb-0">{{ $info->email }}</p>
+                            @else
+                                <p class="mb-0">Not Added yet</p>
+                            @endif
                         </div>
                     </div>
                     <div class="spacer d-md-none d-lg-none" data-height="30"></div>
@@ -35,7 +43,11 @@
                         <span class="icon icon-map"></span>
                         <div class="details">
                             <h3 class="mb-0 mt-0">Location</h3>
-                            <p class="mb-0">California, USA</p>
+                            @if ($info != [] && $info->address)
+                                <p class="mb-0">{{ $info->address }}</p>
+                            @else
+                                <p class="mb-0">Not Added yet</p>
+                            @endif
                         </div>
                     </div>
                 </div>

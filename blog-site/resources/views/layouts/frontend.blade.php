@@ -72,8 +72,13 @@
             <nav class="navbar navbar-expand-lg">
                 <div class="container-xl">
                     <!-- site logo -->
-                    <a class="navbar-brand" href="index.html"><img src="{{ asset('frontend-assets') }}/images/logo.svg"
-                            alt="logo" /></a>
+                    <a class="navbar-brand" href="{{ route('index') }}">
+                        @if (App\Models\Logos::first() != [])
+                            <img src="{{ asset('uploads/logos') }}/{{ App\Models\Logos::first()->logo }}" alt="logo" />
+                        @else
+                            <img src="{{ asset('frontend-assets') }}/images/logo.svg" alt="logo" />
+                        @endif
+                    </a>
 
                     <div class="collapse navbar-collapse">
                         <!-- menus -->
@@ -127,13 +132,6 @@
 
                     <!-- header right section -->
                     <div class="header-right">
-                        <!-- social icons -->
-                        {{-- <ul class="social-icons list-unstyled list-inline mb-0">
-                            <li class="list-inline-item"><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                            <li class="list-inline-item"><a href="#"><i class="fab fa-twitter"></i></a></li>
-                            <li class="list-inline-item"><a href="#"><i class="fab fa-instagram"></i></a></li>
-                            <li class="list-inline-item"><a href="#"><i class="fab fa-youtube"></i></a></li>
-                        </ul> --}}
                         <!-- header buttons -->
                         <div class="header-buttons">
                             <button class="search icon-button">
@@ -212,18 +210,17 @@
 
                         <!-- social icons -->
                         <div class="col-md-4 text-center">
+                            <!-- social icons -->
                             <ul class="social-icons list-unstyled list-inline mb-0">
-                                <li class="list-inline-item"><a href="#"><i class="fab fa-facebook-f"></i></a>
-                                </li>
-                                <li class="list-inline-item"><a href="#"><i class="fab fa-twitter"></i></a>
-                                </li>
-                                <li class="list-inline-item"><a href="#"><i class="fab fa-instagram"></i></a>
-                                </li>
-                                <li class="list-inline-item"><a href="#"><i class="fab fa-pinterest"></i></a>
-                                </li>
-                                <li class="list-inline-item"><a href="#"><i class="fab fa-medium"></i></a></li>
-                                <li class="list-inline-item"><a href="#"><i class="fab fa-youtube"></i></a>
-                                </li>
+                                @forelse (App\Models\Socials::all() as $social)
+                                    <li class="list-inline-item">
+                                        <a href="{{ $social->social_link }}">
+                                            <i class="{{ $social->social_icon }}"></i>
+                                        </a>
+                                    </li>
+                                @empty
+                                    <span>No links available yet</span>
+                                @endforelse
                             </ul>
                         </div>
 
@@ -316,12 +313,15 @@
 
         <!-- social icons -->
         <ul class="social-icons list-unstyled list-inline mb-0 mt-auto w-100">
-            <li class="list-inline-item"><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-            <li class="list-inline-item"><a href="#"><i class="fab fa-twitter"></i></a></li>
-            <li class="list-inline-item"><a href="#"><i class="fab fa-instagram"></i></a></li>
-            <li class="list-inline-item"><a href="#"><i class="fab fa-pinterest"></i></a></li>
-            <li class="list-inline-item"><a href="#"><i class="fab fa-medium"></i></a></li>
-            <li class="list-inline-item"><a href="#"><i class="fab fa-youtube"></i></a></li>
+            @forelse (App\Models\Socials::all() as $social)
+                <li class="list-inline-item">
+                    <a href="{{ $social->social_link }}">
+                        <i class="{{ $social->social_icon }}"></i>
+                    </a>
+                </li>
+            @empty
+                <span>No links available yet</span>
+            @endforelse
         </ul>
     </div>
 
