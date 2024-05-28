@@ -9,6 +9,7 @@ use App\Models\Posts;
 use App\Models\User;
 use App\Notifications\CommentReplyNotification;
 use Illuminate\Auth\Events\Validated;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
 
 class CommentsController extends Controller
@@ -34,6 +35,10 @@ class CommentsController extends Controller
      */
     public function store(Request $request)
     {
+        if (!Auth::check()) {
+            return redirect(route('login_view'));
+        }
+
         $comment = Comments::create($request->except('_token') + [
             'user_id' => auth()->user()->id,
         ]);
